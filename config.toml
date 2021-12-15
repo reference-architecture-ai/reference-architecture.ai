@@ -1,9 +1,9 @@
 # The base URL of the site; the only required configuration variable.
-base_url = "https://deepthought-theme.netlify.app"
+base_url = "https://reference-architecture.ai"
 
 # The site title and description; used in feeds by default.
-title = "DeepThought"
-description = "A simple blog theme focused on writing powered by Bulma and Zola"
+title = "Reference Architecture for AI"
+description = "Ever green reference architecture for AI"
 
 # The default language; used in feeds.
 default_language = "en"

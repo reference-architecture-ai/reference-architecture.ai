@@ -1,0 +1,88 @@
+<mxfile host="65bd71144e">
+    <diagram id="-3X2CkLIh-0Udzf33_ob" name="Page-1">
+        <mxGraphModel dx="2201" dy="782" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Pool" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;horizontal=1;startSize=20;horizontalStack=0;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="410" width="480" height="380" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Lane 1" style="swimlane;startSize=20;horizontal=0;" vertex="1" parent="2">
+                    <mxGeometry y="20" width="480" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Lane 2" style="swimlane;startSize=20;horizontal=0;" vertex="1" parent="2">
+                    <mxGeometry y="140" width="480" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Lane 3" style="swimlane;startSize=20;horizontal=0;" vertex="1" parent="2">
+                    <mxGeometry y="260" width="480" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Data" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+                    <mxGeometry x="130" y="60" width="90" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#4AB29A;gradientDirection=north;fillColor=#116D5B;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.augmented_ai;" vertex="1" parent="1">
+                    <mxGeometry x="450" y="97" width="78" height="78" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="group" vertex="1" connectable="0" parent="1">
+                    <mxGeometry x="690" y="70" width="63.5" height="99" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="Customers" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="25">
+                    <mxGeometry x="18" y="79" width="40" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="verticalLabelPosition=bottom;html=1;fillColor=#A153A0;verticalAlign=top;align=center;pointerEvents=1;shape=mxgraph.cisco_safe.design.actor_1;" vertex="1" parent="25">
+                    <mxGeometry x="20" width="23.5" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="" style="fontColor=#0066CC;verticalAlign=top;verticalLabelPosition=bottom;labelPosition=center;align=center;html=1;outlineConnect=0;fillColor=#CCCCCC;strokeColor=#6881B3;gradientColor=none;gradientDirection=north;strokeWidth=2;shape=mxgraph.networks.user_male;" vertex="1" parent="25">
+                    <mxGeometry x="43.5" y="10" width="20" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="" style="fontColor=#0066CC;verticalAlign=top;verticalLabelPosition=bottom;labelPosition=center;align=center;html=1;outlineConnect=0;fillColor=#CCCCCC;strokeColor=#6881B3;gradientColor=none;gradientDirection=north;strokeWidth=2;shape=mxgraph.networks.user_male;" vertex="1" parent="25">
+                    <mxGeometry y="10" width="20" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="" style="shape=flexArrow;endArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0;exitDx=0;exitDy=75;exitPerimeter=0;" edge="1" parent="1" source="10" target="15">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="230" y="140" as="sourcePoint"/>
+                        <mxPoint x="280" y="90" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="27" value="" style="shape=flexArrow;endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="528" y="144.5" as="sourcePoint"/>
+                        <mxPoint x="681" y="145" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="" style="shape=flexArrow;endArrow=classic;html=1;entryX=1;entryY=0;entryDx=0;entryDy=15;entryPerimeter=0;" edge="1" parent="1" target="10">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="690" y="75" as="sourcePoint"/>
+                        <mxPoint x="240" y="80" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="660" y="75"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="29" value="Value Measurement" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="350" y="40" width="150" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Data Preparation " style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="120" y="200" width="170" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Data Acquisition" style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="-40" y="200" width="170" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Machine Learning Pipeline" style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="280" y="200" width="200" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="ML Service Layer " style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="480" y="276" width="180" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Business Value Realisation" style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="660" y="210" width="190" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Presentation and Visualisation" style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="480" y="210" width="180" height="57" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Machine Learning Model &#10;performance monitoring" style="shape=step;perimeter=stepPerimeter;fixedSize=1;points=[];" vertex="1" parent="1">
+                    <mxGeometry x="480" y="340" width="180" height="57" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

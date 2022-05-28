@@ -1,51 +1,104 @@
 +++
-title = "DeepThought"
-description = "The Answer to the Ultimate Question of Life, the Universe, and Everything is 42."
+title = "Reference Architecture for AI"
+description = "This is the reference architecture for AI to start collaboration and discussion."
 +++
 
-**DeepThought** is a computer that was created by a pan-dimensional, hyper-intelligent species of beings (whose three-dimensional protrusions into our universe are ordinary white mice) to come up with the Answer to The Ultimate Question of Life, the Universe, and Everything. DeepThought is the size of a small city. When, after seven and a half million years of calculation, the answer finally turns out to be 42, DeepThought admonishes Loonquawl and Phouchg (the receivers of the Ultimate Answer) that "[she] checked it very thoroughly, and that quite definitely is the answer. I think the problem, to be quite honest with you is that you've never actually known what the question was."
+# Introduction 
 
-DeepThought does not know the ultimate question to Life, the Universe and Everything, but offers to design an even more powerful computer, Earth, to calculate it. After ten million years of calculation, the Earth is destroyed by Vogons five minutes before the computation is complete. 
-<div>
-<ul class="steps is-vertical is-narrow is-medium is-centered has-content-centered">
-  <li class="steps-segment">
-    <span href="#" class="steps-marker"></span>
-    <div class="steps-content">
-      <p class="is-size-4">2000</p>
-      <p>Lorem Ipsum Dolor Sit Amet</p>
-    </div>
-  </li>
-  <li class="steps-segment">
-    <span href="#" class="steps-marker is-hollow"></span>
-    <div class="steps-content">
-      <p class="is-size-4">2002</p>
-      <p>Maecenas Ultrices Aliquet Velit Vitae</p>
-    </div>
-  </li>
-  <li class="steps-segment">
-    <span class="steps-marker">
-      <span class="icon">
-        <i class="fa fa-check"></i>
-      </span>
-    </span>
-    <div class="steps-content">
-      <p class="is-size-4">2007</p>
-      <p>Aliquam Quis Scelerisque Mauris Nullam</p>
-    </div>
-  </li>
-  <li class="steps-segment is-active has-gaps">
-    <span class="steps-marker"></span>
-    <div class="steps-content">
-      <p class="is-size-4">2012</p>
-      <p>Etiam A Nunc Vitae Nunc</p>
-    </div>
-  </li>
-  <li class="steps-segment">
-    <span class="steps-marker"></span>
-    <div class="steps-content">
-      <p class="is-size-4">2017</p>
-      <p>In Sed Vehicula Est Vivamus</p>
-    </div>
-  </li>
-</ul>
-</div>
+There are tools for advanced analytics, including free ones from Google and Kaggle.
+
+There are well known and validated deployment architectures for applications and the cloud.
+
+Yet the number of practical applications is still tiny, and they retained niche implementations.
+
+Let’s bridge the gap in knowledge between science and engineering to make fast, efficient and practical AI deployments.
+
+# Core capabilities for AI/ML
+
+{% mermaid() %}
+flowchart LR;
+subgraph 1  [AI core]
+  data_intake(Data Acquisition);
+  data_preprocessing(Data Preprocessing);
+  data_validation(Data Validation);
+  data_streaming(Data Streaming);
+  ai_ml_pipe(AI ML Pipeline <br/> Model Training/Test/Validation);
+  kg(Knowledge Graph);
+  ML_inference(ML Inference);
+  interaction(Interaction Layer<br/>Voice/VR/AR/Meta);
+  click data_intake "./docs/intake/" "This is a tooltip for a link"
+end
+
+subgraph 2 [Enabling Capabilities]
+  id1([This is the text in the box]);
+  id2>This is the text in the box];
+  id3{{This is the text in the box}};
+  id4[This is the text in the box];
+  end
+  style 2 fill:#485fc754,stroke:#333,stroke-width:4px;
+{% end %}
+
+{% mermaid() %}
+flowchart LR;
+id4[[This is the text in the box]];
+id1([This is the text in the box]);
+id2(This is the text in the box);
+data1{{Data}};
+    Data-- text -->B;
+    A o--o B;
+    B <--> C;
+    C x--x D;
+    id3{{This is the text in the box}};
+    click A callback "Tooltip for a callback"
+    click B "http://www.github.com" "This is a tooltip for a link"
+    click A call callback() "Tooltip for a callback"
+    click B href "http://www.github.com" "This is a tooltip for a link"
+{% end %}
+{% mermaid() %}
+flowchart TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+  {% end %}
+
+  {% mermaid() %}
+  flowchart TD
+    B["fa:fa-twitter for peace"]
+    B-->C[fa:fa-ban forbidden]
+    B-->D(fa:fa-spinner);
+    B-->E(A fa:fa-camera-retro perhaps?);
+
+  {% end %}
+
+  {% mermaid() %}
+  flowchart LR
+    A[Hard edge] -->|Link text| B(Round edge)
+    B --> C{Decision}
+    C -->|One| D[Result one]
+    C -->|Two| E[Result two]
+
+  {% end %}
+
+  {% mermaid() %}
+  flowchart LR
+  subgraph TOP
+    direction TB
+    subgraph B1
+        direction RL
+        i1 -->f1
+    end
+    subgraph B2
+        direction BT
+        i2 -->f2
+    end
+  end
+  A --> TOP --> B
+  B1 --> B2
+  {% end %}

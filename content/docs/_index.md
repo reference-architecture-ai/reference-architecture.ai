@@ -1,6 +1,6 @@
 +++
 title = "Docs"
-description = "Documentation for the Deep Thought theme."
+description = "Reference Architecture for AI"
 sort_by = "date"
 paginate_by = 5
 +++

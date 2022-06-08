@@ -4,14 +4,14 @@ description = "This is the reference architecture for AI to start collaboration 
 +++
 
 # Introduction 
-
 There are tools for advanced analytics, including free ones from Google and Kaggle.
 
-There are well known and validated deployment architectures for applications and the cloud.
+There are well-known and validated deployment architectures for applications and the cloud.
 
 Yet the number of practical applications is still tiny, and they retained niche implementations.
+While the benefits of AI are clear, there are still many gaps in AI architecture that need to be filled. For example, there is a gap between analytical tools and verified architectures for real-time deployments. This gap often stems from a lack of specific reference architectures and patterns, demonstrating the trade-offs between different technologies, libraries, and tools.
 
-Let’s bridge the gap in knowledge between science and engineering to make fast, efficient and practical AI deployments.
+Let's bridge the gap in knowledge and drive a connection between science and engineering to make fast, efficient, and practical AI deployments.
 
 # Core capabilities for AI/ML
 

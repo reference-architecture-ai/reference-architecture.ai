@@ -1,6 +1,6 @@
 +++
 title = "Benchmarks for BERT Large Question Answering inference for RedisAI and RedisGears"
-description = "benchmarks-for-nlp-bert-large-inference-for-redisai-and-redisgears"
+description = "How to benchmark BERT Large Question Answering inference for RedisAI and RedisGears"
 date = 2022-05-28
 
 [taxonomies]
@@ -9,12 +9,10 @@ tags = ["redis","redis-cluster","redisai","redisgears","benchmark"]
 
 [extra]
 toc = true
-comments = true
+comments = false
 +++
-
-# Benchmarks for BERT Large Question Answering inference for RedisAI and RedisGears
 ## Summary of the article
-In this article, we will explore the challenges and opportunities of deployment a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) models inside Redis, from Huggingfac, where RedisGears and RedisAI perform a lot of heavy lifting while leveraging in-memory datastore Redis.
+In this article, we will explore the challenges and opportunities of deployment a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) models inside Redis, from Huggingfac, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://developer.redis.com/howtos/redisai/getting-started?utm_campaign=write_for_redis) perform a lot of heavy lifting while leveraging in-memory datastore Redis.
 
 ## Why do we need RedisAI?
 
@@ -46,7 +44,7 @@ Runs BERT QA inference on each shard, by default equal by the number of availabl
 BERT Question Answering inference works where the ML model selects an answer from the given text; in other words, BERT QA works like this: "What is the answer from the text, assuming the answer to the question exists within the paragraph selected." 
 So it's important to select a text potentially containing an answer and a typical pattern to use Wikipedia data to build [Open Domain Question Answering](https://lilianweng.github.io/posts/2020-10-29-odqa/).
 
-Our QA system is a domain-specific - medical domain-specific question/answering pipeline; hence we need a first pipeline that turns data into a knowledge graph. This NLP pipeline is available at Redis LaunchPad, full code is [open source](https://github.com/applied-knowledge-systems/the-pattern) and described in [previous article](https://developer.redis.com/howtos/nlp/), 5 minute Redis Hackathon 2021 [video](https://www.youtube.com/watch?v=VgJ8DTX5Mt4) and architectural overview below:
+Our QA system is a domain-specific - medical domain-specific question/answering pipeline; hence we need a first pipeline that turns data into a knowledge graph. This NLP pipeline is available at Redis LaunchPad, full code is [open source](https://github.com/applied-knowledge-systems/the-pattern) and described in [previous article](https://developer.redis.com/howtos/nlp?utm_campaign=write_for_redis), 5 minute Redis Hackathon 2021 [video](https://www.youtube.com/watch?v=VgJ8DTX5Mt4) and architectural overview below:
 
 ![featured](featured.png)
 
@@ -58,7 +56,7 @@ In the BERT QA pipeline (or in any other modern NLP inference task), there are t
 With Redis, we have the opportunity to pre-compute everything and store it in memory, but how do we do it?
 Unlike with summarization ML learning task, the question is not known in advance, so can't pre-compute all possible answers. But we can pre-tokenize all potential answers - all paragraphs in the dataset using RedisGears: 
 
-"`python
+```python
 def parse_sentence(record):
     import redisAI
     import numpy as np
@@ -82,7 +80,7 @@ def parse_sentence(record):
 See [full code on github](https://github.com/applied-knowledge-systems/the-pattern-api/blob/156633b9934f1243775671ce6c18ff2bf471c0ce/qasearch/tokeniser_gears_redisai.py#L17)
 
 Then for each Redis Cluster shard, we pre-load BERT QA model by downloading, exporting it into torchscript, then loading it to each shard:
-"`python
+```python
 def load_bert():
     model_file = 'traced_bert_qa.pt'
 
@@ -215,7 +213,7 @@ add
 
 – precision 3 – if you want more decimals in ms
 
-More information about benchmarking tool https://redis.io/topics/benchmarks
+More information about benchmarking tool https://redis.io/topics/benchmarks?utm_campaign=write_for_redis
 
 if you don't have redis-utils installed locally, you can run the same via
 
@@ -382,3 +380,11 @@ And thanks to the contribution of [Mikhail Volkov](https://volkovlabs.com/from-a
 ![Graphana for RedisGraph](graphana_redis_graph.png)
 
 ![Graphana for RedisCluster](graphana_cluster_overview.png)
+
+# Learn More About Redis
+For more information about Redis see the following:
+
+- Visit the [Redis Developer Hub](https://redis.info/3LC4GqB) - tools, guides, and tutorials about Redis
+- Download the [RedisInsight Desktop GUI](https://redis.info/3wMR7PR) to view and manage your data in Redis
+- Watch this video on the [benefits of Redis Cloud versus other Redis providers](https://redis.info/3Ga9YII)
+- [Try Redis Cloud for free](https://redis.info/3NBGJRT)

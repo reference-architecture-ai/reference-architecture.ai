@@ -185,18 +185,14 @@ safari_pinned_tab = "/icons/safari-pinned-tab.svg"
 webmanifest = "/icons/site.webmanifest"
 
 [extra.author]
-name = "DeepThought"
-avatar = "images/avatar.png"
+name = "Alexander Mikhalev"
+avatar = "images/avatar.jpg"
 
 [extra.social]
-facebook = "RatanShreshtha"
-github = "RatanShreshtha"
-gitlab = "ratanshreshtha"
-keybase = "RatanShreshtha"
-linkedin = "ratanshreshtha"
+github = "reference-architecture-ai"
+linkedin = "alexmikhalev"
 stackoverflow = "3728911"
-email = "deepthought@gmail.com"
-twitter = "RatanShreshtha"
+email = "alex@metacortex.engineer"
 #orcid = ""
 #google_scholar = ""
 
@@ -213,5 +209,5 @@ issueterm="title"
 label = "comment2"
 
 [extra.mapbox]
-enabled = true
+enabled = false
 access_token = "pk.eyJ1IjoicmF0YW5zaHJlc2h0aGEiLCJhIjoiY2tla2s2NmM3MDd0ZzJzbXFtc3Y2YmU0NyJ9.0RhUnJPKbxHWw3xGPnnBlA"

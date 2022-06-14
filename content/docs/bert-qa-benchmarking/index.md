@@ -4,8 +4,8 @@ description = "How to benchmark BERT Large Question Answering inference for Redi
 date = 2022-05-28
 
 [taxonomies]
-categories = ["Documentation"]
-tags = ["redis","redis-cluster","redisai","redisgears","benchmark"]
+categories = ["inference", "performance", "monitoring"]
+tags = ["redis","redis-cluster","redisai","redisgears","benchmark","performance","benchmarks"]
 
 [extra]
 toc = true

@@ -16,7 +16,7 @@ General guidelines for contributing to the project.
 
 # Main goals
 
-## Be data driven
+## Be data-driven
 - Opinion shall be backed by research and data,
 - benchmarks by code and deployment scripts
 

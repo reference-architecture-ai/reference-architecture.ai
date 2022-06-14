@@ -12,7 +12,7 @@ Yet the number of practical applications is still tiny, and they retained niche 
 While the benefits of AI are clear, there are still many gaps in AI architecture that need to be filled. For example, there is a gap between analytical tools and verified architectures for real-time deployments. This gap often stems from a lack of specific reference architectures and patterns, demonstrating the trade-offs between different technologies, libraries, and tools.
 
 Let's bridge the gap in knowledge and drive a connection between science and engineering to make fast, efficient, and practical AI deployments.
-In order to build AI product, three things need to be considered:
+In order to build an AI product, three things need to be considered:
 1) AI Product
 2) Core Capabilities for AI/ML product
 3) Enabling capabilities

@@ -12,14 +12,15 @@ Yet the number of practical applications is still tiny, and they retained niche 
 While the benefits of AI are clear, there are still many gaps in AI architecture that need to be filled. For example, there is a gap between analytical tools and verified architectures for real-time deployments. This gap often stems from a lack of specific reference architectures and patterns, demonstrating the trade-offs between different technologies, libraries, and tools.
 
 Let's bridge the gap in knowledge and drive a connection between science and engineering to make fast, efficient, and practical AI deployments.
-In order to build an AI product, three things need to be considered:
-1) AI Product
-2) Core Capabilities for AI/ML product
+In order to build an AI product, three things need to be in-place:
+1) AI Product itself
+2) Core Capabilities required to build AI/ML product
 3) Enabling capabilities
+
+I will use [The Pattern](https://thepattern.digital/), my [“Build on Redis” Hackathon prize winning](https://redis.com/blog/build-on-redis-hackathon-winners/) [open source](https://github.com/applied-knowledge-systems/the-pattern) project to illustrate how capabilities below can be implemented and invite you to [contribute](/docs/contribution/) or [donate](/docs/donate). Diagrams below are clickable.
 
 # AI Product
 <img src="/images/ai_product.drawio.svg" />
-
 # Core capabilities for AI/ML 
 
 {% mermaid() %}
@@ -33,7 +34,8 @@ subgraph " "
   kg(Knowledge Graph);
   ML_inference(ML Inference);
   interaction(Interaction Layer<br/>Voice/VR/AR/Meta);
-  click data_intake "./docs/intake/" "This is a tooltip for a link"
+  click data_intake "./docs/intake/" "Data Acquisition"
+  click ML_inference "./docs/bert-qa-benchmarking/" "BERT Large Question Answering"
 end
 {% end %}
 # Enabling Capabilities 
@@ -45,11 +47,14 @@ subgraph 2 [Enabling Capabilities]
 D1[Data Governance]
 D2[Data Quality Management]
 D3[Metadata Management]
+click D3 "/docs/metadata/" "Metadata Management"
 end
 subgraph " "
   id2[ML performance and bias monitoring];
   id3[Application Performance Monitoring];
   id4[Hardwire Performance Monitoring];
+  click id3 "/docs/bert-qa-benchmarking/#running-benchmarks" "Running Benchmarks"
+  click id4 "/docs/bert-qa-benchmarking/#using-graphana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
 end
 subgraph " "
   id5[DevOps: Continious Integration/<br>Continious Deployment];

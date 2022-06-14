@@ -20,7 +20,9 @@ In order to build an AI product, three things need to be in-place:
 I will use [The Pattern](https://thepattern.digital/), my [“Build on Redis” Hackathon prize winning](https://redis.com/blog/build-on-redis-hackathon-winners/) [open source](https://github.com/applied-knowledge-systems/the-pattern) project to illustrate how capabilities below can be implemented and invite you to [contribute](/docs/contribution/) or [donate](/docs/donate). Diagrams below are clickable.
 
 # AI Product
+
 <img src="/images/ai_product.drawio.svg" />
+
 # Core capabilities for AI/ML 
 
 {% mermaid() %}
@@ -52,7 +54,7 @@ end
 subgraph " "
   id2[ML performance and bias monitoring];
   id3[Application Performance Monitoring];
-  id4[Hardwire Performance Monitoring];
+  id4[Hardware Performance Monitoring];
   click id3 "/docs/bert-qa-benchmarking/#running-benchmarks" "Running Benchmarks"
   click id4 "/docs/bert-qa-benchmarking/#using-graphana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
 end

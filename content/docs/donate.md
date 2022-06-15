@@ -9,7 +9,16 @@ tags = ["donate", "support"]
 [extra]
 comments = false
 +++
+# For Individuals 
 
-This is a small example post of stuff you can do with the `DeepThought` theme.
-We'll try to represent all possible markdown and shortcode combinations here
-so you can develop easily.
+This is a begging of an exciting, incredible new journey; support open source projects by donating or contributing.
+
+# For Organisations
+
+Becomes a sponsor and promote Reference Architecture for AI.
+ 
+The ask is 
+- Monetary to support project hosting and maintenance costs
+- Credits for enterprise 
+- Contribute and review proposed architectures, benchmarks, and deployment guides, be ready to stand your ground and defend trade-offs in the presence of industry-leading architects, engineers, and competitors
+- Help promote and market reference architecture for AI

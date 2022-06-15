@@ -14,7 +14,7 @@ comments = true
 
 DeepThought theme provides multiple shortcodes on top of built-in ones in Zola.
 Please, have a look at the [Config Options](/docs/config-options#external-libraries)
-that explain how to enable them.
+that explains how to enable them.
 
 <!-- more -->
 
@@ -32,11 +32,11 @@ Embed gist:
 
 # Mermaid
 
-[Mermaid](https://mermaidjs.github.io/) is a library helping you to generate diagram and flowcharts from text, in a similar manner as Markdown.
+[Mermaid](https://mermaidjs.github.io/) is a library helping you to generate diagrams and flowcharts from text in a similar manner as Markdown.
 
 ## Flowchart
 
-To put a flowchart in your post use below snippet
+To put a flowchart in your post, use the below snippet
 
 **Code**
 
@@ -227,75 +227,6 @@ journey
   section Go home
   Go downstairs: 5: Me
   Sit down: 5: Me
-{% end %}
-
-# Mapbox
-
-[Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js) is a JavaScript library that uses WebGL to render interactive maps from vector tiles and Mapbox styles.
-
-**Code**
-
-```
-{%/* mapbox(zoom=6) */%}
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [78.016667, 27.183333]
-      },
-      "properties": {
-        "title": "Agra",
-        "description": "Agra is a major tourist destination because of its many Mughal-era buildings, most notably the Taj Mahal, Agra Fort and Fatehpur Sikri, all of which are UNESCO World Heritage Sites."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [77.2, 28.6]
-      },
-      "properties": {
-        "title": "New Delhi",
-        "description": "New Delhi is the capital of India and an administrative district of NCT Delhi."
-      }
-    }
-  ]
-}
-{%/* end */%}
-```
-
-**Output**
-{% mapbox(zoom=6) %}
-{
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [78.016667, 27.183333]
-      },
-      "properties": {
-        "title": "Agra",
-        "description": "Agra is a major tourist destination because of its many Mughal-era buildings, most notably the Taj Mahal, Agra Fort and Fatehpur Sikri, all of which are UNESCO World Heritage Sites."
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [77.2, 28.6]
-      },
-      "properties": {
-        "title": "New Delhi",
-        "description": "New Delhi is the capital of India and an administrative district of NCT Delhi."
-      }
-    }
-  ]
-}
 {% end %}
 
 # Chart

@@ -64,7 +64,7 @@ subgraph " "
   id3[Application Performance Monitoring];
   id4[Hardware Performance Monitoring];
   click id3 "/docs/bert-qa-benchmarking/#running-benchmarks" "Running Benchmarks"
-  click id4 "/docs/bert-qa-benchmarking/#using-graphana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
+  click id4 "/docs/bert-qa-benchmarking/#using-grafana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
 end
 subgraph " "
   id5[DevOps: Continious Integration/<br>Continious Deployment];

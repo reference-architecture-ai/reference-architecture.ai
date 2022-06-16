@@ -371,18 +371,18 @@ AI.INFO bert-qa{6fd}
 ```
 We are at 88387.45 microseconds per call, which is pretty fast; also, considering we have started with 10 seconds per call, I think the benefits of using RedisAI in combination with RedisGears are pretty obvious; the trade-off is memory usage.
 
-There are many ways to optimize this deployment; for example, add FP16 quantization and ONNX runtime, and if you want to contribute it [script](https://github.com/applied-knowledge-systems/the-pattern-api/blob/7bcf021e537dc8d453036730f0a993dd52e1781f/qasearch/export_load_bert.py) will be a good starting point.
+There are many ways to optimise this deployment; for example, add FP16 quantisation and ONNX runtime, and if you want to contribute it, the [script](https://github.com/applied-knowledge-systems/the-pattern-api/blob/7bcf021e537dc8d453036730f0a993dd52e1781f/qasearch/export_load_bert.py) will be a good starting point.
 
 # Using Grafana to monitor RedisGears throughput, CPU, and Memory usage
 
-And thanks to the contribution of [Mikhail Volkov](https://volkovlabs.com/from-a-basic-redistimeseries-data-source-to-2-million-downloads-in-grafana-marketplace-9921ed9ac5a), we can now observe RedisGears and RedisGraph throughtput and memory consumption using Grafana, when you cloned repository it started grafana docker, which have pre-build templates to monitor RedisCluster - which include RedisGears and RedisAI, and Graph - which is Redis with RedisGraph, "The Pattern" dashboard provides an overall overview. 
+And thanks to the contribution of [Mikhail Volkov](https://volkovlabs.com/from-a-basic-redistimeseries-data-source-to-2-million-downloads-in-grafana-marketplace-9921ed9ac5a), we can now observe RedisGears and RedisGraph throughput and memory consumption using Grafana; when you cloned the repository, it started grafana docker, which has pre-built templates to monitor RedisCluster - which include RedisGears and RedisAI, and Graph - which is Redis with RedisGraph, "The Pattern" dashboard provides an overall overview. 
 
 ![Grafana for RedisGraph](graphana_redis_graph.png)
 
 ![Grafana for RedisCluster](graphana_cluster_overview.png)
 
 # Learn More About Redis
-For more information about Redis see the following:
+For more information about Redis, see the following:
 
 - Visit the [Redis Developer Hub](https://redis.info/3LC4GqB) - tools, guides, and tutorials about Redis
 - Download the [RedisInsight Desktop GUI](https://redis.info/3wMR7PR) to view and manage your data in Redis

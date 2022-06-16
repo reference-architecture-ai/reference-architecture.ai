@@ -3,8 +3,8 @@ title = "The Pattern: Machine Learning Natural Language Processing meets VR/AR"
 description = "To fight ever-increasing complexity, The Pattern projects help find relevant knowledge using Artificial Intelligence and novel UX elements, all powered by Redis - new generation real time data fabric turned into knowledge fabric"
 date = 2020-08-31
 [taxonomies]
-categories = ["intake","data acquisition"]
-tags = ["data", "acquisition","intake"]
+categories = ["ai product","nlp", "medical"]
+tags = ["ai product", "ai", "medical"]
 
 [extra]
 comments = false

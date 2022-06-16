@@ -21,7 +21,7 @@ I will use [The Pattern](https://thepattern.digital/), my [“Build on Redis” 
 
 # AI Product
 
-<img src="/images/ai_product.drawio.svg" />
+<a href="./docs/ai-product/"><img src="/images/ai_product.drawio.svg" /></a>
 
 # Core capabilities for AI/ML 
 

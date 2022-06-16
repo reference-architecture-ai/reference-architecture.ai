@@ -152,7 +152,7 @@ Assuming you are running Debian or ubuntu, have docker and docker-compose (or ca
 ```
 git clone --recurse-submodules https://github.com/applied-knowledge-systems/the-pattern.git
 cd the-pattern
-./bootstrap_benchmark.sh
+./bootstrap_benchmark_docker.sh
 ```
 
 It should end with a curl call to qasearch API, Redis caching is disabled for the benchmark.

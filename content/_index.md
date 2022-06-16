@@ -38,6 +38,10 @@ subgraph " "
   interaction(Interaction Layer<br/>Voice/VR/AR/Meta);
   click data_intake "./docs/intake/" "Data Acquisition"
   click ML_inference "./docs/bert-qa-benchmarking/" "BERT Large Question Answering"
+  click kg "./docs/nlp/#what-is-a-knowledge-graph" "Knowledge Graph"
+  click data_preprocessing "./docs/nlp/#redisgears-for-nlp-pre-processing" "Data pre-processing"
+  click data_streaming "./docs/nlp/#goal" "Data Streaming"
+  click ai_ml_pipe "./docs/nlp/#overall-architecture-overview-components-diagram" "Overall ML pipeline"
 end
 {% end %}
 # Enabling Capabilities 

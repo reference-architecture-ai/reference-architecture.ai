@@ -1,7 +1,7 @@
 +++
 title = "Benchmarks for BERT Large Question Answering inference for RedisAI and RedisGears"
 description = "How to benchmark BERT Large Question Answering inference for RedisAI and RedisGears"
-date = 2022-05-28
+date = 2022-06-16
 
 [taxonomies]
 categories = ["inference", "performance", "monitoring"]

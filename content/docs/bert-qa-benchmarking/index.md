@@ -181,7 +181,7 @@ I modified the output of API for the benchmark to return results from all shards
 
 Let's dig deeper into what's happening under the hood:
 
-There is a sentence key with shard id or grab "Cache key" from `docker logs -f rgcluster`, in my setup cache key "bertqa{6fd}_PMC169038.xml:{6fd}:33_Who performs viral transmission among adults". If you think it looks like a function call - it's a function call, which is triggered if key isn't present in Redis Cluster, which is for benchmark will be every time, since we disabled saving output for cache in a previous paragraph.
+There is a sentence key with shard id or grab "Cache key" from `docker logs -f rgcluster`, in my setup cache key "bertqa{6fd}_PMC169038.xml:{6fd}:33_Who performs viral transmission among adults". If you think it looks like a function call - it's a function call, which is triggered if the key isn't present in Redis Cluster, which is for benchmark will be every time, since we disabled saving output for cache in a previous paragraph.
 
 One more thing is to figure out from logs the port of the shard corresponding to hashtag (also known as shard id, stuff in curly brackets – like this {6fd}, same will be in the output for export_load script, in my case Cache key was in "30012.log" so my port 30012
 
@@ -213,7 +213,7 @@ add
 
 – precision 3 – if you want more decimals in ms
 
-More information about benchmarking tool https://redis.io/topics/benchmarks?utm_campaign=write_for_redis
+More information about benchmarking tool [see](https://redis.io/topics/benchmarks?utm_campaign=write_for_redis).
 
 if you don't have redis-utils installed locally, you can run the same via
 

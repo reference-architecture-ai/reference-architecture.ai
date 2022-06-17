@@ -12,7 +12,7 @@ toc = true
 comments = false
 +++
 ## Summary of the article
-In this article, we will explore the challenges and opportunities of deployment a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) models inside Redis, from Huggingfac, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://developer.redis.com/howtos/redisai/getting-started?utm_campaign=write_for_redis) perform a lot of heavy lifting while leveraging in-memory datastore Redis.
+This article will explore the challenges and opportunities of deploying a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) from inside Huggingface, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://developer.redis.com/howtos/redisai/getting-started?utm_campaign=write_for_redis) perform heavy lifting while leveraging in-memory datastore Redis.
 
 ## Why do we need RedisAI?
 
@@ -27,7 +27,7 @@ python3 transformers_plain_bert_qa.py
 airborne transmission of respiratory infections is the lack of established methods for the detection of airborne respiratory microorganisms
 10.351818372 seconds
 ```
-The above script is a slightly modified transformers default pipeline for BERT QA, and running it on the server takes 10 seconds. The server is latest 12th Gen Intel(R) Core(TM) i9-12900K, [full cpuinfo](https://gist.github.com/AlexMikhalev/354ddc3094b0d3b95b11a411ea000a5a).
+The above script is a slightly modified transformers default pipeline for BERT QA, and running it on the server takes 10 seconds. The server is the latest 12th Gen Intel(R) Core(TM) i9-12900K, [full cpuinfo](https://gist.github.com/AlexMikhalev/354ddc3094b0d3b95b11a411ea000a5a).
 
 ```
 time curl -i -H "Content-Type: application/json" -X POST -d '{"search":"Who performs viral transmission among adults"}' http://localhost:8080/qasearch
@@ -44,17 +44,17 @@ Runs BERT QA inference on each shard, by default equal by the number of availabl
 BERT Question Answering inference works where the ML model selects an answer from the given text; in other words, BERT QA works like this: "What is the answer from the text, assuming the answer to the question exists within the paragraph selected." 
 So it's important to select a text potentially containing an answer and a typical pattern to use Wikipedia data to build [Open Domain Question Answering](https://lilianweng.github.io/posts/2020-10-29-odqa/).
 
-Our QA system is a domain-specific - medical domain-specific question/answering pipeline; hence we need a first pipeline that turns data into a knowledge graph. This NLP pipeline is available at Redis LaunchPad, full code is [open source](https://github.com/applied-knowledge-systems/the-pattern) and described in [previous article](https://developer.redis.com/howtos/nlp?utm_campaign=write_for_redis), 5 minute Redis Hackathon 2021 [video](https://www.youtube.com/watch?v=VgJ8DTX5Mt4) and architectural overview below:
+Our QA system is a domain-specific - medical domain-specific question/answering pipeline; hence we need a first pipeline that turns data into a knowledge graph. This NLP pipeline is available at Redis LaunchPad. Complete code is [open source](https://github.com/applied-knowledge-systems/the-pattern) and described in [previous article](https://developer.redis.com/howtos/nlp?utm_campaign=write_for_redis), 5 minutes Redis Hackathon 2021 [video](https://www.youtube.com/watch?v=VgJ8DTX5Mt4) and architectural overview below:
 
 ![featured](featured.png)
 
 # BERT Question Answering pipeline and API
 In the BERT QA pipeline (or in any other modern NLP inference task), there are two steps:
 
-1) Tokenize text - turn text into numbers
-2) Run the inference - large matrix multiplication
+1) Tokenize text - turn text into numbers.
+2) Run the inference - large matrix multiplication.
 With Redis, we have the opportunity to pre-compute everything and store it in memory, but how do we do it?
-Unlike with summarization ML learning task, the question is not known in advance, so can't pre-compute all possible answers. But we can pre-tokenize all potential answers - all paragraphs in the dataset using RedisGears: 
+Unlike with summarisation ML learning task, the question is not known in advance, so can't pre-compute all possible answers. But we can pre-tokenize all potential answers - all paragraphs in the dataset using RedisGears: 
 
 ```python
 def parse_sentence(record):
@@ -79,7 +79,7 @@ def parse_sentence(record):
 ```
 See [full code on github](https://github.com/applied-knowledge-systems/the-pattern-api/blob/156633b9934f1243775671ce6c18ff2bf471c0ce/qasearch/tokeniser_gears_redisai.py#L17)
 
-Then for each Redis Cluster shard, we pre-load BERT QA model by downloading, exporting it into torchscript, then loading it to each shard:
+Then for each Redis Cluster shard, we pre-load BERT QA model by downloading, exporting it into torchscript, and then loading it to each shard:
 ```python
 def load_bert():
     model_file = 'traced_bert_qa.pt'
@@ -97,7 +97,7 @@ def load_bert():
 ```
 Full [code in github](https://github.com/applied-knowledge-systems/the-pattern-api/blob/156633b9934f1243775671ce6c18ff2bf471c0ce/qasearch/export_load_bert.py)
 
-And when question comes from the user we tokenize and append question to potential answer before:
+And when the question comes from the user, we tokenise and append the question to the potential answer before:
 
 ```python 
     token_key = f"tokenized:bert:qa:{sentence_key}"
@@ -140,7 +140,7 @@ Overall call for BERT QA API looks like this:
 
 ![Architecture Diagram for BERT QA RedisGears and RedisAI](diagrams_02.png)
 
-Where I use two RedisGears cool features: capture event on key miss and async/await with the ability to run RedisAI on each shard and in non-locking for primary thread way - so Redis Cluster can continue to serve other customers. For benchmarks, caching RedisAI response is [disabled](https://github.com/applied-knowledge-systems/the-pattern-api/blob/156633b9934f1243775671ce6c18ff2bf471c0ce/qasearch/qa_redisai_keymiss_no_cache_np.py#L29) and if you are getting response time in nanoseconds on the second call rather then milliseconds you have deployed production version of RedisGears.
+Where I use two RedisGears cool features: capture event on key miss and async/await with the ability to run RedisAI on each shard and in non-locking for primary thread way - so Redis Cluster can continue to serve other customers. For benchmarks, caching RedisAI response is [disabled](https://github.com/applied-knowledge-systems/the-pattern-api/blob/156633b9934f1243775671ce6c18ff2bf471c0ce/qasearch/qa_redisai_keymiss_no_cache_np.py#L29) and if you are getting response time in nanoseconds on the second call rather then milliseconds you have deployed the production version of RedisGears.
 
 
 # Running Benchmarks
@@ -155,7 +155,7 @@ cd the-pattern
 ./bootstrap_benchmark_docker.sh
 ```
 
-It should end with a curl call to qasearch API, Redis caching is disabled for the benchmark.
+It should end with a curl call to qasearch API; Redis caching is disabled for the benchmark.
 
 Curl call shall look like this:
 
@@ -181,7 +181,7 @@ I modified the output of API for the benchmark to return results from all shards
 
 Let's dig deeper into what's happening under the hood:
 
-There is a sentence key with shard id or grab "Cache key" from `docker logs -f rgcluster`, in my setup cache key "bertqa{6fd}_PMC169038.xml:{6fd}:33_Who performs viral transmission among adults". If you think it looks like a function call - it's a function call, which is triggered if the key isn't present in Redis Cluster, which is for benchmark will be every time, since we disabled saving output for cache in a previous paragraph.
+There is a sentence key with shard id or grab "Cache key" from `docker logs -f rgcluster`, in my setup cache key "bertqa{6fd}_PMC169038.xml:{6fd}:33_Who performs viral transmission among adults". If you think it looks like a function call - it's a function call, which is triggered if the key isn't present in Redis Cluster, which is for benchmark will be every time since we disabled saving output for cache in a previous paragraph.
 
 One more thing is to figure out from logs the port of the shard corresponding to hashtag (also known as shard id, stuff in curly brackets – like this {6fd}, same will be in the output for export_load script, in my case Cache key was in "30012.log" so my port 30012
 

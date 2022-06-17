@@ -1,4 +1,4 @@
 +++
-path = "json"
-template = "json.html"
+path = "json-ad"
+template = "json-ad.html"
 +++

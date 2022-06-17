@@ -1,5 +1,5 @@
 +++
-title = "Announcing Reference Architecture for AI"
+title = "Reference Architecture for AI"
 description = "This is the reference architecture for AI to start collaboration and discussion."
 +++
 

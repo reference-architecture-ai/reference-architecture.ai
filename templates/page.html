@@ -61,6 +61,12 @@
               {% endif %}
             </li>
             {% endfor %}
+            <li><span class="icon-text">
+              <span><a class="toc is-size-7" href="https://github.com/reference-architecture-ai/reference-architecture.ai/edit/main/content/{{ current_path }}" target="_blank">               <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>Edit this page</a></span>
+            </span>
+            </li>
           </ul>
         </aside>
       </div>
@@ -69,7 +75,6 @@
   </div>
 </section>
 {% endblock %}
-
 {% block pagination %}
 {% if page.earlier or page.later or page.lighter or page.heavier %}
 <section class="section">
@@ -119,7 +124,6 @@
 </section>
 {% endif %}
 {% endblock %}
-
 {% block comment %}
 {% if page.extra.comments and config.extra.commenting.disqus %}
 <section class="section">
@@ -207,5 +211,4 @@
         async>
 </script>
 {% endif %}
-
 {% endblock %}

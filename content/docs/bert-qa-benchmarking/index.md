@@ -386,7 +386,7 @@ AI.INFO bert-qa{6fd}
 18) (integer) 0
 ```
 
-Now we get 88387.45 microseconds per call, which is pretty fast! Also, considering we started with 10 seconds per call, I think the benefits of using RedisAI in combination with RedisGears are pretty obvious. However, the trade-off is high memory usage.
+Now we get 88387.45 microseconds per call ~0.088387 seconds, which is pretty fast! Also, considering we started with 10 seconds per call, I think the benefits of using RedisAI in combination with RedisGears are pretty obvious. However, the trade-off is high memory usage.
 
 There are many ways to optimize this deployment. For example, you can add a FP16 quantization and ONNX runtime. If you would like to try that, [this script](https://github.com/applied-knowledge-systems/the-pattern-api/blob/7bcf021e537dc8d453036730f0a993dd52e1781f/qasearch/export_load_bert.py) will be a good starting point.
 

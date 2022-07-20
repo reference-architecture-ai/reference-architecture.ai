@@ -45,7 +45,7 @@ So it's important to select text potentially containing an answer. A typical pat
 
 Our QA system is a medical domain-specific question/answering pipeline, hence we need a first pipeline that turns data into a knowledge graph. This NLP pipeline is available at Redis LaunchPad, is fully [open source](https://github.com/applied-knowledge-systems/the-pattern), and is described in [a previous article](/howtos/nlp). Here is a 5 minute [video](https://www.youtube.com/watch?v=VgJ8DTX5Mt4) describing it, and below you will find an architectural overview:
 
-![featured](featured.jpg)
+![featured](featured.png)
 
 # BERT Question Answering pipeline and API
 

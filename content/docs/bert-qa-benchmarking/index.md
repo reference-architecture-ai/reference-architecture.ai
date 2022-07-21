@@ -397,3 +397,5 @@ Thanks to the contribution of [Mikhail Volkov](https://volkovlabs.com/from-a-bas
 ![Grafana for RedisGraph](graphana_redis_graph.png)
 
 ![Grafana for RedisCluster](graphana_cluster_overview.png)
+
+This post is in collaboration with Redis.

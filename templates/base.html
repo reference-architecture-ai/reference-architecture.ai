@@ -215,10 +215,6 @@
   {%- endif -%}
   <script src="{{ get_url(path='js/site.js') }}"></script>
 
-  <script defer type="module">
-    import flamethrower from "{{ get_url(path='js/flamethrower.js') }}";
-    flamethrower({ prefetch: 'visible', log: true, pageTransitions: true });
-  </script>
   {% block custom_js %}
   {% endblock %}
 

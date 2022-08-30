@@ -52,7 +52,7 @@ def index():
     url = furl(url).set(params)
     return redirect(str(url), 302)
 ```
-where GITHUB_CLIENT_ID and GITHUB_SECRET are client/secret GitHub Oauth2 app, you need to register you app following process #FIXME: insert link
+where GITHUB_CLIENT_ID and GITHUB_SECRET are client/secret GitHub Oauth2 app, you need to register you app following process on [GitHub](https://github.com/settings/applications/new)
 
 * On callback:
     * get username, email, and other profile information- in case we need to contact them   

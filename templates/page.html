@@ -45,14 +45,14 @@
             {% for h1 in page.toc %}
             <li>
               <a id="link-{{h1.id}}" class="toc is-size-7 {% if loop.first %}is-active{% endif %}"
-                href="{{ h1.permalink | safe }}">
+                href="{{ h1.permalink | safe }}" data-cold>
                 {{ h1.title }}
               </a>
               {% if h1.children %}
               <ul>
                 {% for h2 in h1.children %}
                 <li>
-                  <a id="link-{{h2.id}}" class="toc is-size-7" href="{{ h2.permalink | safe }}">
+                  <a id="link-{{h2.id}}" class="toc is-size-7" href="{{ h2.permalink | safe }}" data-cold>
                     {{ h2.title }}
                   </a>
                 </li>

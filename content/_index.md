@@ -66,7 +66,7 @@ subgraph " "
   click id4 "/docs/bert-qa-benchmarking/#using-grafana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
 end
 subgraph " "
-  id5[DevOps: Continious Integration/<br>Continious Deployment];
+  id5[DevOps: Continuous Integration/Continuous Deployment];
   c1[Configuration management]
   c2[Collaboration and knowledge management tooling]
   c3[Change Management]

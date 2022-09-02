@@ -14,10 +14,10 @@ comments = true
 # Overview 
 # Background
 ## History 
-Last year, my reference project The Pattern Redis the hackathon winner 2021 got a bit of publicity and, in total seven forks. But as many open source projects it is now stale, time to revive "The Pattern" with new features and GitHub sponsors or Patreon patrons help and inspire developers and creatives, in return it's common to provide sponsor only features and articles. But how we can do it with large Redis-based machine learning pipeline?  
+Last year, my reference project, "The Pattern", was the hackathon winner 2021 and got a bit of publicity and, in total, seven forks. But as with many open source projects, it is now stale. Time to revive "The Pattern" with new features and GitHub sponsors or Patreon patrons to help and inspire developers and creatives. In return, it's common to provide sponsor-only features and articles. Nevertheless, how can we do it with a large Redis-based machine learning pipeline?  
 ## Plan sponsor only features
 This article will introduce a simple first step:
-for GitHub sponsors, we start with offering persistent storage of preferences: I have a simple flask POST API which adds nodes into the user's preference storage - a simple Redis set per each user. And it will be a foundation to build other sponsor-only features.
+for GitHub sponsors, we start with offering persistent storage of preferences: I have a simple flask POST API which adds nodes into the user's preference storage - a simple Redis set per user. And it will be a foundation to build other sponsor-only features.
 For now, let's cover the basics:
 
 # Overall architecture overview
@@ -52,13 +52,13 @@ def index():
     url = furl(url).set(params)
     return redirect(str(url), 302)
 ```
-where GITHUB_CLIENT_ID and GITHUB_SECRET are client/secret GitHub Oauth2 app, you need to register you app following process on [GitHub](https://github.com/settings/applications/new)
+where GITHUB_CLIENT_ID and GITHUB_SECRET are client/secret GitHub Oauth2 apps. Register for following process on [GitHub](https://github.com/settings/applications/new)
 
 * On callback:
-    * get username, email, and other profile information- in case we need to contact them   
-    * get status of the user - if they are sponsor of organisation
-        * if the are sponsor 
-            * add username to set of sponsors in Redis
+    * Fetch username, email, and other profile information- in case we need to contact them   
+    * get the status of the user - if they are sponsor of the organisation
+        * if they are sponsor 
+        * add the username to the set of sponsors in Redis
             
 ```python 
 org_name="applied-knowledge-systems"
@@ -164,12 +164,11 @@ def mark_node():
     return response
 ```
 
-and the only purpose of this API is to mark nodes as unimportant for the given user by adding node to RedisSet, and those nodes will be excluded from search API output. 
-So far everything was pretty standard: basic flask API and GitHub Social login flow. Now let's add Redis Enterprise and synchronize sponsors preferences.
+And the only purpose of this API is to mark nodes as unimportant for the given user by adding nodes to RedisSet, and those nodes will be excluded from search API output. So far, everything was pretty standard: basic flask API and GitHub Social login flow. Now let's add Redis Enterprise and synchronise sponsors preferences.
 
 # Add Redis Enterprise
 Why not use Redis Enterprise directly for everything? 
-The project is memory heavy with a lot of data and machine learning inside Redis. This allows to achieve state-of-the-art performance, but it also takes over 120 GB RAM (or as much RAM as you can give it), and 128 GB Redis Enterprise instance will exceed my budget for open-source project. Obviously if there will be enough sponsors we can move more functionality into Redis Enterprise, but for that we need to finish building basic blocks. Register on [Redis.com](https://redis.com/) cloud and create a database with subscription.
+The project is memory-heavy, with a lot of data and machine learning inside Redis. This allows to achieve state-of-the-art performance, but it also takes over 120 GB RAM (or as much RAM as you can give it), and 128 GB Redis Enterprise instance will exceed my budget for open-source project. Obviously if there will be enough sponsors we can move more functionality into Redis Enterprise, but for that we need to finish building basic blocks. Register on [Redis.com](https://redis.com/) cloud and create a database with subscription.
 
 ![Redis Enterprise](redis_enterprise_screen.png)
 Take a note host, port and password for Redis Enterprise and create docker enviroment file: 
@@ -180,7 +179,7 @@ REDISENT_PWD="123"
 REDISENT_PORT="13444"
 REDISENT_HOST="hostname.cloud.redislabs.com"
 ```
-and create a docker compose with section passing .env.gears, mine looks like this:
+and create a docker compose with section passing .env.gears. Mine looks like this:
 ```
   redisgraph:
     image: redislabs/redismod
@@ -202,7 +201,7 @@ flowchart LR
     id1(User Preferences Redis OSS) --> redis_gears1(Redis Gears)--> redise(Redis Enterprise)
 {% end %}
 
-If you are new to RedisGears, there is a pattern [rgsync](https://github.com/RedisGears/rgsync/tree/master/examples/redis) that cover exacly this use case, but I already have RedisGears, so I am going to build it step by step:
+If you are new to RedisGears, there is a pattern [rgsync](https://github.com/RedisGears/rgsync/tree/master/examples/redis) that covers exacly this use case, but I already have RedisGears, so I am going to build it step by step:
 ```python
 # gears_sync_preferences.py
 rconn=None
@@ -235,7 +234,7 @@ gb.foreach(sync_users)
 gb.count()
 gb.run('user_details:*')
 ``` 
-this is a "batch" mode for RedisGears which is easier to debug than streams. Install gears-cli](https://github.com/RedisGears/gears-cli) with `pip install gears-cli` run above script:
+this is a "batch" mode for RedisGears, which is easier to debug than streams. Install gears-cli](https://github.com/RedisGears/gears-cli) with `pip install gears-cli` run above script:
 ```bash
 gears-cli run --host 127.0.0.1 --port 9001 gears_sync_preferences.py --requirements req_sync.txt
 ```
@@ -243,7 +242,7 @@ where req_sync.txt
 ```pip
 redis==3.5.3
 ```
-This RedisGears will copy all user's profiles into RedisEnterprise, now let's add sponsors:
+This RedisGears will copy all user's profiles into RedisEnterprise. Now let us add sponsors:
 ```python
 # gears_sync_sponsors.py
 rconn=None
@@ -284,7 +283,7 @@ gb.foreach(sync_sponsors)
 gb.count()
 gb.run('user:*')
 ```
-but this one will sync all user's preferences, but we only need sponsors - let's add another feature of RedisGears - filter:
+But this one will sync all user's preferences, but we only need sponsors - let us add another feature of RedisGears - filter:
 ```python
 rconn=None
 
@@ -337,7 +336,7 @@ flowchart LR
     redis_gears2(Redis Gears)--key miss--->redise
     redis_gears2-->redisOSS[Redis OSS]
 {% end %}
-and it's very easy, right from keymiss example:
+and it's very easy, right from key miss example:
  
 ```python
 
@@ -354,9 +353,9 @@ def fetch_data(r):
 GB().foreach(fetch_data).register(prefix='user:*', commands=['smember'],eventTypes=['keymiss'], mode="async_local")
 ```
 # Conclusion 
-In this article we walked through steps how to create a sponsor specific "nanoservices" using RedisOSS, RedisGears and Redis Enterprise. 
-This allows to leverage best of all worlds open source Redis, high availabitlity and persistence with Redis Enterprise and RedisGears as glue which holds everything together.
+In this article, we walked through steps on how to create sponsor-specific "nanoservices" using RedisOSS, RedisGears and Redis Enterprise. This allows us to leverage the best of all worlds open source Redis, high availability and persistence with Redis Enterprise and RedisGears as the glue which holds everything together.
 
+This post is in collaboration with Redis.
 
 # References
 * [How to use GitHub Sponsors to help monetize your software](https://creativewebspecialist.co.uk/2021/01/08/how-to-use-github-sponsors-to-help-monetize-your-software/)

@@ -199,7 +199,7 @@
   {% endif %}
   {% if config.extra.mermaid.enabled %}
   <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" data-reload></script>
-  <script data-reload>mermaid.initialize({startOnLoad:true});</script>
+  <script data-reload>mermaid.init();</script>
   {% endif %}
   {% if config.extra.chart.enabled %}
   <script src="https://cdn.jsdelivr.net/npm/chart.xkcd@1.1.13/dist/chart.xkcd.min.js" integrity="sha384-xC3h1+IHXK8seA+8KfT79Z4e0GPsznjXBoMa5nd8ooWKplPyXx92NOmljWxLC/cs" crossorigin="anonymous"></script>
@@ -217,7 +217,10 @@
 
 
   {% block custom_js %}
-
+  <script defer type="module">
+    import flamethrower from "{{ get_url(path='js/flamethrower.js') }}";
+    flamethrower({ prefetch: 'visible', log: true, pageTransitions: true });
+  </script>
   {% endblock %}
 
   {% block user_custom_js %}

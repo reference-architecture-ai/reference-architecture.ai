@@ -168,7 +168,7 @@ And the only purpose of this API is to mark nodes as unimportant for the given u
 
 # Add Redis Enterprise
 Why not use Redis Enterprise directly for everything? 
-The project is memory-heavy, with a lot of data and machine learning inside Redis. This allows to achieve state-of-the-art performance, but it also takes over 120 GB RAM (or as much RAM as you can give it), and 128 GB Redis Enterprise instance will exceed my budget for open-source project. Obviously if there will be enough sponsors we can move more functionality into Redis Enterprise, but for that we need to finish building basic blocks. Register on [Redis.com](https://redis.com/) cloud and create a database with subscription.
+The project is memory-heavy, with a lot of data and machine learning inside Redis. This allows to achieve state-of-the-art performance, but it also takes over 120 GB RAM (or as much RAM as you can give it), and 128 GB Redis Enterprise instance will exceed my budget for open-source project. Obviously if there will be enough sponsors we can move more functionality into Redis Enterprise, but for that we need to finish building basic blocks. Register on [Redis.com](https://redis.com/?utm_campaign=write_for_redis) cloud and create a database with the subscription.
 
 ![Redis Enterprise](redis_enterprise_screen.png)
 Take a note host, port and password for Redis Enterprise and create docker enviroment file: 
@@ -328,7 +328,7 @@ gb.run('user:*')
 ```
 
 ## Fetch sponsor's prefernces back to Redis OSS from Redis Enterprise
-Then we are going to use [Key miss events](https://oss.redis.com/redisgears/miss_event.html#fetch-data-on-keymiss-event) from Redis Gears to fetch data for all users:
+Then we are going to use [Key miss events](https://oss.redis.com/redisgears/miss_event.html#fetch-data-on-keymiss-event?utm_campaign=write_for_redis) from Redis Gears to fetch data for all users:
 
 {% mermaid() %}
 flowchart LR

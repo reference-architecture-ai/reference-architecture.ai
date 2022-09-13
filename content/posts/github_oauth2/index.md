@@ -327,7 +327,7 @@ gb.count()
 gb.run('user:*')
 ```
 
-## Fetch sponsor's prefernces back to Redis OSS from Redis Enterprise
+## Fetch sponsor's preferences back to Redis OSS from Redis Enterprise
 Then we are going to use [Key miss events](https://oss.redis.com/redisgears/miss_event.html#fetch-data-on-keymiss-event?utm_campaign=write_for_redis) from Redis Gears to fetch data for all users:
 
 {% mermaid() %}
@@ -352,6 +352,8 @@ def fetch_data(r):
 
 GB().foreach(fetch_data).register(prefix='user:*', commands=['smember'],eventTypes=['keymiss'], mode="async_local")
 ```
+There is one more option - to turn fetch_data into the async call, by wrapping it into async/await, but Redis Enterprise is fairly fast, and I don't think it's worth adding an async call in this case. For curiosity, see the example [code](https://github.com/applied-knowledge-systems/the-pattern-api/blob/54e96ff7ef9fddbb1ad7c34d1fd5a4333a4d4c41/qasearch/qa_redisai_gear_map_keymiss_np.py#L21) in The Pattern repository.
+
 # Conclusion 
 In this article, we walked through steps on how to create sponsor-specific "nanoservices" using RedisOSS, RedisGears and Redis Enterprise. This allows us to leverage the best of all worlds open source Redis, high availability and persistence with Redis Enterprise and RedisGears as the glue which holds everything together.
 

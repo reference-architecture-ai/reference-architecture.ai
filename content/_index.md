@@ -1,9 +1,10 @@
 +++
 title = "Reference Architecture for AI"
-description = "This is the reference architecture for AI to start collaboration and discussion."
+description = "Open source reference architecture for AI to start collaboration on AI deployments"
 +++
 
 # Introduction 
+  
 There are tools for advanced analytics, including free ones from Google and Kaggle.
 
 There are well-known and validated deployment architectures for applications and the cloud.

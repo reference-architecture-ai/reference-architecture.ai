@@ -13,7 +13,7 @@ comments = true
 # Turning Open Source project into Product with Redis Enterprise
 # Overview 
 # Background
-## History 
+## History
 Last year, my reference project, "The Pattern", was the hackathon winner 2021 and got a bit of publicity and, in total, seven forks. But as with many open source projects, it is now stale. Time to revive "The Pattern" with new features and GitHub sponsors or Patreon patrons to help and inspire developers and creatives. In return, it's common to provide sponsor-only features and articles. Nevertheless, how can we do it with a large Redis-based machine learning pipeline?  
 ## Plan sponsor only features
 This article will introduce a simple first step:
@@ -33,7 +33,7 @@ flowchart LR
 There are a number of API's that GitHub offers to help developers, but the GitHub Authentication API is one of the most popular. This API allows you to log in to GitHub using your username and password, or OAuth token.
 
 A login button with a standard OIDC/OAuth2 dance is one of the most common ways for a user to authenticate to an API.
-Below code taken from this [gist]((https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251)) and is very common for OAuth2 flows:
+Below is code taken from this [gist]((https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251)) and is very common for OAuth2 flows:
 
 ```python
 import os 

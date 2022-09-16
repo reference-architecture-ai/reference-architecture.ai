@@ -6,7 +6,7 @@
 {{ "https://atomicdata.dev/properties/name" | json_encode | safe }} : {{ post.title | striptags | json_encode | safe }},
 {{ config.base_url ~ "/properties/" ~ "url" | json_encode | safe }} : {{ post.permalink | striptags | json_encode | safe }},
 <!-- {{ "https://atomicdata.dev/properties/" ~ "description" | json_encode | safe }} : {{ post.description | json_encode | safe }}, -->
-{{ "https://atomicdata.dev/properties/description" }} : {{ post.content | striptags | json_encode | safe }},
+{{ "https://atomicdata.dev/properties/description" | json_encode | safe }} : {{ post.content | striptags | json_encode | safe }},
 {{ config.base_url ~ "/properties/" ~ "date" | json_encode | safe }} : {{ post.date | json_encode | safe }},
 {{ "https://atomicdata.dev/properties/" ~ "tags" | json_encode | safe }} : {{ post.taxonomies | json_encode | safe }},
 {{ "https://atomicdata.dev/" ~ "/classes/" | json_encode | safe }} : "Article"

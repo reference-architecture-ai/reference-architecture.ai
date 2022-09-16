@@ -8,7 +8,7 @@
 {{ "https://atomicdata.dev/properties/description" | json_encode | safe }} : {{ post.content  | json_encode | safe }},
 {{ config.base_url ~ "/properties/" ~ "date" | json_encode | safe }} : {{ post.date | json_encode | safe }},
 {{ "https://atomicdata.dev/properties/" ~ "tags" | json_encode | safe }} : {{ post.taxonomies | json_encode | safe }},
-{{ "https://atomicdata.dev/" ~ "/classes/" | json_encode | safe }} : "Article"
+{{ "https://atomicdata.dev/" ~ "classes/" | json_encode | safe }} : "Article"
 }{%- if not loop.last -%},{%- endif %}
 {%- endif -%}
 {%- endfor -%}

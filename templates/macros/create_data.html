@@ -10,7 +10,7 @@
 {{ "https://atomicdata.dev/properties/" ~ "tags" | json_encode | safe }} : {{ post.taxonomies | json_encode | safe }},
 "https://atomicdata.dev/properties/isA": [
     "https://atomicdata.dev/classes/Article"
-  ],
+  ]
 }{%- if not loop.last -%},{%- endif %}
 {%- endif -%}
 {%- endfor -%}

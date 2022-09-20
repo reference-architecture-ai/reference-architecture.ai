@@ -7,3 +7,6 @@ ZOLA_VERSION = "0.14.1"
 
 [context.deploy-preview]
 command = "zola build --base-url $DEPLOY_PRIME_URL"
+
+[[plugins]]
+  package = "netlify-plugin-submit-sitemap"

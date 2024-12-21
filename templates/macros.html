@@ -113,7 +113,7 @@
   </a>
   {% endif %}
 
-  {% if config.generate_feed %}
+  {% if config.generate_feed  and config.feed_filename %}
   <a href="{{ config.base_url }}/{{ config.feed_filename }}" target="_blank">
     <span class="icon is-large" title="RSS Feed">
       <i class="fas fa-rss fa-lg"></i>

@@ -239,7 +239,7 @@ this is a "batch" mode for RedisGears, which is easier to debug than streams. In
 gears-cli run --host 127.0.0.1 --port 9001 gears_sync_preferences.py --requirements req_sync.txt
 ```
 where req_sync.txt
-```pip
+```python
 redis==3.5.3
 ```
 This RedisGears will copy all user's profiles into RedisEnterprise. Now let us add sponsors:

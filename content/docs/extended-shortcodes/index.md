@@ -20,15 +20,6 @@ that explains how to enable them.
 
 # Basic Zola shortcodes
 
-Embed gist:
-
-```
-{{/* gist(url="https://gist.github.com/Keats/e5fb6aad409f28721c0ba14161644c57", class="gist") */}}
-
-```
-
-{{ gist(url="https://gist.github.com/Keats/e5fb6aad409f28721c0ba14161644c57", class="gist") }}
-
 
 # Mermaid
 

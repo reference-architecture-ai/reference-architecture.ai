@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <style>
+      .node-rect { fill: #fff; stroke: #333; stroke-width: 2px; }
+      .node-text { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; }
+      .connector { stroke: #333; stroke-width: 2px; fill: none; marker-end: url(#arrowhead); }
+      .clickable { cursor: pointer; }
+      .clickable:hover .node-rect { fill: #e0e0e0; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#333" />
+    </marker>
+  </defs>
+
+  <!-- Group border -->
+  <rect x="10" y="10" width="1180" height="380" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="5,5" />
+
+  <!-- Data Acquisition -->
+  <a href="./docs/intake/" class="clickable">
+    <rect x="30" y="180" width="140" height="60" class="node-rect" rx="30" />
+    <text x="100" y="210" class="node-text">Data Acquisition</text>
+  </a>
+
+  <!-- Arrow -->
+  <path d="M 170 210 L 210 210" class="connector" />
+
+  <!-- Data Preprocessing -->
+  <a href="./docs/nlp/#redisgears-for-nlp-pre-processing" class="clickable">
+    <rect x="210" y="180" width="140" height="60" class="node-rect" rx="30" />
+    <text x="280" y="210" class="node-text">Data Preprocessing</text>
+  </a>
+
+  <!-- Arrow -->
+  <path d="M 350 210 L 390 210" class="connector" />
+
+  <!-- Data Validation -->
+  <rect x="390" y="180" width="140" height="60" class="node-rect" rx="30" />
+  <text x="460" y="210" class="node-text">Data Validation</text>
+
+  <!-- Arrow -->
+  <path d="M 530 210 L 570 210" class="connector" />
+
+  <!-- Data Streaming -->
+  <a href="./docs/nlp/#goal" class="clickable">
+    <rect x="570" y="180" width="140" height="60" class="node-rect" rx="30" />
+    <text x="640" y="210" class="node-text">Data Streaming</text>
+  </a>
+
+  <!-- Arrow -->
+  <path d="M 710 210 L 750 210" class="connector" />
+
+  <!-- AI ML Pipeline -->
+  <a href="./docs/nlp/#overall-architecture-overview-components-diagram" class="clickable">
+    <rect x="750" y="160" width="160" height="100" class="node-rect" rx="30" />
+    <text x="830" y="200" class="node-text">AI ML Pipeline</text>
+    <text x="830" y="220" class="node-text" font-size="12">Model Training/Test/Validation</text>
+  </a>
+
+  <!-- Arrow to Knowledge Graph (branch up) -->
+  <path d="M 910 190 L 950 190 L 950 100 L 990 100" class="connector" />
+
+  <!-- Knowledge Graph -->
+  <a href="./docs/nlp/#what-is-a-knowledge-graph" class="clickable">
+    <rect x="990" y="70" width="140" height="60" class="node-rect" rx="30" />
+    <text x="1060" y="100" class="node-text">Knowledge Graph</text>
+  </a>
+
+  <!-- Arrow to ML Inference (straight) -->
+  <path d="M 910 210 L 950 210" class="connector" />
+
+  <!-- ML Inference -->
+  <a href="./docs/bert-qa-benchmarking/" class="clickable">
+    <rect x="950" y="180" width="140" height="60" class="node-rect" rx="30" />
+    <text x="1020" y="210" class="node-text">ML Inference</text>
+  </a>
+
+  <!-- Arrow to Interaction Layer (branch down) -->
+  <path d="M 910 230 L 950 230 L 950 320 L 990 320" class="connector" />
+
+  <!-- Interaction Layer -->
+  <rect x="990" y="290" width="160" height="60" class="node-rect" rx="30" />
+  <text x="1070" y="310" class="node-text">Interaction Layer</text>
+  <text x="1070" y="330" class="node-text" font-size="12">Voice/VR/AR/Meta</text>
+</svg>

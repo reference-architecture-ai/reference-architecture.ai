@@ -35,4 +35,4 @@ jobs:
           projectName: reference-architecture-ai
           directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          wranglerVersion: '3'
+          wranglerVersion: '4'

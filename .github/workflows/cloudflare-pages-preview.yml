@@ -38,4 +38,4 @@ jobs:
           directory: public
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           deploymentName: preview-${{ github.event.number }}
-          wranglerVersion: '3'
+          wranglerVersion: '4'

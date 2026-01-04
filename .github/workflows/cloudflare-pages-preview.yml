@@ -1,0 +1,41 @@
+name: 'Cloudflare Pages Preview'
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  cancel-in-progress: true
+  group: preview-${{ github.head_ref || github.ref }}
+
+jobs:
+  preview:
+    name: Preview Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Zola
+        run: |
+          wget -q -O - https://github.com/getzola/zola/releases/download/v0.17.2/zola-v0.17.2-x86_64-unknown-linux-gnu.tar.gz | tar xz
+          sudo mv zola /usr/local/bin
+          zola --version
+
+      - name: Build with Zola
+        run: zola build --base-url ${{ github.event.number == 0 && 'https://reference-architecture.ai' || format('https://preview-{0}.reference-architecture.ai.pages.dev', github.event.number) }}
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: reference-architecture-ai
+          directory: public
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          deploymentName: preview-${{ github.event.number }}
+          wranglerVersion: '3'

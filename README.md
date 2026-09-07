@@ -58,7 +58,7 @@ against the site background without further styling.
 This repository succeeds
 [reference-architecture-ai/reference-architecture.ai](https://github.com/reference-architecture-ai/reference-architecture.ai),
 which ran the DeepThought theme on Zola 0.17 from 2020 to 2026. That repository is
-archived; its content was carried over here in full, with the 2020-22 Redis and
+retained read-only as the historical record; its content was carried over here in full, with the 2020-22 Redis and
 RedisGears material kept at its original URLs and marked as archived.
 
 `MIGRATION_PLAN.md` records what moved, what was dropped, and why.

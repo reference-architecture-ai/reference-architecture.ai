@@ -190,7 +190,7 @@ google = "G-NK475MFMER"
 
 [extra.utterances]
 theme = "github-dark"
-repo = "reference-architecture-ai/reference-architecture.ai"
+repo = "reference-architecture-ai/website"
 issueterm="title"
 label = "comment2"
 

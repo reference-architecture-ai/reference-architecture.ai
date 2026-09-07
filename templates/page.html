@@ -78,7 +78,7 @@
   </div>
 
   <footer class="article-foot">
-    <a class="btn btn-ghost" href="{% if page.ancestors %}{{ get_url(path=page.ancestors | last) }}{% else %}{{ get_url(path='@/posts/_index.md') }}{% endif %}">
+    <a class="btn btn-ghost" href="{% if page.ancestors %}{{ get_url(path='@/' ~ (page.ancestors | last)) }}{% else %}{{ get_url(path='@/posts/_index.md') }}{% endif %}">
       <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All articles
     </a>
   </footer>

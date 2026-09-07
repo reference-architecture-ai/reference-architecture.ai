@@ -4,18 +4,18 @@
 {%- for post in posts.pages -%}{%- if not post.draft -%}
 {"localId": {{ post.permalink | striptags | json_encode | safe }},
 "https://atomicdata.dev/properties/name": {{ post.title | striptags | json_encode | safe }},
-{{ config.base_url ~ "/properties/url" | json_encode | safe }}: {{ post.permalink | striptags | json_encode | safe }},
+{{ (config.base_url ~ "/properties/url") | json_encode | safe }}: {{ post.permalink | striptags | json_encode | safe }},
 "https://atomicdata.dev/properties/description": {{ post.content | json_encode | safe }},
-{{ config.base_url ~ "/properties/date" | json_encode | safe }}: {{ post.date | json_encode | safe }},
+{{ (config.base_url ~ "/properties/date") | json_encode | safe }}: {{ post.date | json_encode | safe }},
 "https://atomicdata.dev/properties/tags": {{ post.taxonomies | json_encode | safe }},
 "https://atomicdata.dev/properties/isA": ["https://atomicdata.dev/classes/Article"]
 }{%- if not loop.last -%},{%- endif -%}{%- endif -%}{%- endfor -%},
 {%- for post in docs.pages -%}{%- if not post.draft -%}
 {"localId": {{ post.permalink | striptags | json_encode | safe }},
 "https://atomicdata.dev/properties/name": {{ post.title | striptags | json_encode | safe }},
-{{ config.base_url ~ "/properties/url" | json_encode | safe }}: {{ post.permalink | striptags | json_encode | safe }},
+{{ (config.base_url ~ "/properties/url") | json_encode | safe }}: {{ post.permalink | striptags | json_encode | safe }},
 "https://atomicdata.dev/properties/description": {{ post.content | json_encode | safe }},
-{{ config.base_url ~ "/properties/date" | json_encode | safe }}: {{ post.date | json_encode | safe }},
+{{ (config.base_url ~ "/properties/date") | json_encode | safe }}: {{ post.date | json_encode | safe }},
 "https://atomicdata.dev/properties/tags": {{ post.taxonomies | json_encode | safe }},
 "https://atomicdata.dev/properties/isA": ["https://atomicdata.dev/classes/Article"]
 }{%- if not loop.last -%},{%- endif -%}{%- endif -%}{%- endfor -%}

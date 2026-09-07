@@ -9,10 +9,10 @@
 {% block content %}
 <section class="section">
   <div class="section-inner">
-    <div class="section-eyebrow"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> {{ section.title }}</div>
+    <div class="section-overline"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> {{ section.title }}</div>
     <h1 class="section-title">{{ section.title }}</h1>
     {% if section.description %}
-    <p class="section-lede">{{ section.description }}</p>
+    <p class="section-subtitle">{{ section.description }}</p>
     {% endif %}
 
     {% if section.content %}

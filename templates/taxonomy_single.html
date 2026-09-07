@@ -9,9 +9,9 @@
 {% block content %}
 <section class="section">
   <div class="section-inner">
-    <div class="section-eyebrow"><i class="fa-solid fa-tag" aria-hidden="true"></i> {{ taxonomy.name | capitalize }}</div>
+    <div class="section-overline"><i class="fa-solid fa-tag" aria-hidden="true"></i> {{ taxonomy.name | capitalize }}</div>
     <h1 class="section-title">{{ term.name }}</h1>
-    <p class="section-lede">{{ term.pages | length }} article{% if term.pages | length != 1 %}s{% endif %}.</p>
+    <p class="section-subtitle">{{ term.pages | length }} article{% if term.pages | length != 1 %}s{% endif %}.</p>
     <ul class="entry-list">
       {% for p in term.pages %}
       <li class="entry">

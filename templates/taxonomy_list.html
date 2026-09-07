@@ -9,9 +9,9 @@
 {% block content %}
 <section class="section">
   <div class="section-inner">
-    <div class="section-eyebrow"><i class="fa-solid fa-tags" aria-hidden="true"></i> Index</div>
+    <div class="section-overline"><i class="fa-solid fa-tags" aria-hidden="true"></i> Index</div>
     <h1 class="section-title">{{ taxonomy.name | capitalize }}</h1>
-    <p class="section-lede">Every {{ taxonomy.name }} term used across the site.</p>
+    <p class="section-subtitle">Every {{ taxonomy.name }} term used across the site.</p>
     <div class="tag-cloud">
       {% for term in terms %}
       <a class="tag-chip" href="{{ term.permalink }}">{{ term.name }} <span class="tag-count">{{ term.pages | length }}</span></a>

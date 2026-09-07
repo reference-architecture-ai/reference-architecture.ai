@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 636.4655 1367.075" width="636.4655" height="1367.075" role="img" aria-labelledby="approval-flow-title approval-flow-desc" style="--bg:#1a1b26;--fg:#a9b1d6;--line:#3d59a1;--accent:#7aa2f7;--muted:#565f89;background:var(--bg)">
+<title id="approval-flow-title">Approval Flow</title>
+<desc id="approval-flow-desc">Decision flow for approving destructive operations before execution and audit logging.</desc>
+<style>
+  text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="Start" data-to="Check" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="174.83049999999997,93.80000000000001 174.83050000000003,141.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Check" data-to="Auto" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="None / ReadOnly" points="133.14900000000003,266.84450000000004 133.14900000000003,651.2750000000001 100.61849999999998,651.2750000000001 100.61849999999998,763.875" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Check" data-to="Log" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Idempotent" points="174.83050000000003,308.526 174.83049999999997,848.775" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Check" data-to="Approval" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Destructive" points="216.51200000000003,266.84450000000004 216.51200000000003,320.526 455.3365,320.526 455.33649999999994,400.826" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Approval" data-to="Build" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="455.33649999999994,437.726 455.3365,485.72600000000006" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Build" data-to="Send" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="455.3365,539.5260000000001 455.33649999999994,587.5260000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Send" data-to="Wait" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="455.33649999999994,624.426 455.33649999999994,672.4260000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Wait" data-to="Token" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Approved" points="413.0992499999999,799.13775 413.0992499999999,853.375 283.12850000000003,853.375 283.1285,933.675" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Wait" data-to="Deny" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Denied" points="455.33649999999994,841.375 455.3365,1132.3749999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Wait" data-to="Timeout" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Timeout" points="497.57374999999996,799.1377500000001 497.57374999999996,1064.0749999999998 531.401,1064.0749999999998 531.401,1217.2749999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Token" data-to="Crypto" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="283.1285,970.5749999999999 283.1285,1018.5749999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Crypto" data-to="Exec" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="283.1285,1072.3749999999998 283.1285,1132.3749999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Exec" data-to="Audit" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="283.1285,1169.2749999999999 283.1285,1217.2749999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Auto" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="100.61850000000001,800.775 100.61850000000001,1272.175 292.668125,1272.175 292.668125,1290.175" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Log" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="174.83049999999997,885.675 174.83049999999997,1272.175 292.668125,1272.175 292.668125,1290.175" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Audit" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="283.1285,1254.175 283.1285,1272.175 292.668125,1272.175 292.668125,1290.175" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Deny" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="455.3365,1169.2749999999999 455.3365,1272.175 292.668125,1272.175 292.668125,1290.175" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Timeout" data-to="Done" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="531.4010000000001,1254.175 531.4010000000001,1272.175 292.668125,1272.175 292.668125,1290.175" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="Check" data-to="Auto" data-label="None / ReadOnly">
+  <rect x="52.618499999999976" y="658.2750000000001" width="95.46400000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="100.35049999999998" y="673.4250000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">None / ReadOnly</text>
+</g>
+<g class="edge-label" data-from="Check" data-to="Log" data-label="Idempotent">
+  <rect x="140.8305" y="690.575" width="67.546" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="174.6035" y="705.725" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Idempotent</text>
+</g>
+<g class="edge-label" data-from="Check" data-to="Approval" data-label="Destructive">
+  <rect x="418.83649999999994" y="327.526" width="72.298" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="454.98549999999994" y="342.676" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Destructive</text>
+</g>
+<g class="edge-label" data-from="Wait" data-to="Token" data-label="Approved">
+  <rect x="250.1285" y="860.375" width="65.17" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="282.7135" y="875.525" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Approved</text>
+</g>
+<g class="edge-label" data-from="Wait" data-to="Deny" data-label="Denied">
+  <rect x="429.8365" y="1071.0749999999998" width="50.913999999999994" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="455.2935" y="1086.225" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Denied</text>
+</g>
+<g class="edge-label" data-from="Wait" data-to="Timeout" data-label="Timeout">
+  <rect x="503.901" y="1071.0749999999998" width="54.478" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="531.14" y="1086.225" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">Timeout</text>
+</g>
+<g class="node" data-id="Start" data-label="Destructive Operation
+Requested" data-shape="rectangle">
+  <rect x="89.75899999999996" y="40" width="170.143" height="53.800000000000004" rx="0" ry="0" fill="#ff6c6b" stroke="#ff6c6b" stroke-width="0.75" />
+  <text x="174.83049999999997" y="66.9" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26"><tspan x="174.83049999999997" dy="-3.9000000000000012">Destructive Operation</tspan><tspan x="174.83049999999997" dy="16.900000000000002">Requested</tspan></text>
+</g>
+<g class="node" data-id="Check" data-label="SideEffectClass?" data-shape="diamond">
+  <polygon points="174.83050000000003,141.8 258.19350000000003,225.163 174.83050000000003,308.526 91.46750000000003,225.163" fill="#e0af68" stroke="#e0af68" stroke-width="0.75" />
+  <text x="174.83050000000003" y="225.163" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">SideEffectClass?</text>
+</g>
+<g class="node" data-id="Auto" data-label="Auto-Execute" data-shape="rectangle">
+  <rect x="40" y="763.875" width="121.23700000000001" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="100.61850000000001" y="782.325" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Auto-Execute</text>
+</g>
+<g class="node" data-id="Log" data-label="Log + Execute" data-shape="rectangle">
+  <rect x="111.61849999999998" y="848.775" width="126.424" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="174.83049999999997" y="867.225" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Log + Execute</text>
+</g>
+<g class="node" data-id="Approval" data-label="Request Human Approval" data-shape="rectangle">
+  <rect x="360.26149999999996" y="400.826" width="190.14999999999995" height="36.900000000000006" rx="0" ry="0" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="455.33649999999994" y="419.276" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Request Human Approval</text>
+</g>
+<g class="node" data-id="Build" data-label="Build Human-Readable
+Description" data-shape="rectangle">
+  <rect x="368.41249999999997" y="485.72600000000006" width="173.84799999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="455.33649999999994" y="512.6260000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="455.33649999999994" dy="-3.9000000000000012">Build Human-Readable</tspan><tspan x="455.33649999999994" dy="16.900000000000002">Description</tspan></text>
+</g>
+<g class="node" data-id="Send" data-label="Send to Approval UI" data-shape="rectangle">
+  <rect x="376.93399999999997" y="587.5260000000001" width="156.805" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="455.3365" y="605.9760000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Send to Approval UI</text>
+</g>
+<g class="node" data-id="Wait" data-label="Human Response" data-shape="diamond">
+  <polygon points="455.3365,672.426 539.811,756.9005000000001 455.3365,841.3750000000001 370.86199999999997,756.9005000000001" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="455.3365" y="756.9005000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Human Response</text>
+</g>
+<g class="node" data-id="Token" data-label="Generate Approval Token" data-shape="rectangle">
+  <rect x="185.8305" y="933.675" width="194.59599999999998" height="36.900000000000006" rx="0" ry="0" fill="#9ece6a" stroke="#9ece6a" stroke-width="0.75" />
+  <text x="283.1285" y="952.125" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Generate Approval Token</text>
+</g>
+<g class="node" data-id="Deny" data-label="Return Denied" data-shape="rectangle">
+  <rect x="392.495" y="1132.3749999999998" width="125.68299999999999" height="36.900000000000006" rx="0" ry="0" fill="#ff6c6b" stroke="#ff6c6b" stroke-width="0.75" />
+  <text x="455.3365" y="1150.8249999999998" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Return Denied</text>
+</g>
+<g class="node" data-id="Timeout" data-label="Return Timeout" data-shape="rectangle">
+  <rect x="466.3365" y="1217.2749999999999" width="130.12900000000002" height="36.900000000000006" rx="0" ry="0" fill="#ff6c6b" stroke="#ff6c6b" stroke-width="0.75" />
+  <text x="531.4010000000001" y="1235.725" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Return Timeout</text>
+</g>
+<g class="node" data-id="Crypto" data-label="Cryptographic Proof
+with Operation Hash" data-shape="rectangle">
+  <rect x="201.76199999999997" y="1018.5749999999999" width="162.733" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="283.1285" y="1045.475" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="283.1285" dy="-3.9000000000000012">Cryptographic Proof</tspan><tspan x="283.1285" dy="16.900000000000002">with Operation Hash</tspan></text>
+</g>
+<g class="node" data-id="Exec" data-label="Execute with Token" data-shape="rectangle">
+  <rect x="205.09649999999996" y="1132.3749999999998" width="156.06400000000002" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="283.1285" y="1150.8249999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Execute with Token</text>
+</g>
+<g class="node" data-id="Audit" data-label="Audit Log Entry" data-shape="rectangle">
+  <rect x="216.9525" y="1217.2749999999999" width="132.352" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="283.1285" y="1235.725" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Audit Log Entry</text>
+</g>
+<g class="node" data-id="Done" data-label="Complete" data-shape="rectangle">
+  <rect x="245.017125" y="1290.175" width="95.30199999999999" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="292.668125" y="1308.625" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Complete</text>
+</g>
+</svg>

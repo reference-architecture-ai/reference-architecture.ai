@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 901.732 1138.6" width="901.732" height="1138.6" role="img" aria-labelledby="four-layer-architecture-title four-layer-architecture-desc" style="--bg:#1a1b26;--fg:#a9b1d6;--line:#3d59a1;--accent:#7aa2f7;--muted:#565f89;background:var(--bg)">
+<title id="four-layer-architecture-title">Four-Layer Architecture</title>
+<desc id="four-layer-architecture-desc">Reference architecture diagram with capability registry, context boundary, execution harness, and feedback loop around an LLM reasoning engine.</desc>
+<style>
+  text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Layer_4_Feedback_Loop" data-label="Layer 4: Feedback Loop">
+  <rect x="40" y="58" width="704.6880000000001" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="58" width="704.6880000000001" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="72" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Layer 4: Feedback Loop</text>
+</g>
+<g class="subgraph" data-id="Layer_3_Execution_Harness" data-label="Layer 3: Execution Harness">
+  <rect x="111.50650000000019" y="975.6999999999999" width="626.8829999999999" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="111.50650000000019" y="975.6999999999999" width="626.8829999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="123.50650000000019" y="989.6999999999999" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Layer 3: Execution Harness</text>
+</g>
+<g class="subgraph" data-id="Layer_2_Context_Boundary" data-label="Layer 2: Context Boundary">
+  <rect x="77.05000000000007" y="750.5" width="662.451" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="77.05000000000007" y="750.5" width="662.451" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="89.05000000000007" y="764.5" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Layer 2: Context Boundary</text>
+</g>
+<g class="subgraph" data-id="Layer_1_Capability_Registry" data-label="Layer 1: Capability Registry">
+  <rect x="94.83400000000006" y="525.3000000000001" width="643.185" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="94.83400000000006" y="525.3000000000001" width="643.185" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="106.83400000000006" y="539.3000000000001" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Layer 1: Capability Registry</text>
+</g>
+<g class="subgraph" data-id="LLM" data-label="LLM">
+  <rect x="565.5160000000001" y="283.20000000000005" width="181.395" height="113.80000000000001" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="565.5160000000001" y="283.20000000000005" width="181.395" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="577.5160000000001" y="297.20000000000005" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">LLM</text>
+<g class="subgraph" data-id="LLM" data-label="LLM">
+  <rect x="581.5160000000001" y="327.20000000000005" width="149.395" height="53.800000000000004" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="581.5160000000001" y="327.20000000000005" width="149.395" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="593.5160000000001" y="341.20000000000005" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">LLM</text>
+</g>
+</g>
+<polyline class="edge" data-from="LLM" data-to="R1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="discovers" points="656.2135000000001,381.00000000000006 656.2135000000001,569.3000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="R1" data-to="C1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="validates" points="656.2135000000001,606.2 656.2135000000001,794.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="C1" data-to="E1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="executes via" points="656.2135000000001,831.4 656.2135000000001,1019.6999999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E1" data-to="F1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="feeds back to" points="656.2135000000001,1056.6 656.2135000000001,1090.6 802.019,1090.6 802.019,40 484.37600000000003,40 484.37600000000003,102" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F4" data-to="LLM" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="selects strategy for" points="656.2135000000001,138.9 656.2135000000001,327.20000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="LLM" data-to="R1" data-label="discovers">
+  <rect x="622.7135000000001" y="446" width="66.358" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="655.8925" y="461.15" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">discovers</text>
+</g>
+<g class="edge-label" data-from="R1" data-to="C1" data-label="validates">
+  <rect x="625.7135000000001" y="671.2" width="60.418000000000006" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="655.9225000000001" y="686.35" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">validates</text>
+</g>
+<g class="edge-label" data-from="C1" data-to="E1" data-label="executes via">
+  <rect x="617.2135000000001" y="896.4" width="77.644" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="656.0355000000001" y="911.55" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">executes via</text>
+</g>
+<g class="edge-label" data-from="E1" data-to="F1" data-label="feeds back to">
+  <rect x="762.019" y="1053.3" width="79.42600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="801.732" y="1068.45" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">feeds back to</text>
+</g>
+<g class="edge-label" data-from="F4" data-to="LLM" data-label="selects strategy for">
+  <rect x="602.2135000000001" y="203.9" width="107.93800000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="656.1825000000001" y="219.05" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">selects strategy for</text>
+</g>
+<g class="node" data-id="F1" data-label="Metrics Collector" data-shape="rectangle">
+  <rect x="413.01300000000003" y="102" width="142.726" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="484.37600000000003" y="120.45" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Metrics Collector</text>
+</g>
+<g class="node" data-id="F2" data-label="Pareto Frontier" data-shape="rectangle">
+  <rect x="251.92000000000002" y="102" width="133.09300000000002" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="318.4665" y="120.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Pareto Frontier</text>
+</g>
+<g class="node" data-id="F3" data-label="Human Review Queue" data-shape="rectangle">
+  <rect x="56" y="102" width="167.92" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="139.95999999999998" y="120.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Human Review Queue</text>
+</g>
+<g class="node" data-id="F4" data-label="Strategy Selector" data-shape="rectangle">
+  <rect x="583.739" y="102" width="144.949" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="656.2135000000001" y="120.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Strategy Selector</text>
+</g>
+<g class="node" data-id="E1" data-label="Wasm Sandbox" data-shape="rectangle">
+  <rect x="590.0375000000001" y="1019.6999999999999" width="132.35199999999998" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="656.2135000000001" y="1038.1499999999999" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Wasm Sandbox</text>
+</g>
+<g class="node" data-id="E2" data-label="Resource Limits" data-shape="rectangle">
+  <rect x="253.03150000000016" y="1019.6999999999999" width="137.539" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="321.80100000000016" y="1038.1499999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Resource Limits</text>
+</g>
+<g class="node" data-id="E3" data-label="Audit Log" data-shape="rectangle">
+  <rect x="127.50650000000019" y="1019.6999999999999" width="97.525" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="176.26900000000018" y="1038.1499999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Audit Log</text>
+</g>
+<g class="node" data-id="E4" data-label="Recovery Journal" data-shape="rectangle">
+  <rect x="418.57050000000015" y="1019.6999999999999" width="143.467" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="490.30400000000014" y="1038.1499999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Recovery Journal</text>
+</g>
+<g class="node" data-id="C1" data-label="Tenant Isolation" data-shape="rectangle">
+  <rect x="588.926" y="794.5" width="134.57500000000002" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="656.2135000000001" y="812.95" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Tenant Isolation</text>
+</g>
+<g class="node" data-id="C2" data-label="Token Budget" data-shape="rectangle">
+  <rect x="272.66800000000006" y="794.5" width="124.20099999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="334.7685000000001" y="812.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Token Budget</text>
+</g>
+<g class="node" data-id="C3" data-label="Resource Whitelist" data-shape="rectangle">
+  <rect x="93.05000000000007" y="794.5" width="151.618" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="168.85900000000007" y="812.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Resource Whitelist</text>
+</g>
+<g class="node" data-id="C4" data-label="Secret Scanner" data-shape="rectangle">
+  <rect x="424.869" y="794.5" width="136.05700000000002" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="492.89750000000004" y="812.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Secret Scanner</text>
+</g>
+<g class="node" data-id="R1" data-label="Tool Definitions" data-shape="rectangle">
+  <rect x="590.408" y="569.3000000000001" width="131.611" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="656.2135000000001" y="587.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Tool Definitions</text>
+</g>
+<g class="node" data-id="R2" data-label="Effect Graph" data-shape="rectangle">
+  <rect x="270.44500000000005" y="569.3000000000001" width="113.827" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="327.35850000000005" y="587.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Effect Graph</text>
+</g>
+<g class="node" data-id="R3" data-label="Chain Validator" data-shape="rectangle">
+  <rect x="110.83400000000006" y="569.3000000000001" width="131.611" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="176.63950000000006" y="587.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Chain Validator</text>
+</g>
+<g class="node" data-id="R4" data-label="MCP Introspection" data-shape="rectangle">
+  <rect x="412.27200000000005" y="569.3000000000001" width="150.136" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="487.34000000000003" y="587.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">MCP Introspection</text>
+</g>
+</svg>

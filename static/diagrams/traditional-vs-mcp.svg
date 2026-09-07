@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1649.143 561.4000000000001" width="1649.143" height="561.4000000000001" role="img" aria-labelledby="traditional-vs-mcp-title traditional-vs-mcp-desc" style="--bg:#1a1b26;--fg:#a9b1d6;--line:#3d59a1;--accent:#7aa2f7;--muted:#565f89;background:var(--bg)">
+<title id="traditional-vs-mcp-title">Traditional Agent Compared With MCP-Native Agent</title>
+<desc id="traditional-vs-mcp-desc">Comparison diagram showing a traditional agent without an execution boundary and an MCP-native agent with validation, authorization, and invocation stages.</desc>
+<style>
+  text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Traditional_Agent" data-label="Traditional Agent">
+  <rect x="40" y="40" width="718.19" height="226.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="40" width="718.19" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Traditional Agent</text>
+</g>
+<g class="subgraph" data-id="MCPNative_Agent" data-label="MCP-Native Agent">
+  <rect x="40" y="294.70000000000005" width="1569.143" height="226.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="294.70000000000005" width="1569.143" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="308.70000000000005" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">MCP-Native Agent</text>
+</g>
+<polyline class="edge" data-from="T1" data-to="T2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="178.719,167.35000000000002 226.719,167.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T2" data-to="T3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="decides + executes" points="297.568,173.5 309.568,173.5 309.568,184 458.694,184 458.694,173.5 494.694,173.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T3" data-to="T4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="570.73,167.35000000000002 594.73,167.35000000000002 594.73,167.35000000000002 618.73,167.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T3" data-to="T5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="570.73,167.35000000000002 594.73,167.35000000000002 594.73,232.25 618.73,232.25" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T3" data-to="T6" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="570.73,167.35000000000002 594.73,167.35000000000002 594.73,102.45 618.73,102.45" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T2" data-to="T3" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="no boundary" points="297.568,161.2 309.568,161.2 309.568,150.70000000000002 458.694,150.70000000000002 458.694,161.2 494.694,161.2" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M1" data-to="M2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="178.719,422.05000000000007 226.719,422.05000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M2" data-to="M3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="decides" points="297.568,422.05000000000007 441.234,422.05000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M3" data-to="M4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="validates" points="593.593,428.20000000000005 605.593,428.20000000000005 605.593,450.42500000000007 742.011,450.42500000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M4" data-to="M5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="authorizes" points="889.924,450.42500000000007 1010.658,450.42500000000007 1010.658,428.20000000000005 1046.658,428.20000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M5" data-to="M6" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="invokes" points="1201.981,422.05000000000007 1345.647,422.05000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M6" data-to="M7" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1421.683,422.05 1445.683,422.05 1445.683,422.05 1469.683,422.05" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M6" data-to="M8" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1421.683,422.05 1445.683,422.05 1445.683,486.95000000000005 1469.683,486.95000000000005" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M6" data-to="M9" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1421.683,422.05 1445.683,422.05 1445.683,357.15000000000003 1469.683,357.15000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M3" data-to="M5" data-style="dotted" data-arrow-start="false" data-arrow-end="true" data-label="hard boundary" points="593.593,415.90000000000003 605.593,415.90000000000003 605.593,393.67500000000007 1010.658,393.67500000000007 1010.658,415.90000000000003 1046.658,415.90000000000003" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="T2" data-to="T3" data-label="decides + executes">
+  <rect x="341.568" y="168" width="109.12600000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="396.131" y="183.15" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">decides + executes</text>
+</g>
+<g class="edge-label" data-from="T2" data-to="T3" data-label="no boundary">
+  <rect x="357.30899999999997" y="134.70000000000002" width="77.644" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="396.131" y="149.85000000000002" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">no boundary</text>
+</g>
+<g class="edge-label" data-from="M2" data-to="M3" data-label="decides">
+  <rect x="341.568" y="406.05000000000007" width="55.666000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="369.401" y="421.20000000000005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">decides</text>
+</g>
+<g class="edge-label" data-from="M3" data-to="M4" data-label="validates">
+  <rect x="637.5929999999998" y="434.42500000000007" width="60.418000000000006" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="667.8019999999999" y="449.57500000000005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">validates</text>
+</g>
+<g class="edge-label" data-from="M4" data-to="M5" data-label="authorizes">
+  <rect x="933.924" y="434.42500000000007" width="68.73400000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="968.2909999999999" y="449.57500000000005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">authorizes</text>
+</g>
+<g class="edge-label" data-from="M5" data-to="M6" data-label="invokes">
+  <rect x="1245.981" y="406.05000000000007" width="55.666000000000004" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1273.814" y="421.20000000000005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">invokes</text>
+</g>
+<g class="edge-label" data-from="M3" data-to="M5" data-label="hard boundary">
+  <rect x="771.7995" y="377.67500000000007" width="88.33600000000001" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="815.9675" y="392.82500000000005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">hard boundary</text>
+</g>
+<g class="node" data-id="T1" data-label="User Request" data-shape="rectangle">
+  <rect x="56" y="148.9" width="122.71900000000001" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="117.3595" y="167.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">User Request</text>
+</g>
+<g class="node" data-id="T2" data-label="LLM" data-shape="rectangle">
+  <rect x="226.719" y="148.9" width="70.84899999999999" height="36.900000000000006" rx="0" ry="0" fill="#ff6c6b" stroke="#ff6c6b" stroke-width="0.75" />
+  <text x="262.1435" y="167.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">LLM</text>
+</g>
+<g class="node" data-id="T3" data-label="Tools" data-shape="rectangle">
+  <rect x="494.694" y="148.9" width="76.036" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="532.712" y="167.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Tools</text>
+</g>
+<g class="node" data-id="T4" data-label="Database" data-shape="rectangle">
+  <rect x="618.73" y="148.9" width="98.26599999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="667.863" y="167.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Database</text>
+</g>
+<g class="node" data-id="T5" data-label="APIs" data-shape="rectangle">
+  <rect x="618.73" y="213.8" width="70.108" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="653.784" y="232.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">APIs</text>
+</g>
+<g class="node" data-id="T6" data-label="Infrastructure" data-shape="rectangle">
+  <rect x="618.73" y="84" width="123.46" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="680.46" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Infrastructure</text>
+</g>
+<g class="node" data-id="M1" data-label="User Request" data-shape="rectangle">
+  <rect x="56" y="403.6" width="122.71900000000001" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="117.3595" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">User Request</text>
+</g>
+<g class="node" data-id="M2" data-label="LLM" data-shape="rectangle">
+  <rect x="226.719" y="403.6" width="70.84899999999999" height="36.900000000000006" rx="0" ry="0" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="262.1435" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">LLM</text>
+</g>
+<g class="node" data-id="M3" data-label="Capability Registry" data-shape="rectangle">
+  <rect x="441.234" y="403.6" width="152.359" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="517.4135" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Capability Registry</text>
+</g>
+<g class="node" data-id="M4" data-label="Context Boundary" data-shape="rectangle">
+  <rect x="742.011" y="431.975" width="147.913" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="815.9675" y="450.425" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Context Boundary</text>
+</g>
+<g class="node" data-id="M5" data-label="Execution Harness" data-shape="rectangle">
+  <rect x="1046.658" y="403.6" width="155.32299999999998" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="1124.3194999999998" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">Execution Harness</text>
+</g>
+<g class="node" data-id="M6" data-label="Tools" data-shape="rectangle">
+  <rect x="1345.647" y="403.6" width="76.036" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1383.665" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Tools</text>
+</g>
+<g class="node" data-id="M7" data-label="Database" data-shape="rectangle">
+  <rect x="1469.683" y="403.6" width="98.26599999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1518.816" y="422.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Database</text>
+</g>
+<g class="node" data-id="M8" data-label="APIs" data-shape="rectangle">
+  <rect x="1469.683" y="468.50000000000006" width="70.108" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1504.737" y="486.95000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">APIs</text>
+</g>
+<g class="node" data-id="M9" data-label="Infrastructure" data-shape="rectangle">
+  <rect x="1469.683" y="338.70000000000005" width="123.46" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1531.413" y="357.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Infrastructure</text>
+</g>
+</svg>

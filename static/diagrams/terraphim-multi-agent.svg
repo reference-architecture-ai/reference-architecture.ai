@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 722.422 731.0999999999999" width="722.422" height="731.0999999999999" role="img" aria-labelledby="terraphim-multi-agent-title terraphim-multi-agent-desc" style="--bg:#1a1b26;--fg:#a9b1d6;--line:#3d59a1;--accent:#7aa2f7;--muted:#565f89;background:var(--bg)">
+<title id="terraphim-multi-agent-title">Terraphim Multi-Agent Orchestration</title>
+<desc id="terraphim-multi-agent-desc">Diagram of multiple Terraphim-style instances using MCP discovery while preserving isolated registries and context boundaries.</desc>
+<style>
+  text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="Terraphim_Instance_A" data-label="Terraphim Instance A">
+  <rect x="40.00000000000006" y="64" width="195.474" height="266.70000000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40.00000000000006" y="64" width="195.474" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52.00000000000006" y="78" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Terraphim Instance A</text>
+</g>
+<g class="subgraph" data-id="Terraphim_Instance_B" data-label="Terraphim Instance B">
+  <rect x="263.47400000000005" y="40" width="195.474" height="266.70000000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="263.47400000000005" y="40" width="195.474" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="275.47400000000005" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Terraphim Instance B</text>
+</g>
+<g class="subgraph" data-id="Terraphim_Instance_C" data-label="Terraphim Instance C">
+  <rect x="486.94800000000004" y="64" width="195.474" height="266.70000000000005" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="486.94800000000004" y="64" width="195.474" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="498.94800000000004" y="78" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">Terraphim Instance C</text>
+</g>
+<g class="subgraph" data-id="MCP_Protocol" data-label="MCP Protocol">
+  <rect x="269.03150000000005" y="435.00000000000006" width="184.359" height="96.9" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="269.03150000000005" y="435.00000000000006" width="184.359" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="281.03150000000005" y="449.00000000000006" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">MCP Protocol</text>
+</g>
+<polyline class="edge" data-from="A3" data-to="M" data-style="solid" data-arrow-start="true" data-arrow-end="true" data-label="MCP" points="137.737,302.70000000000005 137.73699999999997,417.00000000000006 323.12125000000003,417.00000000000006 323.1212500000001,479.00000000000006" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="B3" data-to="M" data-style="solid" data-arrow-start="true" data-arrow-end="true" data-label="MCP" points="361.211,302.70000000000005 361.211,479.00000000000006" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="C3" data-to="M" data-style="solid" data-arrow-start="true" data-arrow-end="true" data-label="MCP" points="584.685,302.70000000000005 584.685,417.00000000000006 399.30075,417.00000000000006 399.30075,479.00000000000006" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" marker-start="url(#arrowhead-start)" />
+<polyline class="edge" data-from="M" data-to="D1" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="discovers" points="323.12125000000003,515.9000000000001 323.12125000000003,549.9000000000001 161.58599999999996,549.9000000000001 161.586,642.2" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M" data-to="D2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="discovers" points="361.211,515.9000000000001 361.211,573.9000000000001 352.319,573.9000000000001 352.319,642.2" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M" data-to="D3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="discovers" points="399.30075,515.9000000000001 399.30075,549.9000000000001 551.944,549.9000000000001 551.944,642.2" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A1" data-to="A2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="137.73700000000005,132.9 137.73700000000005,180.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A2" data-to="A3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="137.73700000000005,217.8 137.73700000000005,265.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="B1" data-to="B2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="361.211,132.9 361.211,180.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="B2" data-to="B3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="361.211,217.8 361.211,265.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="C1" data-to="C2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="584.6850000000001,132.9 584.6850000000001,180.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="C2" data-to="C3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="584.6850000000001,217.8 584.6850000000001,265.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="A3" data-to="M" data-label="MCP">
+  <rect x="117.23699999999992" y="379.70000000000005" width="40.816" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="137.64499999999992" y="394.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">MCP</text>
+</g>
+<g class="edge-label" data-from="B3" data-to="M" data-label="MCP">
+  <rect x="340.711" y="355.70000000000005" width="40.816" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="361.119" y="370.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">MCP</text>
+</g>
+<g class="edge-label" data-from="C3" data-to="M" data-label="MCP">
+  <rect x="564.185" y="379.70000000000005" width="40.816" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="584.593" y="394.85" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">MCP</text>
+</g>
+<g class="edge-label" data-from="M" data-to="D1" data-label="discovers">
+  <rect x="128.08599999999996" y="556.9000000000001" width="66.358" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="161.26499999999996" y="572.0500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">discovers</text>
+</g>
+<g class="edge-label" data-from="M" data-to="D2" data-label="discovers">
+  <rect x="318.81899999999996" y="580.9000000000001" width="66.358" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="351.998" y="596.0500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">discovers</text>
+</g>
+<g class="edge-label" data-from="M" data-to="D3" data-label="discovers">
+  <rect x="518.444" y="556.9000000000001" width="66.358" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="551.6229999999999" y="572.0500000000001" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">discovers</text>
+</g>
+<g class="node" data-id="D1" data-label="External Tool: GitHub" data-shape="rectangle">
+  <rect x="79.10800000000006" y="642.2" width="164.95600000000002" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="161.58600000000007" y="660.6500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">External Tool: GitHub</text>
+</g>
+<g class="node" data-id="D2" data-label="External Tool: Slack" data-shape="rectangle">
+  <rect x="272.0640000000001" y="642.2" width="160.51" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="352.3190000000001" y="660.6500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">External Tool: Slack</text>
+</g>
+<g class="node" data-id="D3" data-label="External Tool: Database" data-shape="rectangle">
+  <rect x="460.57400000000007" y="642.2" width="182.73999999999998" height="36.900000000000006" rx="0" ry="0" fill="#292e42" stroke="#565f89" stroke-width="0.75" />
+  <text x="551.9440000000001" y="660.6500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#a9b1d6" dy="4.55">External Tool: Database</text>
+</g>
+<g class="node" data-id="A1" data-label="Agent A" data-shape="rectangle">
+  <rect x="94.16150000000005" y="96" width="87.15100000000001" height="36.900000000000006" rx="0" ry="0" fill="#7aa2f7" stroke="#7aa2f7" stroke-width="0.75" />
+  <text x="137.73700000000005" y="114.45" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Agent A</text>
+</g>
+<g class="node" data-id="A2" data-label="Capability Registry A" data-shape="rectangle">
+  <rect x="56.00000000000006" y="180.9" width="163.474" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="137.73700000000005" y="199.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Capability Registry A</text>
+</g>
+<g class="node" data-id="A3" data-label="Context Boundary A" data-shape="rectangle">
+  <rect x="58.223000000000056" y="265.8" width="159.028" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="137.73700000000005" y="284.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Context Boundary A</text>
+</g>
+<g class="node" data-id="B1" data-label="Agent B" data-shape="rectangle">
+  <rect x="317.63550000000004" y="96" width="87.15100000000001" height="36.900000000000006" rx="0" ry="0" fill="#9ece6a" stroke="#9ece6a" stroke-width="0.75" />
+  <text x="361.211" y="114.45" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Agent B</text>
+</g>
+<g class="node" data-id="B2" data-label="Capability Registry B" data-shape="rectangle">
+  <rect x="279.47400000000005" y="180.9" width="163.474" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="361.211" y="199.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Capability Registry B</text>
+</g>
+<g class="node" data-id="B3" data-label="Context Boundary B" data-shape="rectangle">
+  <rect x="281.69700000000006" y="265.8" width="159.028" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="361.21100000000007" y="284.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Context Boundary B</text>
+</g>
+<g class="node" data-id="C1" data-label="Agent C" data-shape="rectangle">
+  <rect x="541.1095" y="96" width="87.15100000000001" height="36.900000000000006" rx="0" ry="0" fill="#bb9af7" stroke="#bb9af7" stroke-width="0.75" />
+  <text x="584.6850000000001" y="114.45" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">Agent C</text>
+</g>
+<g class="node" data-id="C2" data-label="Capability Registry C" data-shape="rectangle">
+  <rect x="502.94800000000004" y="180.9" width="163.474" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="584.6850000000001" y="199.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Capability Registry C</text>
+</g>
+<g class="node" data-id="C3" data-label="Context Boundary C" data-shape="rectangle">
+  <rect x="505.17100000000005" y="265.8" width="159.028" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="584.6850000000001" y="284.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Context Boundary C</text>
+</g>
+<g class="node" data-id="M" data-label="MCP Server/Client" data-shape="rectangle">
+  <rect x="285.03150000000005" y="479.00000000000006" width="152.359" height="36.900000000000006" rx="0" ry="0" fill="#e0af68" stroke="#e0af68" stroke-width="0.75" />
+  <text x="361.21100000000007" y="497.45000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="#1a1b26" dy="4.55">MCP Server/Client</text>
+</g>
+</svg>

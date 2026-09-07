@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reference Architecture for AI // Production Agent Systems</title>
+  <meta name="description" content="Reference architecture patterns for production AI agent systems. Harness engineering, context management, and multi-agent orchestration that actually works.">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,600,700|onest:300,400,500,600|jetbrains-mono:400,500,600" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* ============================================================
+       REFERENCE ARCHITECTURE FOR AI
+       Warp Drive Mobile-First theme, G2 colour scheme
+       ============================================================ */
+
+    :root {
+      --void:         oklch(0.08 0.025 260);
+      --void-deep:    oklch(0.06 0.03 260);
+      --surface:      oklch(0.12 0.02 260 / 0.75);
+      --surface-solid: oklch(0.12 0.025 260);
+      --panel:        oklch(0.14 0.025 260 / 0.82);
+      --panel-hover:  oklch(0.18 0.03 260 / 0.88);
+      --border:       oklch(0.30 0.05 250 / 0.25);
+      --border-bright: oklch(0.45 0.08 250 / 0.35);
+
+      --warp-blue:    oklch(0.68 0.18 240);
+      --warp-bright:  oklch(0.78 0.16 230);
+      --warp-streak:  oklch(0.88 0.10 225);
+      --electric:     oklch(0.62 0.20 245);
+      --amber:        oklch(0.72 0.16 70);
+      --amber-dim:    oklch(0.58 0.12 70);
+      --green:        oklch(0.72 0.18 155);
+      --green-dim:    oklch(0.55 0.12 155);
+      --red:          oklch(0.60 0.22 25);
+
+      --text-bright:  oklch(0.90 0.02 250);
+      --text:         oklch(0.72 0.03 250);
+      --text-dim:     oklch(0.48 0.03 250);
+      --text-muted:   oklch(0.30 0.02 250);
+
+      --radius: 4px;
+      --radius-lg: 8px;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --transition: 0.2s var(--ease-out);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Onest', system-ui, -apple-system, sans-serif;
+      background: var(--void);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- Warp tunnel canvas ---- */
+    .warp-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star-field-fallback {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1px 1px at 10% 15%, var(--warp-streak) 0%, transparent 100%),
+        radial-gradient(1px 1px at 25% 45%, oklch(0.70 0.08 225) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 20%, var(--warp-streak) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 75%, oklch(0.65 0.10 240) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 35%, var(--warp-streak) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 60%, oklch(0.60 0.06 230) 0%, transparent 100%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%, transparent 40%, oklch(0.04 0.02 260 / 0.6) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+      background: var(--warp-blue);
+      color: var(--void-deep);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: var(--radius);
+    }
+    .skip-link:focus { top: 1rem; }
+
+    main { position: relative; z-index: 10; }
+
+    /* ---- RIBBON (desktop) ---- */
+    .ribbon {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      height: 36px;
+      background: oklch(0.06 0.02 260 / 0.92);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+    }
+    @media (min-width: 768px) { .ribbon { display: flex; } }
+
+    .ribbon-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--text-bright);
+      letter-spacing: 0.08em;
+    }
+
+    .ribbon-resources {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .ribbon-resource {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .ribbon-resource i { font-size: 0.45rem; }
+    .ribbon-resource .r-label { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+    .ribbon-resource .r-value { color: var(--text-bright); font-weight: 500; }
+    .ribbon-resource.s-green i { color: var(--green); }
+    .ribbon-resource.s-blue i { color: var(--warp-blue); }
+    .ribbon-resource.s-amber i { color: var(--amber); }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.25rem 3rem;
+    }
+
+    .hero-overline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 0.2s forwards;
+    }
+    .hero-overline i { margin-right: 0.4rem; }
+
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--text-bright);
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 0.35s forwards;
+    }
+
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--warp-blue), var(--warp-bright));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--text);
+      max-width: 580px;
+      margin: 0 auto 2rem;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 0.65s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-overline,
+    .hero-title,
+    .hero-subtitle,
+    .hero-actions { transform: translateY(12px); }
+
+    .scroll-hint {
+      margin-top: auto;
+      padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeUp 0.5s var(--ease-out) 1s forwards;
+      transform: translateY(0);
+    }
+
+    .scroll-hint span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+    }
+
+    .scroll-chevrons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+    }
+
+    .scroll-chevrons i {
+      color: var(--warp-blue);
+      font-size: 0.5rem;
+      opacity: 0.3;
+      animation: pulse 2s ease infinite;
+    }
+    .scroll-chevrons i:nth-child(2) { animation-delay: 0.15s; }
+    .scroll-chevrons i:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.8; }
+    }
+
+    /* ---- Buttons ---- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: transform 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--warp-blue), var(--electric));
+      color: var(--void-deep);
+      box-shadow: 0 0 20px oklch(0.68 0.18 240 / 0.3);
+    }
+    .btn-primary:hover { box-shadow: 0 0 30px oklch(0.68 0.18 240 / 0.5); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-bright);
+      border: 1px solid var(--border-bright);
+    }
+    .btn-ghost:hover {
+      border-color: var(--warp-blue);
+      background: oklch(0.68 0.18 240 / 0.08);
+    }
+
+    /* ---- HYPERDRIVE STATS ---- */
+    .hyperdrive { padding: 2rem 1.25rem; }
+
+    .hyperdrive-panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hyperdrive-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--warp-blue), transparent);
+    }
+
+    .hyperdrive-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hyperdrive-header i { font-size: 1.2rem; color: var(--warp-blue); }
+
+    .hyperdrive-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .charge-pct {
+      margin-left: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--warp-bright);
+    }
+
+    .gauge {
+      width: 100%;
+      height: 24px;
+      background: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .gauge-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--electric), var(--warp-blue), var(--warp-bright));
+      border-radius: var(--radius);
+      transition: width 0.3s var(--ease-out);
+      box-shadow: 0 0 16px oklch(0.68 0.18 240 / 0.4);
+    }
+
+    .gauge-segments {
+      position: absolute;
+      inset: 0;
+      display: flex;
+    }
+
+    .gauge-segments span {
+      flex: 1;
+      border-right: 1px solid oklch(0.20 0.02 260 / 0.3);
+    }
+    .gauge-segments span:last-child { border-right: none; }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .stat { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-bright);
+    }
+    .stat-value.blue { color: var(--warp-bright); }
+    .stat-value.amber { color: var(--amber); }
+    .stat-value.green { color: var(--green); }
+
+    /* ---- SECTION SHARED ---- */
+    .section { padding: 3rem 1.25rem; }
+
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-overline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.75rem;
+    }
+    .section-overline i { margin-right: 0.4rem; }
+
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2.25rem);
+      font-weight: 700;
+      color: var(--text-bright);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text);
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+
+    /* ---- ARCHITECTURE DIAGRAM ---- */
+    .arch-diagram {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      overflow-x: auto;
+    }
+
+    .arch-diagram svg {
+      width: 100%;
+      height: auto;
+      min-width: 600px;
+    }
+
+    /* ---- WAYPOINTS / CAPABILITIES ---- */
+    .waypoints-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .waypoint {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: border-color var(--transition);
+    }
+    .waypoint:hover { border-color: var(--border-bright); }
+
+    .waypoint-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .waypoint-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    .waypoint-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      background: oklch(0.68 0.18 240 / 0.1);
+      border: 1px solid oklch(0.68 0.18 240 / 0.2);
+      color: var(--warp-blue);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .waypoint-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-bright);
+    }
+
+    .waypoint-desc {
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    /* ---- FAILURE MODES ---- */
+    .failure-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .failure-card {
+      background: var(--panel);
+      border: 1px solid oklch(0.60 0.22 25 / 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+    }
+
+    .failure-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .failure-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      background: oklch(0.60 0.22 25 / 0.1);
+      border: 1px solid oklch(0.60 0.22 25 / 0.2);
+      color: var(--red);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .failure-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-bright);
+    }
+
+    .failure-desc {
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .failure-fix {
+      margin-top: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ---- COMPARISON TABLE ---- */
+    .comparison { padding: 3rem 1.25rem; }
+    .comparison-inner { max-width: 900px; margin: 0 auto; }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+    }
+
+    .comparison-table thead th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 2px solid var(--border-bright);
+      color: var(--text-dim);
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .comparison-table thead th.col-centre { text-align: center; }
+
+    .comparison-table tbody tr { border-bottom: 1px solid var(--border); }
+    .comparison-table tbody tr:nth-child(even) { background: oklch(0.10 0.015 260 / 0.3); }
+
+    .comparison-table tbody td { padding: 0.55rem 0.75rem; vertical-align: middle; }
+    .comparison-table tbody td.feature-name { color: var(--text-bright); font-weight: 500; }
+    .comparison-table tbody td.cell-centre { text-align: center; min-width: 4.5rem; }
+
+    .comparison-table .fa-check { color: var(--green); }
+    .comparison-table .fa-xmark { color: var(--red); }
+    .comparison-table .fa-minus { color: var(--text-dim); }
+
+    .comparison-table tfoot td {
+      padding: 0.6rem 0.75rem;
+      border-top: 2px solid var(--border-bright);
+      font-weight: 600;
+      color: var(--text-bright);
+    }
+
+    .table-legend {
+      margin-top: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+    }
+
+    /* ---- WORKFLOW STEPS ---- */
+    .workflow-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .workflow-step {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      background: oklch(0.72 0.16 70 / 0.1);
+      border: 1px solid oklch(0.72 0.16 70 / 0.2);
+      color: var(--amber);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-content { flex: 1; }
+
+    .step-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      margin-bottom: 0.35rem;
+    }
+
+    .step-desc {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .step-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 600;
+      padding: 0.15rem 0.4rem;
+      border-radius: var(--radius);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 0.5rem;
+      display: inline-block;
+      color: var(--warp-blue);
+      background: oklch(0.68 0.18 240 / 0.1);
+      border: 1px solid oklch(0.68 0.18 240 / 0.15);
+    }
+
+    /* ---- CTA / RESOURCES ---- */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    @media (min-width: 640px) { .resources-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 960px) { .resources-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .resource-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      text-decoration: none;
+      transition: border-color var(--transition);
+    }
+    .resource-card:hover { border-color: var(--border-bright); }
+
+    .resource-card-icon {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      background: oklch(0.72 0.18 155 / 0.1);
+      border: 1px solid oklch(0.72 0.18 155 / 0.2);
+      color: var(--green);
+      font-size: 0.9rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .resource-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-bright);
+      margin-bottom: 0.35rem;
+    }
+
+    .resource-card-desc {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text);
+    }
+
+    /* ---- FOOTER ---- */
+    .footer {
+      padding: 2.5rem 1.25rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-bright);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--warp-blue); }
+
+    .footer-coord {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+    }
+
+    /* ---- Desktop breakpoints ---- */
+    @media (min-width: 640px) {
+      .stats-row { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    @media (min-width: 768px) {
+      .waypoints-grid { display: grid; grid-template-columns: 1fr 1fr; }
+      .failure-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+      .workflow-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 1024px) {
+      .waypoints-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    /* ---- Reduced motion ---- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .star-field-fallback { display: block; }
+      .hero-overline, .hero-title, .hero-subtitle, .hero-actions, .scroll-hint {
+        opacity: 1 !important; transform: none !important;
+      }
+    }
+
+    /* ---- Print ---- */
+    @media print {
+      body { background: #fff; color: #222; }
+      body::after { display: none; }
+      .warp-canvas, .star-field-fallback { display: none; }
+      .ribbon, .scroll-hint, .gauge, .gauge-fill, .gauge-segments { display: none; }
+      .btn { border: 1px solid #ccc; color: #222; background: none; box-shadow: none; }
+      .waypoint, .failure-card, .workflow-step, .resource-card, .hyperdrive-panel, .arch-diagram {
+        background: #f9f9f9; border: 1px solid #ddd;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- ---- WARP TUNNEL ---- -->
+  <canvas class="warp-canvas" id="warpCanvas" aria-hidden="true"></canvas>
+  <div class="star-field-fallback" aria-hidden="true"></div>
+
+  <!-- ---- RIBBON (desktop only) ---- -->
+  <nav class="ribbon" aria-label="System status ribbon">
+    <div class="ribbon-brand">Reference Architecture for AI</div>
+    <div class="ribbon-resources">
+      <div class="ribbon-resource s-green">
+        <i class="fa-solid fa-circle" aria-hidden="true"></i>
+        <span class="r-label">Harness</span>
+        <span class="r-value">Pattern</span>
+      </div>
+      <div class="ribbon-resource s-blue">
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+        <span class="r-label">Latency</span>
+        <span class="r-value">&lt; 10ns</span>
+      </div>
+      <div class="ribbon-resource s-amber">
+        <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+        <span class="r-label">Patterns</span>
+        <span class="r-value">12 Core</span>
+      </div>
+      <div class="ribbon-resource s-green">
+        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+        <span class="r-label">Context</span>
+        <span class="r-value">Curated</span>
+      </div>
+      <div class="ribbon-resource s-green">
+        <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+        <span class="r-label">Data</span>
+        <span class="r-value">Local Only</span>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ---- HERO ---- -->
+    <section class="hero" id="hero">
+      <div class="hero-overline">
+        <i class="fa-solid fa-compass-drafting" aria-hidden="true"></i>
+        Production Agent Architecture
+      </div>
+      <h1 class="hero-title">
+        The Harness<br>Determines<br><span class="accent">Agent Success</span>
+      </h1>
+      <p class="hero-subtitle">
+        Reference architecture patterns for production AI agent systems.
+        Not better models. Better engineering discipline: context architecture,
+        execution guardrails, and memory infrastructure that actually works.
+      </p>
+      <div class="hero-actions">
+        <a href="#architecture" class="btn btn-primary">
+          <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+          View Architecture
+        </a>
+        <a href="https://medium.com/reference-architecture-for-ai" class="btn btn-ghost">
+          <i class="fa-brands fa-medium" aria-hidden="true"></i>
+          Read on Medium
+        </a>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll to explore</span>
+        <div class="scroll-chevrons">
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- HYPERDRIVE STATS ---- -->
+    <section class="hyperdrive" id="hyperdrive" aria-label="Architecture readiness">
+      <div class="hyperdrive-panel">
+        <div class="hyperdrive-header">
+          <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+          <h2>Architecture Readiness</h2>
+          <span class="charge-pct" id="chargePct">0%</span>
+        </div>
+
+        <div class="gauge">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-segments">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-label">Harness Gain</span>
+            <span class="stat-value blue">+26%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Zero Model Changes</span>
+            <span class="stat-value green">52.8 &rarr; 66.5%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Enterprise Fail Rate</span>
+            <span class="stat-value amber">70-95%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Planning Ratio</span>
+            <span class="stat-value blue">85% Plan / 15% Code</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- SYSTEM ARCHITECTURE DIAGRAM ---- -->
+    <section class="section" id="architecture" aria-label="System architecture">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+          System Architecture
+        </div>
+        <h2 class="section-title">Terraphim Engine Architecture</h2>
+        <p class="section-subtitle">
+          Document input flows through the Aho-Corasick engine to a knowledge graph,
+          filtered by role, and dispatched to hook, REST, or WASM runtime targets.
+        </p>
+
+        <div class="arch-diagram">
+          <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Network diagram showing Terraphim system architecture: Document Input flows through Aho-Corasick Engine to Knowledge Graph, which connects to Role Filter and outputs through Hook System and WASM Runtime to various deployment targets.">
+            <!-- Grid lines -->
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="oklch(18% 0.006 250)" stroke-width="0.5"></path>
+              </pattern>
+            </defs>
+            <rect width="800" height="380" fill="url(#grid)" opacity="0.4"></rect>
+
+            <!-- Data flow edges -->
+            <line x1="120" y1="190" x2="260" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="360" y1="190" x2="460" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="120" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="260" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Vertical branch from KG to Role Filter -->
+            <line x1="510" y1="215" x2="510" y2="310" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Vertical branch from AC Engine to Local Store -->
+            <line x1="310" y1="215" x2="310" y2="310" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Node: Document Input -->
+            <g transform="translate(70, 165)">
+              <rect x="0" y="0" width="100" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.5"></rect>
+              <text x="50" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.08em">DOCUMENT</text>
+              <text x="50" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="8">INPUT</text>
+            </g>
+
+            <!-- Node: Aho-Corasick Engine (primary) -->
+            <g transform="translate(235, 155)">
+              <rect x="0" y="0" width="150" height="70" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(60% 0.08 220)" stroke-width="2"></rect>
+              <text x="75" y="24" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">AHO-CORASICK</text>
+              <text x="75" y="40" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">ENGINE</text>
+              <text x="75" y="57" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">O(n) MULTI-PATTERN</text>
+            </g>
+
+            <!-- Node: Knowledge Graph -->
+            <g transform="translate(440, 160)">
+              <rect x="0" y="0" width="140" height="60" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(65% 0.14 80)" stroke-width="1.5"></rect>
+              <text x="70" y="24" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">KNOWLEDGE</text>
+              <text x="70" y="40" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">GRAPH</text>
+              <text x="70" y="54" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">NODES + EDGES</text>
+            </g>
+
+            <!-- Node: Hook System -->
+            <g transform="translate(630, 95)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">HOOK SYSTEM</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">EDITOR / CLI</text>
+            </g>
+
+            <!-- Node: REST API -->
+            <g transform="translate(630, 165)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">REST API</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">HTTP SERVICE</text>
+            </g>
+
+            <!-- Node: WASM Runtime -->
+            <g transform="translate(630, 235)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">WASM RUNTIME</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">BROWSER / EDGE</text>
+            </g>
+
+            <!-- Node: Local Store -->
+            <g transform="translate(245, 300)">
+              <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.08 250)" stroke-width="1.2"></rect>
+              <text x="65" y="22" text-anchor="middle" fill="oklch(72% 0.01 250)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">LOCAL STORE</text>
+              <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">ON-DEVICE ONLY</text>
+            </g>
+
+            <!-- Node: Role Filter -->
+            <g transform="translate(445, 300)">
+              <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.18 25 / 0.6)" stroke-width="1.2"></rect>
+              <text x="65" y="22" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">ROLE FILTER</text>
+              <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">PERSONA WEIGHT</text>
+            </g>
+
+            <!-- Flow direction arrows -->
+            <polygon points="255,190 248,186 248,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="455,190 448,186 448,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,120 630,116 630,124" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,190 630,186 630,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,260 630,256 630,264" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="310,305 306,298 314,298" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="510,305 506,298 514,298" fill="oklch(35% 0.006 250)"></polygon>
+
+            <!-- Labels on edges -->
+            <text x="190" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">TEXT IN</text>
+            <text x="405" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">MATCH</text>
+            <text x="590" y="108" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+            <text x="590" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+            <text x="590" y="258" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- THREE JOBS OF A HARNESS ---- -->
+    <section class="section" id="harness" aria-label="Harness architecture">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-wrench" aria-hidden="true"></i>
+          Harness Engineering
+        </div>
+        <h2 class="section-title">Three Jobs of an Agent Harness</h2>
+        <p class="section-subtitle">
+          The harness, not the model, determines agent success.
+          LangChain's coding agent jumped from 52.8% to 66.5% on Terminal Bench 2.0
+          by changing zero model parameters.
+        </p>
+
+        <div class="waypoints-grid">
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-001</span>
+                <h3 class="waypoint-title">Context Architecture</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Deciding what information the model sees at each step. Context is a scarce resource: a 1M token window with 800K of noise performs worse than 200K with 150K curated signal. Structured compaction before the window fills.</p>
+          </article>
+
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-002</span>
+                <h3 class="waypoint-title">Execution Guardrails</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Enforcing what the model can and cannot do. Risk-tiered CI with machine-readable contracts: high-risk paths get policy gates, browser evidence, and security scans. Low-risk paths get fast-tracked.</p>
+          </article>
+
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-003</span>
+                <h3 class="waypoint-title">Memory Infrastructure</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Ensuring the model learns from its own history. Failed commands captured automatically, corrections applied, patterns graduated to rules. Cross-session search prevents repeating solved problems.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- THREE CONTEXT FAILURE MODES ---- -->
+    <section class="section" id="failures" aria-label="Context failure modes">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          Failure Modes
+        </div>
+        <h2 class="section-title">Three Ways 1M Token Windows Fail</h2>
+        <p class="section-subtitle">
+          Bigger context windows do not solve the problem.
+          They make it worse without proper architecture.
+        </p>
+
+        <div class="failure-grid">
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-fill-drip" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Context Saturation</h3>
+            </div>
+            <p class="failure-desc">By 100K tokens, the window is 60% noise: old file reads, superseded search results, abandoned reasoning paths. Adding more capacity without compaction makes performance worse, not better.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Structured compaction before the window fills
+            </div>
+          </article>
+
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Instruction Dilution</h3>
+            </div>
+            <p class="failure-desc">System prompt says "use pnpm." CLAUDE.md says "run tests before committing." README says "use npm." By 200K tokens, instructions compete with 150K of conversation history and lose.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Priority-weighted instruction injection
+            </div>
+          </article>
+
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Goal Drift</h3>
+            </div>
+            <p class="failure-desc">Long-running agents accumulate so many intermediate steps that they lose sight of the original objective. The model optimises for local coherence rather than global progress toward the actual goal.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Periodic reality-check prompts and drift detection
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- HONEST COMPARISON ---- -->
+    <section class="comparison" id="comparison" aria-label="Approach comparison">
+      <div class="comparison-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+          Honest Comparison
+        </div>
+        <h2 class="section-title">What You Keep vs What They Take</h2>
+        <p class="section-subtitle">
+          Framework sprawl versus disciplined harness engineering.
+        </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th class="col-centre">Reference Architecture</th>
+              <th class="col-centre">Framework + Cloud</th>
+              <th class="col-centre">Raw LLM API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-name">Context compaction</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Risk-tiered CI gates</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Cross-session learning</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Role-based knowledge graphs</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Multi-agent coordination</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Strategic drift detection</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Data stays local</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Vendor lock-in</td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-legend"><i class="fa-solid fa-check" aria-hidden="true"></i> Full support &nbsp; <i class="fa-solid fa-minus" aria-hidden="true"></i> Partial &nbsp; <i class="fa-solid fa-xmark" aria-hidden="true"></i> Not available</p>
+      </div>
+    </section>
+
+    <!-- ---- FLYWHEEL WORKFLOW ---- -->
+    <section class="section" id="flywheel" aria-label="Agent flywheel methodology">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-arrows-spin" aria-hidden="true"></i>
+          Agent Flywheel
+        </div>
+        <h2 class="section-title">The 9-Step Orchestration Arc</h2>
+        <p class="section-subtitle">
+          85% planning, 15% code. Moving the hardest thinking into representations
+          that still fit inside model context windows is the entire game.
+        </p>
+
+        <div class="workflow-grid">
+          <article class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3 class="step-title">Intent Clarification</h3>
+              <p class="step-desc">Explain goals to frontier models. Establish problem boundaries and success criteria before any design work begins.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3 class="step-title">Competing Plans</h3>
+              <p class="step-desc">Request independent designs from multiple models. Diverse reasoning paths surface blind spots that a single model misses.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3 class="step-title">Synthesis</h3>
+              <p class="step-desc">Create a "best-of-all-worlds" hybrid plan. Merge the strongest elements via structured diff format.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3 class="step-title">Iterative Refinement</h3>
+              <p class="step-desc">4-5+ rounds in fresh conversations. Plans reach 3,000-6,000+ lines. Each round sharpens architecture and edge cases.</p>
+              <span class="step-badge">Plan Space: 1x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h3 class="step-title">Plan-to-Task Conversion</h3>
+              <p class="step-desc">Transform markdown into executable work units with full dependency graphs and embedded context. Every piece of reasoning travels with the task.</p>
+              <span class="step-badge">Task Space: 5x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <h3 class="step-title">Task Polishing</h3>
+              <p class="step-desc">4-6+ refinement cycles. "Check tasks N times, implement once." Transition when whole-workflow questions stabilise.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">7</div>
+            <div class="step-content">
+              <h3 class="step-title">Swarm Launch</h3>
+              <p class="step-desc">Deploy 5-15 coordinated agents. Stagger starts by 30+ seconds to prevent thundering herd. All agents are generalists, instantly replaceable.</p>
+              <span class="step-badge">Code Space: 25x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+              <h3 class="step-title">Swarm Tending</h3>
+              <p class="step-desc">Human manages flow, unblocks stuck tasks. Cross-agent review every 30-60 minutes alternating random exploration and systematic integration checks.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">9</div>
+            <div class="step-content">
+              <h3 class="step-title">Hardening</h3>
+              <p class="step-desc">Self-review, cross-review, testing, polish. Strategic drift detection: "Do we actually have the thing we are trying to build?"</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- RESOURCES / CTA ---- -->
+    <section class="section" id="resources" aria-label="Resources">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+          Resources
+        </div>
+        <h2 class="section-title">Go Deeper</h2>
+        <p class="section-subtitle">
+          From the core thesis to production patterns.
+        </p>
+
+        <div class="resources-grid">
+          <a href="https://medium.com/reference-architecture-for-ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-medium" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Medium Publication</h3>
+            <p class="resource-card-desc">Articles on harness engineering, context management, and production agent architecture.</p>
+          </a>
+
+          <a href="https://terraphim.ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Terraphim AI</h3>
+            <p class="resource-card-desc">The knowledge graph engine behind the reference architecture. Local-first, sub-millisecond, Rust/WASM.</p>
+          </a>
+
+          <a href="https://docs.terraphim.ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-book" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Documentation</h3>
+            <p class="resource-card-desc">Technical reference for the 52 Rust crates, deployment guides, and integration patterns.</p>
+          </a>
+
+          <a href="https://github.com/terraphim" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-github" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">GitHub</h3>
+            <p class="resource-card-desc">Open source under Apache 2.0. Contributions welcome. All code reviewed by the reference architecture patterns.</p>
+          </a>
+
+          <a href="https://terraphim.rs" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-rust" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Rust Crate Hub</h3>
+            <p class="resource-card-desc">52 crates, 5-10ns search latency, 15MB footprint. The engine underneath the architecture.</p>
+          </a>
+
+          <a href="https://terraphim.pro" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Terraphim Pro</h3>
+            <p class="resource-card-desc">Production SaaS with connectors, LLM proxy, and agentic skills for enterprise deployment.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- FOOTER ---- -->
+    <footer class="footer">
+      <div class="footer-brand">Reference Architecture for AI</div>
+      <div class="footer-sub">Production Agent Systems by Applied Knowledge Systems</div>
+      <div class="footer-links">
+        <a href="https://terraphim.ai"><i class="fa-solid fa-globe" aria-hidden="true"></i> terraphim.ai</a>
+        <a href="https://medium.com/reference-architecture-for-ai"><i class="fa-brands fa-medium" aria-hidden="true"></i> Medium</a>
+        <a href="https://github.com/terraphim"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
+        <a href="https://docs.terraphim.ai"><i class="fa-solid fa-book" aria-hidden="true"></i> Documentation</a>
+      </div>
+      <div class="footer-coord">Applied Knowledge Systems Ltd // Apache 2.0 // All data processed locally</div>
+    </footer>
+
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* ---- WARP TUNNEL STAR-FIELD (Canvas) ---- */
+      var warpCanvas = document.getElementById('warpCanvas');
+      var ctx = warpCanvas ? warpCanvas.getContext('2d') : null;
+      var stars = [];
+      var STAR_COUNT = window.innerWidth < 600 ? 200 : 400;
+      var warpSpeed = 0;
+      var scrollProgress = 0;
+
+      function resizeCanvas() {
+        if (!warpCanvas) return;
+        warpCanvas.width = window.innerWidth;
+        warpCanvas.height = window.innerHeight;
+      }
+
+      function createStar() {
+        return {
+          x: (Math.random() - 0.5) * warpCanvas.width * 3,
+          y: (Math.random() - 0.5) * warpCanvas.height * 3,
+          z: Math.random() * 1500 + 200,
+          prevX: 0,
+          prevY: 0
+        };
+      }
+
+      function initStars() {
+        stars = [];
+        for (var i = 0; i < STAR_COUNT; i++) {
+          stars.push(createStar());
+        }
+      }
+
+      function renderStarField() {
+        if (prefersReducedMotion || !ctx) return;
+
+        var w = warpCanvas.width;
+        var h = warpCanvas.height;
+        var cx = w / 2;
+        var cy = h / 2;
+
+        ctx.fillStyle = 'rgba(10, 12, 20, 0.25)';
+        ctx.fillRect(0, 0, w, h);
+
+        var targetSpeed = 2 + scrollProgress * 30;
+        warpSpeed += (targetSpeed - warpSpeed) * 0.05;
+
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+
+          s.prevX = cx + (s.x / s.z) * 400;
+          s.prevY = cy + (s.y / s.z) * 400;
+
+          s.z -= warpSpeed;
+
+          if (s.z < 1) {
+            stars[i] = createStar();
+            stars[i].z = 1500;
+            continue;
+          }
+
+          var sx = cx + (s.x / s.z) * 400;
+          var sy = cy + (s.y / s.z) * 400;
+
+          var brightness = 1 - s.z / 1700;
+          var alpha = Math.max(0, brightness * 0.8);
+
+          if (warpSpeed > 5) {
+            var streakAlpha = Math.min(alpha * (warpSpeed / 20), 0.6);
+            ctx.beginPath();
+            ctx.moveTo(s.prevX, s.prevY);
+            ctx.lineTo(sx, sy);
+            ctx.strokeStyle = 'rgba(160, 200, 255, ' + streakAlpha + ')';
+            ctx.lineWidth = brightness * 1.5;
+            ctx.stroke();
+          }
+
+          var radius = brightness * 1.8;
+          ctx.beginPath();
+          ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(200, 220, 255, ' + alpha + ')';
+          ctx.fill();
+        }
+
+        requestAnimationFrame(renderStarField);
+      }
+
+      if (!prefersReducedMotion && warpCanvas) {
+        resizeCanvas();
+        initStars();
+        renderStarField();
+
+        window.addEventListener('resize', function () {
+          resizeCanvas();
+        }, { passive: true });
+
+        window.addEventListener('scroll', function () {
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          scrollProgress = docHeight > 0 ? window.scrollY / docHeight : 0;
+        }, { passive: true });
+      }
+
+      /* ---- Hyperdrive gauge: fills on scroll ---- */
+      var gaugeFill = document.getElementById('gaugeFill');
+      var chargePct = document.getElementById('chargePct');
+
+      if (!prefersReducedMotion && gaugeFill && chargePct) {
+        var ticking = false;
+        window.addEventListener('scroll', function () {
+          if (!ticking) {
+            requestAnimationFrame(function () {
+              var scrollTop = window.scrollY;
+              var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+              var pct = Math.min(100, Math.round((scrollTop / docHeight) * 100));
+              gaugeFill.style.width = pct + '%';
+              chargePct.textContent = pct + '%';
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      }
+
+      /* ---- Scroll-triggered fade-in for sections ---- */
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.waypoint, .failure-card, .workflow-step, .resource-card').forEach(function (el) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(16px)';
+        el.style.transition = 'opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+        observer.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>

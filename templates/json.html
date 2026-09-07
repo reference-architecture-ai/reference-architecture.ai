@@ -1,2 +1,14 @@
-{%- import "macros/create_data_json.html" as create_data -%}
-[{{ create_data::from_section(section="_index.md") }}]
+{%- set posts = get_section(path="posts/_index.md") -%}
+{%- set docs = get_section(path="docs/_index.md") -%}
+[
+{%- for post in posts.pages -%}{%- if not post.draft -%}
+{"title": {{ post.title | striptags | json_encode | safe }},
+"url": {{ post.permalink | json_encode | safe }},
+"body": {{ post.content | json_encode | safe }}
+}{%- if not loop.last -%},{%- endif -%}{%- endif -%}{%- endfor -%},
+{%- for post in docs.pages -%}{%- if not post.draft -%}
+{"title": {{ post.title | striptags | json_encode | safe }},
+"url": {{ post.permalink | json_encode | safe }},
+"body": {{ post.content | json_encode | safe }}
+}{%- if not loop.last -%},{%- endif -%}{%- endif -%}{%- endfor -%}
+]

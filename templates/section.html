@@ -1,68 +1,67 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}
-{{ config.title }} | {{ section.title }}
-{% endblock title %}
+{% block seo %}
+{% set page_title = section.title ~ " // Reference Architecture for AI" %}
+{% set page_desc = section.description | default(value=config.description) %}
+{% set page_url = section.permalink %}
+{% endblock seo %}
 
 {% block content %}
 <section class="section">
-  <div class="container">
-    <div class="has-text-centered">
-      <h1 class="title is-2">{{ section.title }}</h1>
-      <p class="subtitle is-4">{{ section.description }}</p>
-    </div>
-    <div class="content">
-      {{ section.content | safe }}
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-9">
-        {% if paginator %}
-        {% set pages = paginator.pages %}
-        {% else %}
-        {% set pages = section.pages %}
-        {% endif %}
+  <div class="section-inner">
+    <div class="section-eyebrow"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> {{ section.title }}</div>
+    <h1 class="section-title">{{ section.title }}</h1>
+    {% if section.description %}
+    <p class="section-lede">{{ section.description }}</p>
+    {% endif %}
 
-        {% for page in pages %}
-        <article class="box">
-          <h2 class="title">
-            <a class="has-text-dark" href='{{ page.permalink }}'>
-              {{ page.title }}
-            </a>
-          </h2>
-          <p class="subtitle">{{ page.description }}</p>
-          <div class="columns is-multiline is-gapless">
-            <div class="column is-8">
-              {{ macros::page_publish_metadata(page=page) }}
-            </div>
-            <div class="column is-4 has-text-right-desktop">
-              {{ macros::page_content_metadata(page=page) }}
-            </div>
+    {% if section.content %}
+    <div class="prose section-prose">{{ section.content | safe }}</div>
+    {% endif %}
+
+    {% set_global archived_count = 0 %}
+    {% for p in section.pages %}{% if p.extra.archived %}{% set_global archived_count = archived_count + 1 %}{% endif %}{% endfor %}
+    <ul class="entry-list">
+      {% for p in section.pages %}
+      {% if not p.extra.archived %}
+      <li class="entry">
+        <a class="entry-link" href="{{ p.permalink }}">
+          <div class="entry-meta">
+            {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%e %b %Y") }}</time>{% endif %}
+            {% if p.reading_time %}<span>{{ p.reading_time }} min</span>{% endif %}
           </div>
-          <div class="content mt-2">
-            {{ page.summary | safe }}
-            <a class="has-text-danger-dark has-text-weight-semibold" href='{{ page.permalink }}'>
-              Read More
-              <span class="icon is-small">
-                <i class="fas fa-arrow-right fa-xs"></i>
-              </span>
-            </a>
-          </div>
-          <div class="columns">
-            <div class="column">
-              {% if page.taxonomies.categories %}
-              {{ macros::render_categories(categories=page.taxonomies.categories) }}
-              {% endif %}
+          <h2 class="entry-title">{{ p.title }}</h2>
+          {% if p.description %}<p class="entry-desc">{{ p.description }}</p>{% endif %}
+          <span class="entry-more">Read <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+
+    {% if archived_count > 0 %}
+    <div class="archive-block">
+      <h2 class="archive-heading">
+        <i class="fa-solid fa-box-archive" aria-hidden="true"></i> Archive
+      </h2>
+      <p class="archive-intro">
+        Earlier work from the Redis and RedisGears era of this project. Kept for reference;
+        not current guidance.
+      </p>
+      <ul class="entry-list is-archive">
+        {% for p in section.pages %}{% if p.extra.archived %}
+        <li class="entry">
+          <a class="entry-link" href="{{ p.permalink }}">
+            <div class="entry-meta">
+              {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%Y") }}</time>{% endif %}
             </div>
-            <div class="column has-text-right-desktop">
-              {% if page.taxonomies.tags %}
-              {{ macros::render_tags(tags=page.taxonomies.tags) }}
-              {% endif %}
-            </div>
-          </div>
-        </article>
-        {% endfor %}
-      </div>
+            <h3 class="entry-title">{{ p.title }}</h3>
+          </a>
+        </li>
+        {% endif %}{% endfor %}
+      </ul>
     </div>
+    {% endif %}
   </div>
 </section>
-{% endblock %}
+{% endblock content %}

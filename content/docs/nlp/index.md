@@ -8,8 +8,10 @@ categories = ["redisgears", "knowledge-graphs", "performance"]
 tags = ["redis","redis-cluster","redisgears","nlp","redisgraph"]
 
 [extra]
+archived = true
 toc = true
 comments = false
+skip_content_templating = true
 +++
 
 ##  Goal

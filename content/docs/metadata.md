@@ -7,6 +7,7 @@ categories = ["metadata"]
 tags = ["data", "metadata"]
 
 [extra]
+archived = true
 comments = false
 +++
 

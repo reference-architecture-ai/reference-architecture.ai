@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block seo %}
+{% set page_title = taxonomy.name | capitalize ~ " // Reference Architecture for AI" %}
+{% set page_desc = "All " ~ taxonomy.name ~ " used across the site." %}
+{% set page_url = config.base_url ~ "/" ~ taxonomy.slug ~ "/" %}
+{% endblock seo %}
+
+{% block content %}
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow"><i class="fa-solid fa-tags" aria-hidden="true"></i> Index</div>
+    <h1 class="section-title">{{ taxonomy.name | capitalize }}</h1>
+    <p class="section-lede">Every {{ taxonomy.name }} term used across the site.</p>
+    <div class="tag-cloud">
+      {% for term in terms %}
+      <a class="tag-chip" href="{{ term.permalink }}">{{ term.name }} <span class="tag-count">{{ term.pages | length }}</span></a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}

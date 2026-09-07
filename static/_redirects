@@ -1,0 +1,15 @@
+# URL continuity for the 2026 redesign. See MIGRATION_PLAN.md step 7.
+# Cloudflare Pages supports 301/302/303/307/308 only -- there is no 410.
+
+# Theme demo page dropped with DeepThought.
+/docs/extended-shortcodes/  /docs/  301
+# Its only tag went with it.
+/tags/theme/                /tags/  301
+
+# Taxonomy pagination removed: /page/1/ was always a duplicate of the base term.
+/tags/:term/page/1/         /tags/:term/        301
+/categories/:term/page/1/   /categories/:term/  301
+
+# Section pagination removed.
+/posts/page/*               /posts/  301
+/docs/page/*                /docs/   301

@@ -1,0 +1,14 @@
+{# Components replace Zola's shortcodes, removed in 0.23. #}
+
+{% component mermaid() %}
+<div class="mermaid-wrap"><pre class="mermaid">{{ body }}</pre></div>
+{% endcomponent mermaid %}
+
+{% component youtube(id, title="Embedded video") %}
+<div class="video-embed">
+  <iframe src="https://www.youtube-nocookie.com/embed/{{ id }}" title="{{ title }}"
+    loading="lazy" frameborder="0" referrerpolicy="strict-origin-when-cross-origin"
+    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+{% endcomponent youtube %}

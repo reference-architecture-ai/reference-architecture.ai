@@ -29,7 +29,7 @@ Welcome pull requests on <a id="github" title="Github" href="https://github.com/
             <span class="icon">
               <i class="fab fa-github"></i>
             </span>
-            </a>. Check out supported shortcuts [Extended Shortcuts](@/docs/extended-shortcodes/index.md)
+            </a>. Check out supported shortcuts Extended Shortcuts
 
 # Licenses
 When contributing you agreeing to share your contribution under <span class="icon-text"><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank"><img src="https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg"></a></span>

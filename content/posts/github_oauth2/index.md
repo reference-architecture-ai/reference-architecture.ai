@@ -6,6 +6,8 @@ date=2022-08-19
 categories = ["Redis"]
 tags = ["Redis Enterprise", "roadmap","product","oauth2","github", "sponsors"]
 [extra]
+mermaid = true
+archived = true
 toc = true
 comments = true
 +++
@@ -22,11 +24,11 @@ For now, let's cover the basics:
 
 # Overall architecture overview
 
-{% mermaid() %}
+{% <mermaid> %}
 flowchart LR
     id1(User) --> flask_login(Flask Login API)--> github(GitHub OAuth2)
     github-->flask_callback(Flask API callback)-->GitHubGraphQL(GitHub GraphQL)
-{% end %}
+{% </mermaid> %}
 
 ## Add Github oauth2 to Rest API
 
@@ -196,10 +198,10 @@ and create a docker compose with section passing .env.gears. Mine looks like thi
 ## Synchronize all user preferences
 First flow:
 We will be using RedisGears to synchronize all preferences with Redis Enterprise
-{% mermaid() %}
+{% <mermaid> %}
 flowchart LR
     id1(User Preferences Redis OSS) --> redis_gears1(Redis Gears)--> redise(Redis Enterprise)
-{% end %}
+{% </mermaid> %}
 
 If you are new to RedisGears, there is a pattern [rgsync](https://github.com/RedisGears/rgsync/tree/master/examples/redis) that covers exacly this use case, but I already have RedisGears, so I am going to build it step by step:
 ```python
@@ -330,12 +332,12 @@ gb.run('user:*')
 ## Fetch sponsor's preferences back to Redis OSS from Redis Enterprise
 Then we are going to use [Key miss events](https://oss.redis.com/redisgears/miss_event.html#fetch-data-on-keymiss-event?utm_campaign=write_for_redis) from Redis Gears to fetch data for all users:
 
-{% mermaid() %}
+{% <mermaid> %}
 flowchart LR
     redise(Redis Enterprise)
     redis_gears2(Redis Gears)--key miss--->redise
     redis_gears2-->redisOSS[Redis OSS]
-{% end %}
+{% </mermaid> %}
 and it's very easy, right from key miss example:
  
 ```python

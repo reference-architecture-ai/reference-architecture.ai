@@ -7,6 +7,7 @@ categories = ["ai product","nlp", "medical"]
 tags = ["ai product", "ai", "medical"]
 
 [extra]
+archived = true
 comments = false
 +++
 
@@ -14,7 +15,7 @@ To fight ever-increasing complexity, "The Pattern" projects help find relevant k
 
 Overall repository for CORD19 medical NLP pipeline, API and UI, design and architecture.
 
-Demo Video: {{ youtube(id="zCqzB0YVgA0") }}
+Demo Video: {{ <youtube id="zCqzB0YVgA0" /> }}
 
 Demo Server (no persistance): [https://thepattern.digital/](https://thepattern.digital/)
 

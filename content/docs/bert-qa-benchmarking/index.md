@@ -8,8 +8,10 @@ categories = ["inference", "performance", "monitoring"]
 tags = ["redis","redis-cluster","redisai","redisgears","benchmark","performance","benchmarks"]
 
 [extra]
+archived = true
 toc = true
 comments = false
+skip_content_templating = true
 +++
 ## Summary of the article
 This article will explore the challenges and opportunities of deploying a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) from inside Huggingface, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://developer.redis.com/howtos/redisai/getting-started?utm_campaign=write_for_redis) perform heavy lifting while leveraging in-memory datastore Redis.

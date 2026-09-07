@@ -1,29 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
+{% block seo %}
+{% set page_title = "Signal Lost // Reference Architecture for AI" %}
+{% set page_desc = "That page does not exist." %}
+{% set page_url = config.base_url ~ "/404.html" %}
+{% endblock seo %}
+
+{% block head_extra %}<meta name="robots" content="noindex">{% endblock head_extra %}
 
 {% block content %}
 <section class="section">
-  <div class="container">
-    <div class="has-text-centered">
-      <h1 class="title is-2">HTTP 404</h1>
-      <p class="subtitle is-4">
-        It seems you are looking for something that I don't have.
-      </p>
-      {% if config.extra.author.avatar %}
-      <figure class="image is-flex is-justify-content-center is-align-items-center">
-        <img class="is-rounded" src="{{ config.extra.author.avatar }}" style="max-width: 192px" />
-      </figure>
-      {% endif %}
-      {{ macros:: social_links( social_config=config.extra.social) }}
-      <p class="my-6">
-        <a href='{{ config.base_url }}'>
-          <span class="icon">
-            <i class="fas fa-home"></i>
-          </span>
-          <span>Home</span>
-        </a>
-      </p>
+  <div class="section-inner narrow">
+    <div class="section-eyebrow"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Error 404</div>
+    <h1 class="section-title">Signal Lost</h1>
+    <p class="section-lede">
+      That page is not on this ship. It may have been moved, or it may never have existed.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ get_url(path='@/_index.md') }}" class="btn btn-primary">
+        <i class="fa-solid fa-house" aria-hidden="true"></i> Home
+      </a>
+      <a href="{{ get_url(path='@/posts/_index.md') }}" class="btn btn-ghost">
+        <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Read the Articles
+      </a>
     </div>
   </div>
 </section>
-{% endblock %}
+{% endblock content %}

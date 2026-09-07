@@ -1,15 +1,528 @@
 {% extends "base.html" %}
 
+{% block seo %}
+{% set page_title = "Reference Architecture for AI // Production Agent Systems" %}
+{% set page_desc = config.description %}
+{% set page_url = config.base_url ~ "/" %}
+{% endblock seo %}
+
+{% block body_class %}is-home{% endblock body_class %}
+
+{% block backdrop %}
+  <canvas class="warp-canvas" id="warpCanvas" aria-hidden="true"></canvas>
+  <div class="star-field-fallback" aria-hidden="true"></div>
+{% endblock backdrop %}
+
 {% block content %}
-<section class="section">
-  <div class="container">
-    <div class="has-text-centered">
-      <h1 class="title is-2">{{ section.title }}</h1>
-      <p class="subtitle is-4">{{ section.description }}</p>
+    <section class="hero" id="hero">
+      <div class="hero-overline">
+        <i class="fa-solid fa-compass-drafting" aria-hidden="true"></i>
+        Production Agent Architecture
       </div>
-    <div class="content">
-      {{ section.content | safe }}
-    </div>
-</div>
-</section>
-{% endblock %}
+      <h1 class="hero-title">
+        The Harness<br>Determines<br><span class="accent">Agent Success</span>
+      </h1>
+      <p class="hero-subtitle">
+        Reference architecture patterns for production AI agent systems.
+        Not better models. Better engineering discipline: context architecture,
+        execution guardrails, and memory infrastructure that actually works.
+      </p>
+      <div class="hero-actions">
+        <a href="#architecture" class="btn btn-primary">
+          <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+          View Architecture
+        </a>
+        <a href="{{ get_url(path='@/posts/_index.md') }}" class="btn btn-ghost">
+          <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+          Read the Articles
+        </a>
+      </div>
+      <div class="scroll-hint" aria-hidden="true">
+        <span>Scroll to explore</span>
+        <div class="scroll-chevrons">
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- HYPERDRIVE STATS ---- -->
+    <section class="hyperdrive" id="hyperdrive" aria-label="Architecture readiness">
+      <div class="hyperdrive-panel">
+        <div class="hyperdrive-header">
+          <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+          <h2>Architecture Readiness</h2>
+          <span class="charge-pct" id="chargePct">0%</span>
+        </div>
+
+        <div class="gauge">
+          <div class="gauge-fill" id="gaugeFill"></div>
+          <div class="gauge-segments">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat">
+            <span class="stat-label">Harness Gain</span>
+            <span class="stat-value blue">+26%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Zero Model Changes</span>
+            <span class="stat-value green">52.8 &rarr; 66.5%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Enterprise Fail Rate</span>
+            <span class="stat-value amber">70-95%</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Planning Ratio</span>
+            <span class="stat-value blue">85% Plan / 15% Code</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- SYSTEM ARCHITECTURE DIAGRAM ---- -->
+    <section class="section" id="architecture" aria-label="System architecture">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
+          System Architecture
+        </div>
+        <h2 class="section-title">Terraphim Engine Architecture</h2>
+        <p class="section-subtitle">
+          Document input flows through the Aho-Corasick engine to a knowledge graph,
+          filtered by role, and dispatched to hook, REST, or WASM runtime targets.
+        </p>
+
+        <div class="arch-diagram">
+          <svg viewBox="0 0 800 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Network diagram showing Terraphim system architecture: Document Input flows through Aho-Corasick Engine to Knowledge Graph, which connects to Role Filter and outputs through Hook System and WASM Runtime to various deployment targets.">
+            <!-- Grid lines -->
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="oklch(18% 0.006 250)" stroke-width="0.5"></path>
+              </pattern>
+            </defs>
+            <rect width="800" height="380" fill="url(#grid)" opacity="0.4"></rect>
+
+            <!-- Data flow edges -->
+            <line x1="120" y1="190" x2="260" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="360" y1="190" x2="460" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="120" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="190" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+            <line x1="560" y1="190" x2="640" y2="260" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Vertical branch from KG to Role Filter -->
+            <line x1="510" y1="215" x2="510" y2="310" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Vertical branch from AC Engine to Local Store -->
+            <line x1="310" y1="215" x2="310" y2="310" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
+
+            <!-- Node: Document Input -->
+            <g transform="translate(70, 165)">
+              <rect x="0" y="0" width="100" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.5"></rect>
+              <text x="50" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.08em">DOCUMENT</text>
+              <text x="50" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="8">INPUT</text>
+            </g>
+
+            <!-- Node: Aho-Corasick Engine (primary) -->
+            <g transform="translate(235, 155)">
+              <rect x="0" y="0" width="150" height="70" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(60% 0.08 220)" stroke-width="2"></rect>
+              <text x="75" y="24" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">AHO-CORASICK</text>
+              <text x="75" y="40" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">ENGINE</text>
+              <text x="75" y="57" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">O(n) MULTI-PATTERN</text>
+            </g>
+
+            <!-- Node: Knowledge Graph -->
+            <g transform="translate(440, 160)">
+              <rect x="0" y="0" width="140" height="60" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(65% 0.14 80)" stroke-width="1.5"></rect>
+              <text x="70" y="24" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">KNOWLEDGE</text>
+              <text x="70" y="40" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">GRAPH</text>
+              <text x="70" y="54" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">NODES + EDGES</text>
+            </g>
+
+            <!-- Node: Hook System -->
+            <g transform="translate(630, 95)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">HOOK SYSTEM</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">EDITOR / CLI</text>
+            </g>
+
+            <!-- Node: REST API -->
+            <g transform="translate(630, 165)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">REST API</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">HTTP SERVICE</text>
+            </g>
+
+            <!-- Node: WASM Runtime -->
+            <g transform="translate(630, 235)">
+              <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
+              <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">WASM RUNTIME</text>
+              <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">BROWSER / EDGE</text>
+            </g>
+
+            <!-- Node: Local Store -->
+            <g transform="translate(245, 300)">
+              <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.08 250)" stroke-width="1.2"></rect>
+              <text x="65" y="22" text-anchor="middle" fill="oklch(72% 0.01 250)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">LOCAL STORE</text>
+              <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">ON-DEVICE ONLY</text>
+            </g>
+
+            <!-- Node: Role Filter -->
+            <g transform="translate(445, 300)">
+              <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.18 25 / 0.6)" stroke-width="1.2"></rect>
+              <text x="65" y="22" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">ROLE FILTER</text>
+              <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">PERSONA WEIGHT</text>
+            </g>
+
+            <!-- Flow direction arrows -->
+            <polygon points="255,190 248,186 248,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="455,190 448,186 448,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,120 630,116 630,124" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,190 630,186 630,194" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="637,260 630,256 630,264" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="310,305 306,298 314,298" fill="oklch(35% 0.006 250)"></polygon>
+            <polygon points="510,305 506,298 514,298" fill="oklch(35% 0.006 250)"></polygon>
+
+            <!-- Labels on edges -->
+            <text x="190" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">TEXT IN</text>
+            <text x="405" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">MATCH</text>
+            <text x="590" y="108" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+            <text x="590" y="183" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+            <text x="590" y="258" fill="oklch(40% 0.006 250)" font-family="'JetBrains Mono', monospace" font-size="6.5" letter-spacing="0.04em">OUT</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- THREE JOBS OF A HARNESS ---- -->
+    <section class="section" id="harness" aria-label="Harness architecture">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-wrench" aria-hidden="true"></i>
+          Harness Engineering
+        </div>
+        <h2 class="section-title">Three Jobs of an Agent Harness</h2>
+        <p class="section-subtitle">
+          The harness, not the model, determines agent success.
+          LangChain's coding agent jumped from 52.8% to 66.5% on Terminal Bench 2.0
+          by changing zero model parameters.
+        </p>
+
+        <div class="waypoints-grid">
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-layer-group" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-001</span>
+                <h3 class="waypoint-title">Context Architecture</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Deciding what information the model sees at each step. Context is a scarce resource: a 1M token window with 800K of noise performs worse than 200K with 150K curated signal. Structured compaction before the window fills.</p>
+          </article>
+
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-002</span>
+                <h3 class="waypoint-title">Execution Guardrails</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Enforcing what the model can and cannot do. Risk-tiered CI with machine-readable contracts: high-risk paths get policy gates, browser evidence, and security scans. Low-risk paths get fast-tracked.</p>
+          </article>
+
+          <article class="waypoint">
+            <div class="waypoint-header">
+              <div class="waypoint-icon"><i class="fa-solid fa-brain" aria-hidden="true"></i></div>
+              <div>
+                <span class="waypoint-number">JOB-003</span>
+                <h3 class="waypoint-title">Memory Infrastructure</h3>
+              </div>
+            </div>
+            <p class="waypoint-desc">Ensuring the model learns from its own history. Failed commands captured automatically, corrections applied, patterns graduated to rules. Cross-session search prevents repeating solved problems.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- THREE CONTEXT FAILURE MODES ---- -->
+    <section class="section" id="failures" aria-label="Context failure modes">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+          Failure Modes
+        </div>
+        <h2 class="section-title">Three Ways 1M Token Windows Fail</h2>
+        <p class="section-subtitle">
+          Bigger context windows do not solve the problem.
+          They make it worse without proper architecture.
+        </p>
+
+        <div class="failure-grid">
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-fill-drip" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Context Saturation</h3>
+            </div>
+            <p class="failure-desc">By 100K tokens, the window is 60% noise: old file reads, superseded search results, abandoned reasoning paths. Adding more capacity without compaction makes performance worse, not better.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Structured compaction before the window fills
+            </div>
+          </article>
+
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-volume-xmark" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Instruction Dilution</h3>
+            </div>
+            <p class="failure-desc">System prompt says "use pnpm." CLAUDE.md says "run tests before committing." README says "use npm." By 200K tokens, instructions compete with 150K of conversation history and lose.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Priority-weighted instruction injection
+            </div>
+          </article>
+
+          <article class="failure-card">
+            <div class="failure-card-header">
+              <div class="failure-icon"><i class="fa-solid fa-route" aria-hidden="true"></i></div>
+              <h3 class="failure-name">Goal Drift</h3>
+            </div>
+            <p class="failure-desc">Long-running agents accumulate so many intermediate steps that they lose sight of the original objective. The model optimises for local coherence rather than global progress toward the actual goal.</p>
+            <div class="failure-fix">
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              Periodic reality-check prompts and drift detection
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- HONEST COMPARISON ---- -->
+    <section class="comparison" id="comparison" aria-label="Approach comparison">
+      <div class="comparison-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+          Honest Comparison
+        </div>
+        <h2 class="section-title">What You Keep vs What They Take</h2>
+        <p class="section-subtitle">
+          Framework sprawl versus disciplined harness engineering.
+        </p>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th class="col-centre">Reference Architecture</th>
+              <th class="col-centre">Framework + Cloud</th>
+              <th class="col-centre">Raw LLM API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-name">Context compaction</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Risk-tiered CI gates</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Cross-session learning</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Role-based knowledge graphs</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Multi-agent coordination</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Strategic drift detection</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Data stays local</td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-minus" aria-hidden="true"></i></td>
+            </tr>
+            <tr>
+              <td class="feature-name">Vendor lock-in</td>
+              <td class="cell-centre"><i class="fa-solid fa-xmark" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+              <td class="cell-centre"><i class="fa-solid fa-check" aria-hidden="true"></i></td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="table-legend"><i class="fa-solid fa-check" aria-hidden="true"></i> Full support &nbsp; <i class="fa-solid fa-minus" aria-hidden="true"></i> Partial &nbsp; <i class="fa-solid fa-xmark" aria-hidden="true"></i> Not available</p>
+      </div>
+    </section>
+
+    <!-- ---- FLYWHEEL WORKFLOW ---- -->
+    <section class="section" id="flywheel" aria-label="Agent flywheel methodology">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-arrows-spin" aria-hidden="true"></i>
+          Agent Flywheel
+        </div>
+        <h2 class="section-title">The 9-Step Orchestration Arc</h2>
+        <p class="section-subtitle">
+          85% planning, 15% code. Moving the hardest thinking into representations
+          that still fit inside model context windows is the entire game.
+        </p>
+
+        <div class="workflow-grid">
+          <article class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3 class="step-title">Intent Clarification</h3>
+              <p class="step-desc">Explain goals to frontier models. Establish problem boundaries and success criteria before any design work begins.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3 class="step-title">Competing Plans</h3>
+              <p class="step-desc">Request independent designs from multiple models. Diverse reasoning paths surface blind spots that a single model misses.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3 class="step-title">Synthesis</h3>
+              <p class="step-desc">Create a "best-of-all-worlds" hybrid plan. Merge the strongest elements via structured diff format.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3 class="step-title">Iterative Refinement</h3>
+              <p class="step-desc">4-5+ rounds in fresh conversations. Plans reach 3,000-6,000+ lines. Each round sharpens architecture and edge cases.</p>
+              <span class="step-badge">Plan Space: 1x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h3 class="step-title">Plan-to-Task Conversion</h3>
+              <p class="step-desc">Transform markdown into executable work units with full dependency graphs and embedded context. Every piece of reasoning travels with the task.</p>
+              <span class="step-badge">Task Space: 5x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <h3 class="step-title">Task Polishing</h3>
+              <p class="step-desc">4-6+ refinement cycles. "Check tasks N times, implement once." Transition when whole-workflow questions stabilise.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">7</div>
+            <div class="step-content">
+              <h3 class="step-title">Swarm Launch</h3>
+              <p class="step-desc">Deploy 5-15 coordinated agents. Stagger starts by 30+ seconds to prevent thundering herd. All agents are generalists, instantly replaceable.</p>
+              <span class="step-badge">Code Space: 25x Rework Cost</span>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">8</div>
+            <div class="step-content">
+              <h3 class="step-title">Swarm Tending</h3>
+              <p class="step-desc">Human manages flow, unblocks stuck tasks. Cross-agent review every 30-60 minutes alternating random exploration and systematic integration checks.</p>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="step-number">9</div>
+            <div class="step-content">
+              <h3 class="step-title">Hardening</h3>
+              <p class="step-desc">Self-review, cross-review, testing, polish. Strategic drift detection: "Do we actually have the thing we are trying to build?"</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---- RESOURCES / CTA ---- -->
+    <section class="section" id="resources" aria-label="Resources">
+      <div class="section-inner">
+        <div class="section-overline">
+          <i class="fa-solid fa-bookmark" aria-hidden="true"></i>
+          Resources
+        </div>
+        <h2 class="section-title">Go Deeper</h2>
+        <p class="section-subtitle">
+          From the core thesis to production patterns.
+        </p>
+
+        <div class="resources-grid">
+          <a href="https://medium.com/reference-architecture-for-ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-medium" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Medium Publication</h3>
+            <p class="resource-card-desc">Articles on harness engineering, context management, and production agent architecture.</p>
+          </a>
+
+          <a href="https://terraphim.ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Terraphim AI</h3>
+            <p class="resource-card-desc">The knowledge graph engine behind the reference architecture. Local-first, sub-millisecond, Rust/WASM.</p>
+          </a>
+
+          <a href="https://docs.terraphim.ai" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-book" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Documentation</h3>
+            <p class="resource-card-desc">Technical reference for the 52 Rust crates, deployment guides, and integration patterns.</p>
+          </a>
+
+          <a href="https://github.com/terraphim" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-github" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">GitHub</h3>
+            <p class="resource-card-desc">Open source under Apache 2.0. Contributions welcome. All code reviewed by the reference architecture patterns.</p>
+          </a>
+
+          <a href="https://terraphim.rs" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-brands fa-rust" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Rust Crate Hub</h3>
+            <p class="resource-card-desc">52 crates, 5-10ns search latency, 15MB footprint. The engine underneath the architecture.</p>
+          </a>
+
+          <a href="https://terraphim.pro" class="resource-card">
+            <div class="resource-card-icon"><i class="fa-solid fa-briefcase" aria-hidden="true"></i></div>
+            <h3 class="resource-card-title">Terraphim Pro</h3>
+            <p class="resource-card-desc">Production SaaS with connectors, LLM proxy, and agentic skills for enterprise deployment.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+{% endblock content %}
+
+{% block body_scripts %}
+<script src="{{ get_url(path='js/warp.js') }}" defer></script>
+{% endblock body_scripts %}

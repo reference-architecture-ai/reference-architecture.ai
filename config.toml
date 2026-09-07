@@ -55,9 +55,11 @@ hard_link_static = false
 #       {name = "authors"}, # Basic definition: no feed or pagination
 #     ]
 #
+# Pagination deliberately omitted: with this volume nothing paginates, and
+# `paginate_by` generated a duplicate `/page/1/` URL for every term.
 taxonomies = [
-    { name = "categories", feed = true, paginate_by = 10 },
-    { name = "tags", fees = true, paginate_by = 10 },
+    { name = "categories", feed = true },
+    { name = "tags", feed = true },
 ]
 
 # When set to "true", a search index is built from the pages and section
@@ -152,12 +154,6 @@ include_content = true
 # author value will be available using {{ config.extra.author }} in templates
 #
 [extra]
-katex.enabled = true
-katex.auto_render = true
-
-chart.enabled = true
-mermaid.enabled = true
-galleria.enabled = true
 
 navbar_items = [
     { code = "en", nav_items = [
@@ -192,12 +188,9 @@ email = "alex@metacortex.engineer"
 [extra.analytics]
 google = "G-NK475MFMER"
 
-[extra.commenting]
-disqus = "reference-architecture-ai"
-
 [extra.utterances]
-theme = "tokyo-night"
-repo = "repo-config"
+theme = "github-dark"
+repo = "reference-architecture-ai/reference-architecture.ai"
 issueterm="title"
 label = "comment2"
 

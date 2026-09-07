@@ -7,6 +7,7 @@ categories = ["intake","data acquisition"]
 tags = ["data", "acquisition","intake"]
 
 [extra]
+archived = true
 comments = false
 +++
 

@@ -1,6 +1,5 @@
 +++
 title = "Docs"
-description = "Reference Architecture for AI"
+description = "Reference material, capability maps and contribution guidance for the reference architecture."
 sort_by = "date"
-paginate_by = 5
 +++

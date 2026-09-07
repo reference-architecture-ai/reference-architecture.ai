@@ -1,214 +1,119 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}
-{{ config.title }} | {{ page.title }}
-{% endblock %}
+{% block seo %}
+{% set page_title = page.title ~ " // Reference Architecture for AI" %}
+{% if page.description %}{% set page_desc = page.description %}
+{% elif page.summary %}{% set page_desc = page.summary | striptags | trim | truncate(length=180) %}
+{% else %}{% set page_desc = config.description %}{% endif %}
+{% set page_url = page.permalink %}
+{% endblock seo %}
+
+{% block og_type %}article{% endblock og_type %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": {{ page.title | json_encode | safe }},
+  "description": {{ page_desc | json_encode | safe }},
+  "url": {{ page.permalink | json_encode | safe }},
+  "mainEntityOfPage": {{ page.permalink | json_encode | safe }},
+  {% if page.date %}"datePublished": {{ page.date | json_encode | safe }},{% endif %}
+  {% if page.updated %}"dateModified": {{ page.updated | json_encode | safe }},{% endif %}
+  "author": {
+    "@type": "Person",
+    "name": {{ config.extra.author.name | json_encode | safe }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Applied Knowledge Systems Ltd",
+    "url": "{{ config.base_url | safe }}/"
+  }
+}
+</script>
+{% endblock structured_data %}
 
 {% block content %}
-<section class="section">
-  <div class="container">
-    <div class="columns">
-      <div class="column is-8 is-offset-2">
-        <article class="box">
-          <h1 class="title">
-            {{ page.title }}
-          </h1>
-          <p class="subtitle">{{ page.description }}</p>
-          <div class="columns is-multiline is-gapless">
-            <div class="column is-8">
-              {{ macros::page_publish_metadata(page=page) }}
-            </div>
-            <div class="column is-4 has-text-right-desktop">
-              {{ macros::page_content_metadata(page=page) }}
-            </div>
-            <div class="column">
-              {% if page.taxonomies.categories %}
-              {{ macros::render_categories(categories=page.taxonomies.categories) }}
-              {% endif %}
-            </div>
-            <div class="column has-text-right-desktop">
-              {% if page.taxonomies.tags %}
-              {{ macros::render_tags(tags=page.taxonomies.tags) }}
-              {% endif %}
-            </div>
-          </div>
-          <div class="content mt-2">
-            {{ page.content | safe }}
-          </div>
-        </article>
-      </div>
-      {% if page.extra.toc %}
-      <div class="column is-2 is-hidden-mobile">
-        <aside class="menu" style="position: sticky; top: 48px">
-          <p class="heading has-text-weight-bold">Contents</p>
-          <ul class="menu-list">
-            {% for h1 in page.toc %}
-            <li>
-              <a id="link-{{h1.id}}" class="toc is-size-7 {% if loop.first %}is-active{% endif %}"
-                href="{{ h1.permalink | safe }}" data-cold>
-                {{ h1.title }}
-              </a>
-              {% if h1.children %}
-              <ul>
-                {% for h2 in h1.children %}
-                <li>
-                  <a id="link-{{h2.id}}" class="toc is-size-7" href="{{ h2.permalink | safe }}" data-cold>
-                    {{ h2.title }}
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-              {% endif %}
-            </li>
-            {% endfor %}
-            <li><span class="icon-text">
-              <span><a class="toc is-size-7" href="https://github.com/reference-architecture-ai/reference-architecture.ai/edit/main/content/{{ current_path }}" target="_blank">               <span class="icon">
-                <i class="fab fa-github"></i>
-              </span>Edit this page</a></span>
-            </span>
-            </li>
-          </ul>
-        </aside>
-      </div>
+<article class="article">
+  <header class="article-head">
+    <div class="article-meta">
+      {% if page.date %}
+      <time datetime="{{ page.date }}"><i class="fa-solid fa-calendar" aria-hidden="true"></i> {{ page.date | date(format="%e %B %Y") }}</time>
+      {% endif %}
+      {% if page.reading_time %}
+      <span><i class="fa-solid fa-clock" aria-hidden="true"></i> {{ page.reading_time }} min read</span>
       {% endif %}
     </div>
-  </div>
-</section>
-{% endblock %}
-{% block pagination %}
-{% if page.earlier or page.later or page.lighter or page.heavier %}
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <nav class="level">
-          {% if page.later %}
-          <div class="level-item has-text-centered">
-            <a class="button is-black is-outlined" href="{{ page.later.permalink }}">
-              <span class="icon mr-2">
-                <i class="fas fa-arrow-circle-left"></i>
-              </span>
-              {{ page.later.title }}
-            </a>
-          </div>
-          {% endif %} {% if page.earlier %}
-          <div class="level-item has-text-centered">
-            <a class="button is-black is-outlined" href="{{ page.earlier.permalink }}">
-              {{ page.earlier.title }}<span class="icon ml-2">
-                <i class="fas fa-arrow-circle-right"></i>
-              </span>
-            </a>
-          </div>
-          {% endif %} {% if page.heavier %}
-          <div class="level-item has-text-centered">
-            <a class="button is-black is-outlined" href="{{ page.heavier.permalink }}">
-              <span class="icon mr-2">
-                <i class="fas fa-arrow-circle-left"></i>
-              </span>
-              {{ page.heavier.title }}
-            </a>
-          </div>
-          {% endif %} {% if page.lighter %}
-          <div class="level-item has-text-centered">
-            <a class="button is-black is-outlined" href="{{ page.lighter.permalink }}">
-              {{ page.lighter.title }}<span class="icon ml-2">
-                <i class="fas fa-arrow-circle-right"></i>
-              </span>
-            </a>
-          </div>
-          {% endif %}
-        </nav>
-      </div>
+
+    <h1 class="article-title">{{ page.title }}</h1>
+
+    {% if page.description %}
+    <p class="article-lede">{{ page.description }}</p>
+    {% endif %}
+
+    {% if page.taxonomies.tags %}
+    <div class="article-tags">
+      {% for tag in page.taxonomies.tags %}
+      <a class="tag-chip" href="{{ get_taxonomy_url(kind='tags', term=tag) }}">{{ tag }}</a>
+      {% endfor %}
     </div>
-  </div>
-</section>
-{% endif %}
-{% endblock %}
-{% block comment %}
-{% if page.extra.comments and config.extra.commenting.disqus %}
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-6">
-        <div id="disqus_thread"></div>
-      </div>
+    {% endif %}
+  </header>
+
+  {% if page.extra.archived %}
+  <aside class="archive-note" role="note">
+    <i class="fa-solid fa-box-archive" aria-hidden="true"></i>
+    <div>
+      <strong>Archived.</strong>
+      Published {{ page.date | date(format="%Y") }}, from the Redis and RedisGears era of this
+      project. Kept as a record; it is not current guidance. For current work, see
+      <a href="{{ get_url(path='@/posts/_index.md') }}">the articles</a>.
     </div>
+  </aside>
+  {% endif %}
+
+  <div class="prose">
+    {{ page.content | safe }}
   </div>
-</section>
-{% endif %}
-{% endblock %}
 
-{% block custom_js %}
-{% if page.extra.toc %}
-<script type="text/javascript">
-  const menuBarHeight = document.querySelector("nav.navbar").clientHeight;
-  const tocItems = document.querySelectorAll(".toc");
-  const navSections = new Array(tocItems.length);
+  <footer class="article-foot">
+    <a class="btn btn-ghost" href="{% if page.ancestors %}{{ get_url(path=page.ancestors | last) }}{% else %}{{ get_url(path='@/posts/_index.md') }}{% endif %}">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All articles
+    </a>
+  </footer>
 
-  tocItems.forEach((el, i) => {
-    let id = el.getAttribute("id").substring(5);
-    navSections[i] = document.getElementById(id);
-  })
+  {% if config.extra.utterances.repo %}
+  <section class="comments" aria-label="Comments">
+    <h2 class="comments-title">Discussion</h2>
+    <script src="https://utteranc.es/client.js"
+      repo="{{ config.extra.utterances.repo }}"
+      issue-term="{{ config.extra.utterances.issueterm }}"
+      label="{{ config.extra.utterances.label }}"
+      theme="{{ config.extra.utterances.theme }}"
+      crossorigin="anonymous"
+      async></script>
+  </section>
+  {% endif %}
+</article>
+{% endblock content %}
 
-  function isVisible(tocIndex) {
-    const current = navSections[tocIndex];
-    const next = tocIndex < tocItems.length - 1 ? navSections[tocIndex + 1]
-      : document.querySelectorAll("section.section").item(1);
-
-    const c = current.getBoundingClientRect();
-    const n = next.getBoundingClientRect();
-    const h = (window.innerHeight || document.documentElement.clientHeight);
-
-    return (c.top <= h) && (n.top - menuBarHeight >= 0);
-  }
-
-  function activateIfVisible() {
-    for (b = true, i = 0; i < tocItems.length; i++) {
-      if (b && isVisible(i)) {
-        tocItems[i].classList.add('is-active');
-        b = false;
-      } else
-        tocItems[i].classList.remove('is-active');
+{% block body_scripts %}
+{% if page.extra.mermaid %}
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      background: '#0a0b14',
+      primaryColor: '#161a2b',
+      primaryTextColor: '#dfe3ee',
+      primaryBorderColor: '#3a4468',
+      lineColor: '#6f8bd6',
+      fontFamily: 'Onest, system-ui, sans-serif'
     }
-  }
-
-  var isTicking = null;
-  window.addEventListener('scroll', () => {
-    if (!isTicking) {
-      window.requestAnimationFrame(() => {
-        activateIfVisible();
-        isTicking = false;
-      });
-      isTicking = true;
-    }
-  }, false);
+  });
 </script>
 {% endif %}
-
-{% if page.extra.comments and config.extra.commenting.disqus %}
-<script>
-  var disqus_config = function () {
-    this.page.url = "{{config.base_url | safe}}";
-    this.page.identifier = "{{ current_path | safe}}";
-  };
-
-  (function () {
-    var d = document, s = d.createElement('script');
-    s.src = 'https://{{ config.extra.commenting.disqus | safe}}.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-</script>
-{% endif %}
-
-{% if page.extra.comments and config.extra.utterances %}
-  <script src="https://utteranc.es/client.js"
-        repo="{{ config.extra.utterances.repo| safe}}"
-        issue-term="{{ config.extra.utterances.issueterm| safe}}"
-        label="{{ config.extra.utterances.label| safe}}"
-        theme="{{ config.extra.utterances.theme| safe}}"
-        crossorigin="anonymous"
-        async>
-</script>
-{% endif %}
-{% endblock %}
+{% endblock body_scripts %}

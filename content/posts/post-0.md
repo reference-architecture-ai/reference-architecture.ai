@@ -6,6 +6,7 @@ date=2022-06-16
 categories = ["Architecture"]
 tags = ["reference architecture", "ai","announcement"]
 [extra]
+archived = true
 toc = true
 comments = true
 +++

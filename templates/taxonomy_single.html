@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block seo %}
+{% set page_title = term.name ~ " // " ~ taxonomy.name | capitalize ~ " // Reference Architecture for AI" %}
+{% set page_desc = "Articles tagged " ~ term.name ~ " on Reference Architecture for AI." %}
+{% set page_url = term.permalink %}
+{% endblock seo %}
+
+{% block content %}
+<section class="section">
+  <div class="section-inner">
+    <div class="section-eyebrow"><i class="fa-solid fa-tag" aria-hidden="true"></i> {{ taxonomy.name | capitalize }}</div>
+    <h1 class="section-title">{{ term.name }}</h1>
+    <p class="section-lede">{{ term.pages | length }} article{% if term.pages | length != 1 %}s{% endif %}.</p>
+    <ul class="entry-list">
+      {% for p in term.pages %}
+      <li class="entry">
+        <a class="entry-link" href="{{ p.permalink }}">
+          <div class="entry-meta">
+            {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%e %b %Y") }}</time>{% endif %}
+            {% if p.extra.archived %}<span class="entry-flag">Archived</span>{% endif %}
+          </div>
+          <h2 class="entry-title">{{ p.title }}</h2>
+          {% if p.description %}<p class="entry-desc">{{ p.description }}</p>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock content %}

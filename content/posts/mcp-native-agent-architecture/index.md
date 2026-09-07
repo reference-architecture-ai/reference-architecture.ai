@@ -385,7 +385,7 @@ The LLM? It's just the reasoning engine. Powerful, probabilistic, and properly c
 
 The architecture described in this article is implemented in Terraphim, an open-source privacy-first AI assistant:
 
-- **Repository:** [github.com/terraphim-ai/terraphim](https://github.com/terraphim-ai/terraphim)
+- **Repository:** [github.com/terraphim-ai/terraphim](https://github.com/terraphim/terraphim-ai)
 - **Documentation:** [docs.terraphim.ai](https://docs.terraphim.ai)
 - **MCP Server:** `terraphim_mcp_server` crate
 - **License:** Apache-2.0

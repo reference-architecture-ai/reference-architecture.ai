@@ -142,19 +142,46 @@ Additionally missing from *both* and worth adding while the head is being rebuil
 - Pre-existing typo: the `tags` taxonomy reads `fees = true` where it should be `feed = true`, so tag feeds have never been generated.
 - Zola 0.23 config migration: diff `config.toml` against the current schema, since 0.17 -> 0.23 spans six releases (`generate_feeds`/`feed_filenames` semantics in particular).
 
-## 6. Sequence
+## 6. Sequence — status
 
-0. ~~**Rescue the unbacked-up work (§2b).**~~ **DONE 2026-09-07.** Branch `salvage/warp-drive-wip`, commit `245a653`, pushed to `github.com/reference-architecture-ai/reference-architecture.ai`. All five files preserved; working tree clean; no CI run triggered. One deviation: GitHub push protection rejected the branch over a Mapbox token at `config.toml:204`, so the dead `[extra.mapbox]` block was removed to get the work onto a remote (see §2b).
-1. **Create the fresh repo (D1).** New repo in the `reference-architecture-ai` GitHub org. **Seed `content/`, `static/`, `config.toml` and the workflow from a clean clone of GitHub `main` at `3862ee2` — not from the stale local checkout at `488b085`,** which predates the two 2026 posts and the five SVG diagrams the redesign is written around. The stale checkout is the source for the salvage branch only (step 0), never for content. Do **not** carry `templates/`, `sass/`, `theme.toml`, the DeepThought licences, the three `screenshot_navbar_*.png`, `netlify.toml` or `deploy.sh`. Copy the current `index.html` in as the design reference.
-2. **Upgrade Zola to 0.23.x.** Bump the version in the Actions workflow, delete `netlify.toml` (dead — Cloudflare is the deploy target), migrate `config.toml` to the 0.23 schema, and confirm `zola build` is clean on the untouched content before any redesign work.
-3. *(Already done — see §0.)* The URL contract is the 130 URLs captured from the **live** sitemap before any upgrade, so that step 2's 0.23 build can be diffed against it and any drift caused by the upgrade itself is visible. Re-diff after step 2, and again at step 7.
-4. **Port the chrome.** Split `index.html` into `templates/base.html` (head, ribbon nav, footer), `templates/index.html` (the eight homepage sections), `static/css/warp.css`, `static/js/warp.js` (deferred). Homepage must render visually identically to the standalone file. Salvage the GA4 wiring from the §2b branch. Restore favicons, RSS `<link rel="alternate">`, canonical; add OG, Twitter card and JSON-LD. Remove the Medium hero CTA (D5).
-5. **Design the two missing layouts.** `templates/page.html` (long-form article: ~68ch measure, code blocks against `--void-deep`, dark mermaid theme, KaTeX legibility, image treatment, utterances mount point, archive banner when `archived = true`) and `templates/section.html` (post/doc listing reusing the `waypoint`/`resource-card` components, current work separated from archive). Add Posts and Docs to the ribbon nav and the footer. Restyle `404.html` in the new language.
-6. **Apply dispositions.** Drop `extended-shortcodes` and its seven unsplash JPGs; relocate the `_index.md` body to `/docs/legacy-capability-map/` with absolute-link rewrites; set `archived = true` on the eight legacy pages; rewrite both section `_index.md` descriptions.
-7. **Continuity check.** `zola build`, diff against the step-0 contract. Exactly one URL should disappear: `/docs/extended-shortcodes/`. The relocated `_index.md` body needs **no redirect** — `/` still renders from the same file's front matter, and the body simply appears at a new URL; nothing old is lost. Cloudflare Pages `_redirects` supports only 301, 302, 303, 307 and 308 (**checked — 410 is not available, unlike Netlify**), so `extended-shortcodes` either 301s to `/docs/` or is left to 404 through `404.html`; Google treats a clean 404 near-identically to a 410 here. Verify `rss.xml`, tag feeds, `sitemap.xml` and the search index all build, and that every `<loc>` now points at a domain that resolves.
-8. **Content pass.** Reconcile the SVG diagram tokens (§4). Verify mermaid and KaTeX render on dark. Confirm the `bert-qa-benchmarking` image paths resolve and delete the stray `.pptx` and `Screenshot from 2022-04-15…png` from that bundle.
-9. **SEO pass.** Per-page OG/Twitter/JSON-LD from front matter, `sitemap.xml` submitted to Search Console and Bing, Lighthouse on the homepage and one article, and a check that GA4 `G-NK475MFMER` still reports. The local `seo-for-saas-businesses` skill covers this properly if you want it run as a full program.
-10. **Verify live.** Deploy to a Cloudflare preview branch. Homepage, one current post, one archived post, both listings, 404 — desktop and mobile, plus `prefers-reduced-motion` (the canvas guards for it; confirm the fallback actually paints). Only then repoint production.
+| # | Step | Status |
+|---|---|---|
+| 0 | Rescue the unbacked-up work | **Done.** `salvage/warp-drive-wip`, commit `245a653`, on the old GitHub repo |
+| 1 | Fresh repo, seeded from `3862ee2` | **Done.** `github.com/reference-architecture-ai/website` |
+| 2 | Zola 0.23.4 upgrade, config schema migration | **Done.** Verified on CI: `zola 0.23.4`, 14 pages, 158ms |
+| 3 | Baseline the URL contract | **Done.** 130 live URLs in `live-urls.txt` |
+| 4 | Port the chrome (base/index/CSS/JS, full SEO head) | **Done** |
+| 5 | Article and listing layouts, nav, 404 | **Done** |
+| 6 | Content dispositions | **Done** |
+| 7 | URL continuity and `_redirects` | **Done.** 130 -> 72; every loss is a `/page/N/` duplicate plus `extended-shortcodes` |
+| 8 | Content pass (diagrams, mermaid, KaTeX, images) | **Done.** Verified in Chrome |
+| 9 | SEO pass | **Partly done.** Markup shipped; submission needs live DNS |
+| 10 | Verify live | **Blocked** on the Cloudflare API token |
+
+### What actually shipped
+
+Six commits on `main`. Highlights beyond the plan as written:
+
+- **Zola 0.23 removed shortcodes entirely** and moved Tera to v2. This turned a retheme
+  into a rebuild: `macros::` call syntax, the `concat` and `filter` filters, and the
+  whole shortcode mechanism are all gone. mermaid and youtube became components;
+  `json.html`/`json-ad.html` were rewritten flat; DeepThought does not survive the
+  upgrade at all and was dropped rather than fixed.
+- **The design had no navigation.** The ribbon is a desktop-only status bar, so mobile
+  had no way to reach anything. Added ribbon links plus a sticky mobile topbar.
+- **The design had no share image.** Rendered `static/images/og-default.png` (1200x630)
+  from an HTML card in the Warp Drive palette.
+- **`publish.yml` removed.** It cross-posted every new post to dev.to and Medium via
+  blogpub, needs secrets that do not exist here, and contradicts D5.
+- **The two workflows became one** (`deploy.yml`), off the deprecated
+  `cloudflare/pages-action@v1` and onto `wrangler-action@v3`.
+- **The Mapbox token had to be stripped from history.** The seed commit carried
+  `config.toml` verbatim from `3862ee2`, including the DeepThought author's public
+  Mapbox key, and GitHub push protection rejected the push. `git filter-repo` replaced
+  the value across all six commits. The seed commit is therefore verbatim *except* for
+  that one string.
+- **Repo named `website`, not `reference-architecture.ai`.** The canonical name is held
+  by the old repository and renaming it was not available in this session.
 
 ## 7. Risks
 
@@ -173,13 +200,46 @@ Additionally missing from *both* and worth adding while the head is being rebuil
 
 ---
 
-## 8. Still open (does not block starting)
+## 8. Open items — all need you, not me
 
-- Whether `docs/donate.md` is still accurate — it dates to 2020 and points at the Redis-era project.
-- Whether `static/diagrams/sideeffect-class.svg` belongs in the MCP post or should be dropped; nothing currently references it.
-- Whether `docs/contribution.md` needs rewriting for the new repo layout (it will, once D1's repo exists).
-- Old US-vs-UK spelling in the legacy posts: flagged, not corrected — archived content is left as published.
-- Whether the taxonomy system survives at all (see §0 — 96 of 130 URLs are tags and categories, half of them duplicates).
-- Pushing the step-0 salvage branch may trigger `cloudflare-pages-preview.yml` in the old repo. Harmless — it publishes a preview alias, not production — but expect a possibly-red run.
+Four of these are credentials or accounts I cannot reach; the fifth was blocked by a
+permission boundary in this session.
 
-I can file this as a Gitea epic with one issue per sequence step via `gtr` — I just need the owner/repo to file under.
+1. **Cloudflare API token on the new repo.** This is the only thing between the site and
+   a live deploy. `CLOUDFLARE_ACCOUNT_ID` is already set. 1Password was locked all
+   session (`authorization timeout`), so the token could not be resolved. Unlock it and:
+   ```bash
+   op read --account zesticailtd.1password.com \
+     "op://TerraphimPlatform/cloudflare.personal.token/credential" \
+     | gh secret set CLOUDFLARE_API_TOKEN --repo reference-architecture-ai/website
+   gh workflow run Deploy --repo reference-architecture-ai/website
+   ```
+2. **DNS.** `reference-architecture.ai` resolves to nothing — no A, no CNAME — while
+   `robots.txt`, the sitemap and every canonical point at it. The registration is fine
+   (active to 2028-02-28) and the nameservers are already Cloudflare's
+   (`elias`/`maeve.ns.cloudflare.com`), so the zone exists and only the record is
+   missing. Attach the domain to the Pages project and Cloudflare creates the CNAME:
+   Pages -> reference-architecture-ai -> Custom domains -> Set up a custom domain. Until
+   this is done, no amount of SEO work is visible to anyone.
+3. **Retire the old deploy path.** The old repository's `cloudflare-pages.yml` still
+   fires on push to its `main` and direct-uploads to the *same* Pages project. Delete
+   that file, then archive the repository (archiving disables Actions). Delete first:
+   un-archiving would otherwise re-arm it. I could not do this — the rename was blocked
+   by the permission classifier, and archiving is the same class of action.
+4. **Install the utterances GitHub App** on `reference-architecture-ai/website`.
+   Comments are configured and will render, but posting fails until the app is
+   installed: <https://github.com/apps/utterances>
+5. **Submit the sitemap** to Google Search Console and Bing Webmaster Tools once DNS
+   resolves. Also worth confirming GA4 `G-NK475MFMER` is still receiving.
+
+### Judgement calls left for you
+
+- `docs/donate.md` dates to 2020 and points at the Redis-era project. Kept and archived;
+  it may want rewriting or removing.
+- `static/diagrams/sideeffect-class.svg` is referenced by nothing. Kept.
+- 13 broken external links remain, all in archived 2020-22 posts (oss.redis.com,
+  developer.redis.com, volkovlabs.com, pinned GitHub line anchors). Left as published:
+  archived content is a record, not maintained. Both current posts are clean.
+- 96 of the original 130 URLs were taxonomy pages. Pagination is gone, halving them, but
+  whether tags and categories earn their place at all is still an open question.
+- US spelling in the legacy posts: flagged, not corrected.

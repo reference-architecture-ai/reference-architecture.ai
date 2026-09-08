@@ -74,7 +74,7 @@
   {% endif %}
 
   <div class="prose">
-    {{ page.content | safe }}
+    {{ page.content | replace(from=config.base_url, to="") | safe }}
   </div>
 
   <footer class="article-foot">

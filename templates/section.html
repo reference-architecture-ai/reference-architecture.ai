@@ -16,7 +16,7 @@
     {% endif %}
 
     {% if section.content %}
-    <div class="prose section-prose">{{ section.content | safe }}</div>
+    <div class="prose section-prose">{{ section.content | replace(from=config.base_url, to="") | safe }}</div>
     {% endif %}
 
     {% set_global archived_count = 0 %}

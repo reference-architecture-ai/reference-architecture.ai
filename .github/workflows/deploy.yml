@@ -36,6 +36,12 @@ jobs:
       - name: Check internal links and anchors
         run: zola check || echo "::warning::zola check reported issues (external links may be rate-limited)"
 
+      - name: Build search index
+        # Pagefind indexes the built HTML, so it runs after zola and writes
+        # public/pagefind/. Pinned: an unpinned major could change the client
+        # API that static/js/search.js imports.
+        run: npx -y pagefind@1.5.2 --site public
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:

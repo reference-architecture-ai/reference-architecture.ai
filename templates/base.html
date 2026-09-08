@@ -85,6 +85,7 @@
     <div class="ribbon-nav">
       <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}">Posts</a>
       <a href="{{ get_url(path='@/docs/_index.md') | replace(from=config.base_url, to="") }}">Docs</a>
+      <button type="button" class="nav-search" data-search-open aria-label="Search (press /)"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span class="nav-search-key">/</span></button>
       <a href="{{ get_url(path='rss.xml') | replace(from=config.base_url, to="") }}" aria-label="RSS feed"><i class="fa-solid fa-rss" aria-hidden="true"></i></a>
       <a href="https://github.com/reference-architecture-ai/reference-architecture.ai" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
     </div>
@@ -112,13 +113,14 @@
     <div class="topbar-nav">
       <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}">Posts</a>
       <a href="{{ get_url(path='@/docs/_index.md') | replace(from=config.base_url, to="") }}">Docs</a>
+      <button type="button" class="nav-search" data-search-open aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
     </div>
   </nav>
 
-  <main id="main">
+  <main id="main" {% block pagefind %}data-pagefind-body{% endblock pagefind %}>
     {% block content %}{% endblock content %}
 
-    <footer class="footer">
+    <footer class="footer" data-pagefind-ignore>
       <div class="footer-brand">Reference Architecture for AI</div>
       <div class="footer-sub">Production Agent Systems by Applied Knowledge Systems</div>
       <div class="footer-links">
@@ -131,6 +133,20 @@
       <div class="footer-coord">Applied Knowledge Systems Ltd // Apache 2.0 // All data processed locally</div>
     </footer>
   </main>
+
+  <div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Search this site" hidden>
+    <div class="search-panel">
+      <div class="search-field">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input type="search" id="search-input" placeholder="Search articles and docs" autocomplete="off" spellcheck="false" aria-label="Search query">
+        <button type="button" class="search-close" data-search-close aria-label="Close search">Esc</button>
+      </div>
+      <p class="search-status" id="search-status" role="status" aria-live="polite">Type at least 2 characters.</p>
+      <ul class="search-results" id="search-results"></ul>
+    </div>
+  </div>
+
+  <script src="{{ get_url(path='js/search.js') | replace(from=config.base_url, to="") }}" type="module" defer></script>
 
   {% block body_scripts %}{% endblock body_scripts %}
 </body>

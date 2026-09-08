@@ -6,6 +6,8 @@
 {% set page_url = config.base_url ~ "/" ~ taxonomy.slug ~ "/" %}
 {% endblock seo %}
 
+{% block pagefind %}data-pagefind-ignore{% endblock pagefind %}
+
 {% block content %}
 <section class="section">
   <div class="section-inner">

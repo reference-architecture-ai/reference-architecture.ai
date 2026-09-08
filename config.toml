@@ -62,9 +62,10 @@ taxonomies = [
     { name = "tags", feed = true },
 ]
 
-# When set to "true", a search index is built from the pages and section
-# content for `default_language`.
-build_search_index = true
+# Search is Pagefind, which indexes the built HTML after `zola build` (see
+# .github/workflows/deploy.yml). Zola's own elasticlunr index is not used:
+# leaving it on shipped a 382KB search_index.en.js that nothing loaded.
+build_search_index = false
 
 # Configuration of the Markdown rendering
 [markdown]
@@ -107,19 +108,6 @@ skip_anchor_prefixes = [
 paths = "on"
 taxonomies = "on"
 anchors = "on"
-
-[search]
-# Whether to include the title of the page/section in the index
-include_title = true
-# Whether to include the description of the page/section in the index
-include_description = false
-# Whether to include the path of the page/section in the index
-include_path = false
-# Whether to include the rendered content of the page/section in the index
-include_content = true
-# At which character to truncate the content to. Useful if you have a lot of pages and the index would
-# become too big to load on the site. Defaults to not being set.
-# truncate_content_length = 100
 
 # Optional translation object for the default language
 # Example:

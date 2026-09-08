@@ -227,6 +227,41 @@ Known cosmetic issue, not fixed: the legacy PNG diagrams in `/docs/nlp/` and
 page. They are archived screenshots and remain legible; recolouring them would mean
 altering the record.
 
+## 7c. Search
+
+The site had none. Worse, it was shipping a **382KB `search_index.en.js` on every
+deploy that nothing loaded** — DeepThought's search modal went when the templates were
+replaced, but Zola's elasticlunr index stayed switched on and `static/js/site.js` still
+held the orphaned client for it. Every route check returned 200 because the file *was*
+there; nothing verified that anything used it.
+
+Now **Pagefind 1.5.2**, the same tool `terraphim/md-book` uses. It indexes the built HTML
+after `zola build`, so no index lives in the source tree, and it fetches nothing until
+the modal is opened — shards load on demand rather than one blob on every page view.
+
+- `static/js/search.js` — modal controller, ported from md-book's `pagefind-search.js`
+  and trimmed. Kept its generation counter: `debouncedSearch` resolves out of order
+  under fast typing, so without it a slow early query overwrites a later one's results.
+  `/` or Cmd/Ctrl+K opens, Esc closes, arrows walk the results.
+- Indexing boundaries: `data-pagefind-body` on `<main>`, `data-pagefind-ignore` on the
+  footer, and a `pagefind` template block that excludes taxonomy listings and 404.
+  Indexing those put thin "Tags. harnesses. 1 article." entries above the articles
+  themselves — 71 indexed pages became 15 real ones, and "harness" went from 12
+  mostly-noise hits to 6 content pages.
+- `build_search_index = false`, the inert `[search]` table removed, and
+  `static/js/{site,flamethrower}.js` deleted.
+
+Three bugs, all found by opening the page rather than trusting the build:
+
+| Bug | Cause |
+|---|---|
+| Modal visible on every page load | `.search-modal { display: flex }` outranks the UA's `[hidden] { display: none }` |
+| Caret not in the field after opening | Focus set in the same tick the element stopped being `[hidden]`, before layout. A single `requestAnimationFrame` was not enough either; `focusInput()` now retries across three timing paths |
+| Tag pages crowding out articles | Everything under `<main>` was indexed, including navigation pages |
+
+Verified live: hidden on load, opens on click, focus lands in the field, and typing
+returns highlighted results from the real articles.
+
 ## 8. Open items
 
 **The site is live at https://reference-architecture.ai** as of 2026-09-08. Sections 1

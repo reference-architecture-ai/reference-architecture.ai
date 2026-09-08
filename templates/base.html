@@ -30,18 +30,18 @@
   <meta name="twitter:description" content="{{ page_desc }}">
   <meta name="twitter:image" content="{{ get_url(path='images/og-default.png') }}">
 
-  <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ config.title }}" href="{{ get_url(path='rss.xml') | replace(from=config.base_url, to="") }}">
 
-  <link rel="manifest" href="{{ get_url(path='icons/site.webmanifest') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='icons/favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='icons/favicon-16x16.png') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='icons/apple-touch-icon.png') }}">
-  <link rel="mask-icon" color="#4c8dff" href="{{ get_url(path='icons/safari-pinned-tab.svg') }}">
+  <link rel="manifest" href="{{ get_url(path='icons/site.webmanifest') | replace(from=config.base_url, to="") }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ get_url(path='icons/favicon-32x32.png') | replace(from=config.base_url, to="") }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ get_url(path='icons/favicon-16x16.png') | replace(from=config.base_url, to="") }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ get_url(path='icons/apple-touch-icon.png') | replace(from=config.base_url, to="") }}">
+  <link rel="mask-icon" color="#4c8dff" href="{{ get_url(path='icons/safari-pinned-tab.svg') | replace(from=config.base_url, to="") }}">
 
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=space-grotesk:400,500,600,700|onest:300,400,500,600|jetbrains-mono:400,500,600" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="{{ get_url(path='css/warp.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='css/warp.css') | replace(from=config.base_url, to="") }}">
 
   {% block structured_data %}
   <script type="application/ld+json">
@@ -81,11 +81,11 @@
   {% endblock backdrop %}
 
   <nav class="ribbon" aria-label="Primary">
-    <a class="ribbon-brand" href="{{ get_url(path='@/_index.md') }}">Reference Architecture for AI</a>
+    <a class="ribbon-brand" href="{{ get_url(path='@/_index.md') | replace(from=config.base_url, to="") }}">Reference Architecture for AI</a>
     <div class="ribbon-nav">
-      <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-      <a href="{{ get_url(path='@/docs/_index.md') }}">Docs</a>
-      <a href="{{ get_url(path='rss.xml') }}" aria-label="RSS feed"><i class="fa-solid fa-rss" aria-hidden="true"></i></a>
+      <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}">Posts</a>
+      <a href="{{ get_url(path='@/docs/_index.md') | replace(from=config.base_url, to="") }}">Docs</a>
+      <a href="{{ get_url(path='rss.xml') | replace(from=config.base_url, to="") }}" aria-label="RSS feed"><i class="fa-solid fa-rss" aria-hidden="true"></i></a>
       <a href="https://github.com/reference-architecture-ai/website" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
     </div>
     <div class="ribbon-resources">
@@ -108,10 +108,10 @@
   </nav>
 
   <nav class="topbar" aria-label="Primary (compact)">
-    <a class="topbar-brand" href="{{ get_url(path='@/_index.md') }}">RA<span class="accent">/</span>AI</a>
+    <a class="topbar-brand" href="{{ get_url(path='@/_index.md') | replace(from=config.base_url, to="") }}">RA<span class="accent">/</span>AI</a>
     <div class="topbar-nav">
-      <a href="{{ get_url(path='@/posts/_index.md') }}">Posts</a>
-      <a href="{{ get_url(path='@/docs/_index.md') }}">Docs</a>
+      <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}">Posts</a>
+      <a href="{{ get_url(path='@/docs/_index.md') | replace(from=config.base_url, to="") }}">Docs</a>
     </div>
   </nav>
 
@@ -122,9 +122,9 @@
       <div class="footer-brand">Reference Architecture for AI</div>
       <div class="footer-sub">Production Agent Systems by Applied Knowledge Systems</div>
       <div class="footer-links">
-        <a href="{{ get_url(path='@/posts/_index.md') }}"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Posts</a>
-        <a href="{{ get_url(path='@/docs/_index.md') }}"><i class="fa-solid fa-book" aria-hidden="true"></i> Docs</a>
-        <a href="{{ get_url(path='rss.xml') }}"><i class="fa-solid fa-rss" aria-hidden="true"></i> RSS</a>
+        <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Posts</a>
+        <a href="{{ get_url(path='@/docs/_index.md') | replace(from=config.base_url, to="") }}"><i class="fa-solid fa-book" aria-hidden="true"></i> Docs</a>
+        <a href="{{ get_url(path='rss.xml') | replace(from=config.base_url, to="") }}"><i class="fa-solid fa-rss" aria-hidden="true"></i> RSS</a>
         <a href="https://terraphim.ai"><i class="fa-solid fa-globe" aria-hidden="true"></i> terraphim.ai</a>
         <a href="https://github.com/reference-architecture-ai/website"><i class="fa-brands fa-github" aria-hidden="true"></i> GitHub</a>
       </div>

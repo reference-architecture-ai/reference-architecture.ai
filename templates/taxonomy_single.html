@@ -15,7 +15,7 @@
     <ul class="entry-list">
       {% for p in term.pages %}
       <li class="entry">
-        <a class="entry-link" href="{{ p.permalink }}">
+        <a class="entry-link" href="{{ p.permalink | replace(from=config.base_url, to="") }}">
           <div class="entry-meta">
             {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%e %b %Y") }}</time>{% endif %}
             {% if p.extra.archived %}<span class="entry-flag">Archived</span>{% endif %}

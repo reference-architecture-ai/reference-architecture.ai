@@ -32,7 +32,7 @@
           <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
           View Architecture
         </a>
-        <a href="{{ get_url(path='@/posts/_index.md') }}" class="btn btn-ghost">
+        <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}" class="btn btn-ghost">
           <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
           Read the Articles
         </a>
@@ -524,5 +524,5 @@
 {% endblock content %}
 
 {% block body_scripts %}
-<script src="{{ get_url(path='js/warp.js') }}" defer></script>
+<script src="{{ get_url(path='js/warp.js') | replace(from=config.base_url, to="") }}" defer></script>
 {% endblock body_scripts %}

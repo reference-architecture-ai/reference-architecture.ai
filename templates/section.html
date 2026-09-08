@@ -25,7 +25,7 @@
       {% for p in section.pages %}
       {% if not p.extra.archived %}
       <li class="entry">
-        <a class="entry-link" href="{{ p.permalink }}">
+        <a class="entry-link" href="{{ p.permalink | replace(from=config.base_url, to="") }}">
           <div class="entry-meta">
             {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%e %b %Y") }}</time>{% endif %}
             {% if p.reading_time %}<span>{{ p.reading_time }} min</span>{% endif %}
@@ -51,7 +51,7 @@
       <ul class="entry-list is-archive">
         {% for p in section.pages %}{% if p.extra.archived %}
         <li class="entry">
-          <a class="entry-link" href="{{ p.permalink }}">
+          <a class="entry-link" href="{{ p.permalink | replace(from=config.base_url, to="") }}">
             <div class="entry-meta">
               {% if p.date %}<time datetime="{{ p.date }}">{{ p.date | date(format="%Y") }}</time>{% endif %}
             </div>

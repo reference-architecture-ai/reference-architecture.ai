@@ -14,7 +14,7 @@
     <p class="section-subtitle">Every {{ taxonomy.name }} term used across the site.</p>
     <div class="tag-cloud">
       {% for term in terms %}
-      <a class="tag-chip" href="{{ term.permalink }}">{{ term.name }} <span class="tag-count">{{ term.pages | length }}</span></a>
+      <a class="tag-chip" href="{{ term.permalink | replace(from=config.base_url, to="") }}">{{ term.name }} <span class="tag-count">{{ term.pages | length }}</span></a>
       {% endfor %}
     </div>
   </div>

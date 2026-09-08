@@ -55,7 +55,7 @@
     {% if page.taxonomies.tags %}
     <div class="article-tags">
       {% for tag in page.taxonomies.tags %}
-      <a class="tag-chip" href="{{ get_taxonomy_url(kind='tags', term=tag) }}">{{ tag }}</a>
+      <a class="tag-chip" href="{{ get_taxonomy_url(kind='tags', term=tag) | replace(from=config.base_url, to="") }}">{{ tag }}</a>
       {% endfor %}
     </div>
     {% endif %}
@@ -68,7 +68,7 @@
       <strong>Archived.</strong>
       Published {{ page.date | date(format="%Y") }}, from the Redis and RedisGears era of this
       project. Kept as a record; it is not current guidance. For current work, see
-      <a href="{{ get_url(path='@/posts/_index.md') }}">the articles</a>.
+      <a href="{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}">the articles</a>.
     </div>
   </aside>
   {% endif %}
@@ -78,7 +78,7 @@
   </div>
 
   <footer class="article-foot">
-    <a class="btn btn-ghost" href="{% if page.ancestors %}{{ get_url(path='@/' ~ (page.ancestors | last)) }}{% else %}{{ get_url(path='@/posts/_index.md') }}{% endif %}">
+    <a class="btn btn-ghost" href="{% if page.ancestors %}{{ get_url(path='@/' ~ (page.ancestors | last)) | replace(from=config.base_url, to="") }}{% else %}{{ get_url(path='@/posts/_index.md') | replace(from=config.base_url, to="") }}{% endif %}">
       <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All articles
     </a>
   </footer>

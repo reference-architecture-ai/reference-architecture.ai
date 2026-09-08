@@ -263,14 +263,18 @@ checked immediately and throughout and never changed. The run will age out.
 Now `reference-architecture-ai/reference-architecture.ai`. The utterances `repo`, the
 nav and footer GitHub links, the README history section and the git remote all follow it.
 
-### 3. Accounts only you can reach
+### 3. Post-launch setup — mostly done 2026-09-08
 
-- **Install the utterances GitHub App** on the repository. Comments render already but
-  cannot post until it is installed: <https://github.com/apps/utterances>
-- **Submit `sitemap.xml`** to Google Search Console and Bing Webmaster Tools, now that
-  the domain resolves. Worth confirming GA4 `G-NK475MFMER` is receiving.
-- **Consider a `www` record.** Cloudflare flags that `www.reference-architecture.ai` is
-  unreachable. A CNAME plus a redirect rule to the apex would close that.
+| Item | Status |
+|---|---|
+| `www` subdomain | **Done.** Proxied CNAME `www` -> `reference-architecture.ai`, plus a redirect rule 301ing `https://www.*` to the apex with the query string preserved. Verified: `/`, `/posts/` and a UTM-tagged URL all 301 correctly |
+| Google Search Console | **Done.** Domain property `reference-architecture.ai` verified by TXT record (`google-site-verification=...`), which also covers `www` and every subdomain. `sitemap.xml` submitted: status **Success, 72 pages discovered** — matching the build exactly |
+| Bing Webmaster Tools | **Needs you.** Not signed in, and I cannot sign in or create accounts on your behalf. Once signed in at <https://www.bing.com/webmasters>, the fastest route is *Import from Google Search Console*, which carries the verified property and the sitemap across in one step |
+| Utterances GitHub App | **Needs you.** The install was configured correctly — organisation `reference-architecture-ai`, scoped to the single repository rather than the org-wide default, permissions read metadata plus read/write issues — but GitHub required sudo-mode 2FA at the final step and I cannot authenticate for you. Re-run <https://github.com/apps/utterances>, choose *Only select repositories* -> `reference-architecture.ai`, and approve. Comments render on articles already; they cannot post until this lands |
+
+Chose the manual TXT route for Search Console rather than Google's "authorise access to your Cloudflare DNS account" flow, so no OAuth link exists between the two accounts. Keep the TXT record: removing it drops the verification.
+
+Cloudflare still flags one thing I have deliberately not acted on: **no MX/SPF/DKIM/DMARC records**, so `@reference-architecture.ai` cannot receive email and the domain can be spoofed in From headers. Adding SPF and DMARC is worthwhile hardening for a domain that sends no mail, but it is outside this migration and affects deliverability, so it is your call.
 
 ### Judgement calls left for you
 

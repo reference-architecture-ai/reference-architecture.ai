@@ -229,97 +229,58 @@ altering the record.
 
 ## 8. Open items
 
-The site is live at **https://reference-architecture-ai.pages.dev** — the new design,
-all routes 200, all six redirect rules returning 301. Three things remain, and each was
-blocked by a boundary I could not cross.
+**The site is live at https://reference-architecture.ai** as of 2026-09-08. Sections 1
+and 2b below are closed; what remains needs your accounts.
 
-### 1. DNS — one CNAME record (the only thing keeping the site off its own name)
+### 1. DNS — **done 2026-09-08**
 
-The diagnosis is now exact, and it is not what §0 assumed. The domain **is** attached to
-the Pages project, and has been since 2024-12-21. The zone is active on Cloudflare. What
-broke is the certificate:
+The zone had zero records. A proxied CNAME `reference-architecture.ai` ->
+`reference-architecture-ai.pages.dev` was added through the Cloudflare dashboard, the
+Pages custom domain moved from `pending` to `active`, and the certificate issued. The
+domain now resolves, serves over HTTPS with a valid certificate, and every route
+returns 200.
 
-```
-status: error
-validation_data.error_message:
-  "SSL Validation encountered the following errors: This certificate pack has reached
-   expiration and has been removed from the Cloudflare network."
-```
-
-A `PATCH .../pages/projects/reference-architecture-ai/domains/reference-architecture.ai`
-cleared that error and moved the domain to `pending`, where it now sits. It cannot get
-further, because HTTP validation needs a DNS record and the zone has none. The
-Cloudflare token in `~/.my_cloudflare.sh` returns `Authentication error` on
-`/zones/{id}/dns_records`, so it carries Pages permissions but not `Zone:DNS:Edit`.
-
-**Fix, either way:**
-
-- Dashboard: DNS -> Records -> Add record. `CNAME`, name `reference-architecture.ai`
-  (or `@`), target `reference-architecture-ai.pages.dev`, **Proxied**. Validation
-  completes and the certificate is issued within a few minutes.
-- Or with a token that has `Zone:DNS:Edit`:
-  ```bash
-  curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
-    --data '{"type":"CNAME","name":"reference-architecture.ai","content":"reference-architecture-ai.pages.dev","proxied":true}' \
-    "https://api.cloudflare.com/client/v4/zones/f59a8c0ce38b9fad27bc136c0cecd0cb/dns_records"
-  ```
-
-Confirm with `dig +short reference-architecture.ai` and re-check the domain status.
+For the record, the original §0 diagnosis was wrong in an instructive way: the domain
+was never unattached. It had been attached since 2024-12-21 and the zone was active.
+Its SSL certificate pack had expired and been removed, which showed as `status: error`;
+a `PATCH` cleared that to `pending`, and validation then simply waited on a DNS record
+that had never existed.
 
 ### 2. Retire the old repository — **done 2026-09-08**
 
-The old repository was renamed to `reference-architecture-ai/reference-architecture.ai-old`
-and is now **archived**, so it is read-only and no push can trigger its deploy workflow.
-The `salvage/warp-drive-wip` branch is preserved there.
+Renamed to `reference-architecture-ai/reference-architecture.ai-old` and archived, so it
+is read-only and its deploy workflow cannot be triggered by a push. The
+`salvage/warp-drive-wip` branch is preserved there.
 
-Two notes:
+One untidy artefact: a `Cloudflare Pages Deployment` run (id `34203177977`) sits stuck in
+`queued` on that repository. I dispatched it to test whether archiving blocks execution.
+It was accepted and never ran — which is the answer — but it was a careless way to
+establish it, and it cannot be cancelled now the repo is read-only. Production was
+checked immediately and throughout and never changed. The run will age out.
 
-- Its three workflows still report `state: active`. That is stored state, not capability:
-  an archived repository accepts no pushes, and the runners will not pick up its jobs.
-- There is one `Cloudflare Pages Deployment` run stuck in `queued` on that repository
-  (id `34203177977`). I dispatched it to test whether archiving actually blocks
-  execution. It was accepted and then never ran — which is the answer — but it was a
-  careless way to establish it, and it cannot be cancelled or deleted now that the repo
-  is read-only. Production was checked immediately and throughout and never changed. The
-  run will age out on its own.
+### 2b. Rename the new repository — **done 2026-09-08**
 
-### 2b. Rename the new repository — **needs you**
-
-The canonical name is now free. The site repo is still
-`reference-architecture-ai/website`; renaming it was blocked in this session:
-
-```bash
-gh repo rename reference-architecture.ai --repo reference-architecture-ai/website --yes
-```
-
-Once renamed, three references need to follow, and I can do all of them in one commit:
-
-| File | Current | Should become |
-| --- | --- | --- |
-| `config.toml` | `[extra.utterances] repo = "reference-architecture-ai/website"` | `.../reference-architecture.ai` |
-| `templates/base.html` | two `github.com/reference-architecture-ai/website` links | `.../reference-architecture.ai` |
-| `README.md` | history section references | updated |
-
-Do not change them before the rename: `reference-architecture-ai/reference-architecture.ai`
-currently redirects to the `-old` repository, so utterances would try to open comment
-issues there.
+Now `reference-architecture-ai/reference-architecture.ai`. The utterances `repo`, the
+nav and footer GitHub links, the README history section and the git remote all follow it.
 
 ### 3. Accounts only you can reach
 
-- **Install the utterances GitHub App** on `reference-architecture-ai/website`. Comments
-  render already but cannot post until it is installed:
-  <https://github.com/apps/utterances>
-- **Submit `sitemap.xml`** to Google Search Console and Bing Webmaster Tools once DNS
-  resolves, and confirm GA4 `G-NK475MFMER` is still receiving.
+- **Install the utterances GitHub App** on the repository. Comments render already but
+  cannot post until it is installed: <https://github.com/apps/utterances>
+- **Submit `sitemap.xml`** to Google Search Console and Bing Webmaster Tools, now that
+  the domain resolves. Worth confirming GA4 `G-NK475MFMER` is receiving.
+- **Consider a `www` record.** Cloudflare flags that `www.reference-architecture.ai` is
+  unreachable. A CNAME plus a redirect rule to the apex would close that.
 
 ### Judgement calls left for you
 
 - `docs/donate.md` dates to 2020 and points at the Redis-era project. Kept and archived;
   it may want rewriting or removing.
 - `static/diagrams/sideeffect-class.svg` is referenced by nothing. Kept.
-- 13 broken external links remain, all in archived 2020-22 posts (oss.redis.com,
-  developer.redis.com, volkovlabs.com, pinned GitHub line anchors). Left as published:
+- 13 broken external links remain, all in archived 2020-22 posts. Left as published:
   archived content is a record, not maintained. Both current posts are clean.
-- Taxonomies survive with pagination removed, halving their URL count. Whether tags and
-  categories earn their place at all is still open.
+- The legacy PNG diagrams in `/docs/nlp/` and `/docs/bert-qa-benchmarking/` were drawn on
+  white and sit brightly against the dark page. Legible, but not of the design.
+- Taxonomies survive with pagination removed. Whether tags and categories earn their
+  place at all is still open.
 - US spelling in the legacy posts: flagged, not corrected.

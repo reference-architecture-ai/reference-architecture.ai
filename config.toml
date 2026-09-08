@@ -3,7 +3,7 @@ base_url = "https://reference-architecture.ai"
 
 # The site title and description; used in feeds by default.
 title = "Reference Architecture for AI"
-description = "Evergreen reference architecture for AI"
+description = "Reference architecture patterns for production AI agent systems. Harness engineering, context architecture, execution guardrails, and memory infrastructure."
 
 # The default language; used in feeds.
 default_language = "en"
@@ -155,23 +155,7 @@ include_content = true
 #
 [extra]
 
-navbar_items = [
-    { code = "en", nav_items = [
-        { url = "$BASE_URL/", name = "Home" },
-        { url = "$BASE_URL/posts", name = "Posts" },
-        { url = "$BASE_URL/docs", name = "Docs" },
-        # { url = "$BASE_URL/tags", name = "Tags" },
-        # { url = "$BASE_URL/categories", name = "Categories" },
-        { url = "$BASE_URL/docs/donate", name = "Donate" },
-    ] },
-]
 
-[extra.favicon]
-favicon_16x16 = "/icons/favicon-16x16.png"
-favicon_32x32 = "/icons/favicon-32x32.png"
-apple_touch_icon = "/icons/apple-touch-icon.png"
-safari_pinned_tab = "/icons/safari-pinned-tab.svg"
-webmanifest = "/icons/site.webmanifest"
 
 [extra.author]
 name = "Alexander Mikhalev"
@@ -190,7 +174,7 @@ google = "G-NK475MFMER"
 
 [extra.utterances]
 theme = "github-dark"
-repo = "reference-architecture-ai/website"
+repo = "reference-architecture-ai/reference-architecture.ai"
 issueterm="title"
 label = "comment2"
 

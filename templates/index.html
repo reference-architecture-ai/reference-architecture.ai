@@ -121,14 +121,14 @@
             <line x1="310" y1="215" x2="310" y2="310" stroke="oklch(35% 0.006 250)" stroke-width="1" stroke-dasharray="4,3"></line>
 
             <!-- Node: Document Input -->
-            <a class="arch-node" href="https://docs.rs/terraphim_middleware" target="_blank" rel="noopener"><g transform="translate(70, 165)"><title>terraphim_middleware — haystack middleware: pluggable data-source backends</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/terraphim-engine-architecture/index.md') | replace(from=config.base_url, to="") }}#layer-3-the-service-layer"><g transform="translate(70, 165)"><title>Document input: haystacks and the service layer</title>
               <rect x="0" y="0" width="100" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.5"></rect>
               <text x="50" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.08em">DOCUMENT</text>
               <text x="50" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="8">INPUT</text>
             </g></a>
 
             <!-- Node: Aho-Corasick Engine (primary) -->
-            <a class="arch-node" href="https://docs.rs/terraphim_automata" target="_blank" rel="noopener"><g transform="translate(235, 155)"><title>terraphim_automata — Aho-Corasick automata, the core matching engine</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/mcp-native-agent-architecture/index.md') | replace(from=config.base_url, to="") }}#the-determinism-guarantee"><g transform="translate(235, 155)"><title>Aho-Corasick engine: deterministic O(n) matching</title>
               <rect x="0" y="0" width="150" height="70" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(60% 0.08 220)" stroke-width="2"></rect>
               <text x="75" y="24" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">AHO-CORASICK</text>
               <text x="75" y="40" text-anchor="middle" fill="oklch(60% 0.08 220)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">ENGINE</text>
@@ -136,7 +136,7 @@
             </g></a>
 
             <!-- Node: Knowledge Graph -->
-            <a class="arch-node" href="https://docs.rs/terraphim_rolegraph" target="_blank" rel="noopener"><g transform="translate(440, 160)"><title>terraphim_rolegraph — role-based knowledge graph</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/mcp-native-agent-architecture/index.md') | replace(from=config.base_url, to="") }}#layer-2-knowledge-graph"><g transform="translate(440, 160)"><title>Knowledge graph: Layer 2 of the reference architecture</title>
               <rect x="0" y="0" width="140" height="60" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(65% 0.14 80)" stroke-width="1.5"></rect>
               <text x="70" y="24" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">KNOWLEDGE</text>
               <text x="70" y="40" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="10" font-weight="700" letter-spacing="0.06em">GRAPH</text>
@@ -144,35 +144,35 @@
             </g></a>
 
             <!-- Node: Hook System -->
-            <a class="arch-node" href="https://docs.rs/terraphim-cli" target="_blank" rel="noopener"><g transform="translate(630, 95)"><title>terraphim-cli — CLI for semantic knowledge-graph search</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/harness-engineering-agents/index.md') | replace(from=config.base_url, to="") }}#platform-neutral-integration-contract"><g transform="translate(630, 95)"><title>Hook system: the platform-neutral integration contract</title>
               <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
               <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">HOOK SYSTEM</text>
               <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">EDITOR / CLI</text>
             </g></a>
 
             <!-- Node: REST API -->
-            <a class="arch-node" href="https://github.com/terraphim/terraphim-ai/tree/main/terraphim_server" target="_blank" rel="noopener"><g transform="translate(630, 165)"><title>terraphim_server — HTTP server providing the REST API (source; the published crate is a 2024 stub)</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/mcp-native-agent-architecture/index.md') | replace(from=config.base_url, to="") }}#layer-4-mcp-protocol-surface"><g transform="translate(630, 165)"><title>REST and protocol surface: Layer 4</title>
               <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
               <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">REST API</text>
               <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">HTTP SERVICE</text>
             </g></a>
 
             <!-- Node: WASM Runtime -->
-            <a class="arch-node" href="https://terraphim.rs/#capabilities" target="_blank" rel="noopener"><g transform="translate(630, 235)"><title>terraphim_automata — compiles to WebAssembly for browser and edge</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/mcp-native-agent-architecture/index.md') | replace(from=config.base_url, to="") }}#why-rust"><g transform="translate(630, 235)"><title>WASM runtime: why Rust compiles to WebAssembly here</title>
               <rect x="0" y="0" width="110" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(55% 0.12 155)" stroke-width="1.2"></rect>
               <text x="55" y="22" text-anchor="middle" fill="oklch(55% 0.12 155)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">WASM RUNTIME</text>
               <text x="55" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">BROWSER / EDGE</text>
             </g></a>
 
             <!-- Node: Local Store -->
-            <a class="arch-node" href="https://docs.rs/terraphim_persistence" target="_blank" rel="noopener"><g transform="translate(245, 300)"><title>terraphim_persistence — Persistable trait and DeviceStorage backends</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/terraphim-engine-architecture/index.md') | replace(from=config.base_url, to="") }}#layer-2-the-core-engine"><g transform="translate(245, 300)"><title>Local store: persistence in the core engine</title>
               <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.08 250)" stroke-width="1.2"></rect>
               <text x="65" y="22" text-anchor="middle" fill="oklch(72% 0.01 250)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">LOCAL STORE</text>
               <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">ON-DEVICE ONLY</text>
             </g></a>
 
             <!-- Node: Role Filter -->
-            <a class="arch-node" href="https://docs.rs/terraphim_config" target="_blank" rel="noopener"><g transform="translate(445, 300)"><title>terraphim_config — role definitions and configuration</title>
+            <a class="arch-node" href="{{ get_url(path='@/posts/terraphim-engine-architecture/index.md') | replace(from=config.base_url, to="") }}#layer-1-types-and-configuration"><g transform="translate(445, 300)"><title>Role filter: roles live in configuration, not runtime checks</title>
               <rect x="0" y="0" width="130" height="50" rx="2" fill="oklch(14% 0.012 250)" stroke="oklch(50% 0.18 25 / 0.6)" stroke-width="1.2"></rect>
               <text x="65" y="22" text-anchor="middle" fill="oklch(65% 0.14 80)" font-family="'Instrument Sans', sans-serif" font-size="9" font-weight="700" letter-spacing="0.06em">ROLE FILTER</text>
               <text x="65" y="37" text-anchor="middle" fill="oklch(50% 0.008 250)" font-family="'JetBrains Mono', monospace" font-size="7">PERSONA WEIGHT</text>
@@ -196,11 +196,11 @@
           </svg>
         </div>
         <p class="arch-caption">
-          Every box is a real crate &mdash; click through to its documentation on
-          <a href="https://docs.rs" target="_blank" rel="noopener">docs.rs</a>, or browse all 52 at
+          Each box links to the section that explains it. Every one is also a published
+          Rust crate &mdash; the mapping is in
+          <a href="{{ get_url(path='@/posts/terraphim-engine-architecture/index.md') | replace(from=config.base_url, to="") }}">The Terraphim Engine</a>,
+          and all 52 are listed at
           <a href="https://terraphim.rs" target="_blank" rel="noopener">terraphim.rs</a>.
-          What sits behind each box is explained in
-          <a href="{{ get_url(path='@/posts/terraphim-engine-architecture/index.md') | replace(from=config.base_url, to="") }}">The Terraphim Engine</a>.
         </p>
       </div>
     </section>

@@ -303,13 +303,13 @@ Terraphim implements this architecture across ~50 Rust crates. Here's how the la
 
 | Layer | Crate | Responsibility |
 |-------|-------|--------------|
-| Role & Config | `terraphim_config` | Role definitions, haystacks, LLM routing |
-| Knowledge Graph | `terraphim_rolegraph` | Aho-Corasick automata, concept matching |
-| Fast Matching | `terraphim_automata` | FST autocomplete, link generation, WASM |
-| Multi-Agent | `terraphim_multi_agent` | Agent registry, capability discovery, workflows |
-| MCP Server | `terraphim_mcp_server` | Protocol surface, schema enforcement |
-| Capabilities | `terraphim_agent_registry` | Capability matching, score-based discovery |
-| Persistence | `terraphim_persistence` | DeviceStorage, memory/file backends |
+| Role & Config | [`terraphim_config`](https://docs.rs/terraphim_config) | Role definitions, haystacks, LLM routing |
+| Knowledge Graph | [`terraphim_rolegraph`](https://docs.rs/terraphim_rolegraph) | Aho-Corasick automata, concept matching |
+| Fast Matching | [`terraphim_automata`](https://docs.rs/terraphim_automata) | FST autocomplete, link generation, WASM |
+| Multi-Agent | [`terraphim_multi_agent`](https://docs.rs/terraphim_multi_agent) | Agent registry, capability discovery, workflows |
+| MCP Server | [`terraphim_mcp_server`](https://docs.rs/terraphim_mcp_server) | Protocol surface, schema enforcement |
+| Capabilities | [`terraphim_agent_registry`](https://docs.rs/terraphim_agent_registry) | Capability matching, score-based discovery |
+| Persistence | [`terraphim_persistence`](https://docs.rs/terraphim_persistence) | DeviceStorage, memory/file backends |
 
 The MCP integration is bidirectional. Terraphim acts as an MCP server (exposing search and config tools to external clients) and can discover external MCP servers for additional capabilities. This enables multi-agent orchestration where each agent has its own Role and Knowledge Graph, but they can discover and invoke each other's tools through MCP.
 
@@ -387,7 +387,7 @@ The architecture described in this article is implemented in Terraphim, an open-
 
 - **Repository:** [github.com/terraphim-ai/terraphim](https://github.com/terraphim/terraphim-ai)
 - **Documentation:** [docs.terraphim.ai](https://docs.terraphim.ai)
-- **MCP Server:** `terraphim_mcp_server` crate
+- **MCP Server:** [`terraphim_mcp_server`](https://docs.rs/terraphim_mcp_server) crate
 - **License:** Apache-2.0
 
 Contributions welcome. Issues tracked in the [Terraphim Gitea](https://git.terraphim.cloud).

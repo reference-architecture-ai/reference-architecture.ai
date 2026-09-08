@@ -158,10 +158,12 @@ cloudflare.personal.token/credential`), not a literal. It needs
   the site should solicit support at all, and in whose name — was not asked.
 - Two upstream defects on terraphim.rs (unpublished `terraphim_symphony`, 404 wasm
   directory) are worth reporting to that project.
-- The site claims "12 Core patterns" in the ribbon and "52 crates" in several places.
-  The crate count is verified against terraphim.rs; **the pattern count is not backed by
-  anything on the site** — there is no list of 12 patterns. Either write it or change the
-  claim.
+- ~~The site claims "12 Core patterns" with nothing behind it.~~ **Resolved
+  2026-09-08.** Two corrections to that note: the chip was not actually on the live site
+  (I had dropped it when trimming the ribbon from five items to three to make room for
+  navigation), and the twelve patterns did exist in the content, just unindexed.
+  `/docs/patterns/` now names all twelve, each linking to where it is argued, and the
+  ribbon chip is restored as a link to it.
 
 ---
 

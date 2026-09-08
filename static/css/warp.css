@@ -1412,3 +1412,8 @@
     }
     .arch-caption a { color: var(--warp-bright); text-decoration: none; border-bottom: 1px solid var(--border-bright); }
     .arch-caption a:hover { color: var(--warp-streak); }
+
+    /* The Patterns chip is the one ribbon item that leads somewhere. */
+    a.ribbon-resource { text-decoration: none; transition: opacity var(--transition); }
+    a.ribbon-resource:hover { opacity: 1; }
+    a.ribbon-resource:hover .r-value { color: var(--warp-bright); }

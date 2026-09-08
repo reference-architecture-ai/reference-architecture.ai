@@ -35,7 +35,7 @@ flowchart LR
 There are a number of API's that GitHub offers to help developers, but the GitHub Authentication API is one of the most popular. This API allows you to log in to GitHub using your username and password, or OAuth token.
 
 A login button with a standard OIDC/OAuth2 dance is one of the most common ways for a user to authenticate to an API.
-Below is code taken from this [gist]((https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251)) and is very common for OAuth2 flows:
+Below is code taken from this [gist](https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251) and is very common for OAuth2 flows:
 
 ```python
 import os 
@@ -367,5 +367,5 @@ This post is in collaboration with Redis.
 * [Who sponsors this user?](https://github.com/community/community/discussions/3818)
 
 * [Check sponsors.go - query whether a GitHub user is your sponsor at a given tier (dollar amount)](https://gist.github.com/alexellis/6212c988189323dbb2806d1c7f7699ab)
-* [GitHub OAuth2 Gist](https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251 ) 
+* [GitHub OAuth2 Gist](https://gist.github.com/xros/aba970d1098d916200d0acce8feb0251) 
 * [GraphQL explorer](https://docs.github.com/en/graphql/overview/explorer)

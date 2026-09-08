@@ -298,13 +298,13 @@ checked immediately and throughout and never changed. The run will age out.
 Now `reference-architecture-ai/reference-architecture.ai`. The utterances `repo`, the
 nav and footer GitHub links, the README history section and the git remote all follow it.
 
-### 3. Post-launch setup — mostly done 2026-09-08
+### 3. Post-launch setup — done 2026-09-08
 
 | Item | Status |
 |---|---|
 | `www` subdomain | **Done.** Proxied CNAME `www` -> `reference-architecture.ai`, plus a redirect rule 301ing `https://www.*` to the apex with the query string preserved. Verified: `/`, `/posts/` and a UTM-tagged URL all 301 correctly |
 | Google Search Console | **Done.** Domain property `reference-architecture.ai` verified by TXT record (`google-site-verification=...`), which also covers `www` and every subdomain. `sitemap.xml` submitted: status **Success, 72 pages discovered** — matching the build exactly |
-| Bing Webmaster Tools | **Needs you.** Not signed in, and I cannot sign in or create accounts on your behalf. Once signed in at <https://www.bing.com/webmasters>, the fastest route is *Import from Google Search Console*, which carries the verified property and the sitemap across in one step |
+| Bing Webmaster Tools | **Done 2026-09-08.** Site added by *Import from Google Search Console*, so no separate verification was needed. The import carried the site across but **not** the sitemap, so `sitemap.xml` was submitted directly. Status **Success**, crawled same day, **72 URLs discovered** — matching Google and the build exactly, 0 errors, 0 warnings |
 | Utterances GitHub App | **Done 2026-09-08.** Installed on the organisation, scoped to `reference-architecture.ai` alone rather than the org-wide default, with read metadata plus read/write issues. Installation id `160015620`, `repository_selection: selected`. Verified on a live article: the widget renders "0 Comments - powered by utteranc.es" with the Write/Preview tabs and a Sign in with GitHub button, in the dark theme — no "not installed on this repository" error |
 
 Chose the manual TXT route for Search Console rather than Google's "authorise access to your Cloudflare DNS account" flow, so no OAuth link exists between the two accounts. Keep the TXT record: removing it drops the verification.

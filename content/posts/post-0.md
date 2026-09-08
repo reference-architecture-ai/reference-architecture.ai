@@ -23,6 +23,6 @@ Three things need to be in place to build an AI product:
 2) Core Capabilities required to build AI/ML product
 3) Enabling capabilities
 
-I will use [The Pattern](https://thepattern.digital/), my [“Build on Redis[” Hackathon ](https://redis.com/blog/build-on-redis-hackathon-winners/)prize-winning [open source](https://github.com/applied-knowledge-systems/the-pattern)](https://github.com/applied-knowledge-systems/the-pattern) project, to illustrate how the capabilities below can be implemented and invite you to [contribute](/docs/contribution/) or [donate](/docs/donate). 
+I will use [The Pattern](https://thepattern.digital/), my [“Build on Redis[” Hackathon ](https://redis.com/blog/build-on-redis-hackathon-winners/)prize-winning [open source](https://github.com/applied-knowledge-systems/the-pattern)](https://github.com/applied-knowledge-systems/the-pattern) project, to illustrate how the capabilities below can be implemented and invite you to [contribute](@/docs/contribution.md) or [donate](@/docs/donate.md). 
 
 We launch in two full-featured articles - [NLP ML pipeline for](@/docs/nlp/index.md) turning unstructured JSON text into a knowledge graph and fresh off the press [Benchmarks for BERT Large Question Answering inference for RedisAI and RedisGears](@/docs/bert-qa-benchmarking/index.md) with Grafana Dashboards by [Mikhail Volkov](https://volkovlabs.com/from-a-basic-redistimeseries-data-source-to-2-million-downloads-in-grafana-marketplace-9921ed9ac5a)

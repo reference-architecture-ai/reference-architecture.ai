@@ -33,13 +33,28 @@
     lastFocused = document.activeElement;
     modal.hidden = false;
     document.body.style.overflow = 'hidden';
-    // Focus on the next frame: focusing an element in the same tick it stops
-    // being [hidden] is unreliable, since it is not yet laid out.
-    requestAnimationFrame(function () {
+    focusInput();
+    init();
+  }
+
+  /**
+   * Focusing an element in the same tick it stops being [hidden] is unreliable:
+   * it has not been laid out yet, and browsers differ on whether the call
+   * sticks. Try immediately, on the next frame, and once more on a macrotask,
+   * stopping as soon as it takes. Cheap, and removes the failure mode where the
+   * modal opens but the caret is not in the field.
+   */
+  function focusInput() {
+    var attempt = function () {
+      if (document.activeElement === input || modal.hidden) return true;
       input.focus();
       input.select();
+      return document.activeElement === input;
+    };
+    if (attempt()) return;
+    requestAnimationFrame(function () {
+      if (!attempt()) setTimeout(attempt, 50);
     });
-    init();
   }
 
   function close() {

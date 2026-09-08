@@ -200,6 +200,33 @@ Six commits on `main`. Highlights beyond the plan as written:
 
 ---
 
+## 7b. Post-launch defects found and fixed
+
+The first look at the deployed site showed it completely unstyled. Root cause, and two
+follow-ons found by crawling production rather than eyeballing it:
+
+| Defect | Cause | Fix |
+|---|---|---|
+| No CSS, no JS, no icons, every nav link dead on `pages.dev` | Zola's `get_url()` and `permalink` build absolute URLs from `config.base_url` = `https://reference-architecture.ai`, which has no DNS. The browser resolved every asset against a host that does not answer | Assets, navigation and feed links are now root-relative |
+| Cross-references between articles also dead | Markdown internal links (`@/` form and resolved bare paths) render absolute too | `page.content` / `section.content` pass through the same `base_url` strip |
+| `/docs/metadata/./docs/intake` and a doubled-parenthesis gist link 404ing | Malformed markdown, broken since it was written in 2020-22 | Rewritten as `@/` links, so a future rename breaks the build instead of shipping a 404 |
+
+Deliberately still absolute, because they name the canonical host for crawlers rather
+than the browsing one: `rel=canonical`, `og:url`, `og:image`, `twitter:image`, JSON-LD,
+`sitemap.xml`, `rss.xml`, and the `/json/` and `/json-ad/` exports.
+
+This also means **per-branch preview deployments work**, which they never would have
+under absolute URLs.
+
+**Verified on production:** all 72 sitemap URLs return 200; all 93 unique internal
+references resolve; no anchor, image, script or stylesheet points at the canonical host;
+no console errors.
+
+Known cosmetic issue, not fixed: the legacy PNG diagrams in `/docs/nlp/` and
+`/docs/bert-qa-benchmarking/` were drawn on white and sit brightly against the dark
+page. They are archived screenshots and remain legible; recolouring them would mean
+altering the record.
+
 ## 8. Open items
 
 The site is live at **https://reference-architecture-ai.pages.dev** — the new design,

@@ -1,5 +1,9 @@
 {# Components replace Zola's shortcodes, removed in 0.23. #}
 
+{# Keep mermaid bodies free of blank lines. Markdown runs over the rendered
+   component output, so a blank line inside the diagram becomes a <p> tag
+   inside this <pre> and mermaid then fails with "Syntax error in text". The
+   template cannot defend against it -- the paragraph is inserted afterwards. #}
 {% component mermaid() %}
 <div class="mermaid-wrap"><pre class="mermaid">{{ body }}</pre></div>
 {% endcomponent mermaid %}

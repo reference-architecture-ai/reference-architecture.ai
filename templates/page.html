@@ -105,13 +105,18 @@
   mermaid.initialize({
     startOnLoad: true,
     theme: 'dark',
+    // useMaxWidth false keeps the diagram at its natural size instead of
+    // shrinking it to the reading measure, where the labels become unreadable.
+    // .mermaid-wrap scrolls horizontally to cover the overflow.
+    flowchart: { useMaxWidth: false, htmlLabels: true, padding: 12 },
     themeVariables: {
       background: '#0a0b14',
       primaryColor: '#161a2b',
       primaryTextColor: '#dfe3ee',
       primaryBorderColor: '#3a4468',
       lineColor: '#6f8bd6',
-      fontFamily: 'Onest, system-ui, sans-serif'
+      fontFamily: 'Onest, system-ui, sans-serif',
+      fontSize: '15px'
     }
   });
 </script>

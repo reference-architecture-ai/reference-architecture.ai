@@ -1176,3 +1176,64 @@
       .entry-list { grid-template-columns: 1fr 1fr; }
       .entry-list.is-archive { grid-template-columns: 1fr 1fr 1fr; }
     }
+
+    /* ---- CLICKABLE ARCHITECTURE NODES ----
+       Each node in the homepage diagram links to the section that explains
+       it. Without a visible affordance a link inside an SVG is invisible,
+       so the box lifts and brightens on hover and focus. */
+    .arch-node { cursor: pointer; }
+
+    .arch-node rect,
+    .arch-node text {
+      transition: opacity 0.18s var(--ease-out), filter 0.18s var(--ease-out);
+    }
+
+    .arch-node:hover rect,
+    .arch-node:focus-visible rect {
+      filter: brightness(1.5);
+    }
+    .arch-node:hover text,
+    .arch-node:focus-visible text {
+      filter: brightness(1.25);
+    }
+
+    /* Keyboard focus must be obvious; the default outline is clipped by the
+       SVG viewport on edge nodes, so draw it inside the shape instead. */
+    .arch-node:focus { outline: none; }
+    .arch-node:focus-visible rect {
+      stroke: var(--warp-streak);
+      stroke-width: 2.5;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .arch-node rect, .arch-node text { transition: none; }
+    }
+
+    /* Touch targets: the whole group is already the hit area, but make sure
+       the transparent interior counts, not just the stroke. */
+    .arch-node rect { pointer-events: all; }
+
+    /* Mermaid diagrams are wider than the reading measure. Let them use the
+       full column and scroll rather than shrink their labels to illegibility. */
+    .mermaid-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.75rem 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--void-deep);
+    }
+    .mermaid-wrap pre.mermaid {
+      background: none;
+      border: 0;
+      padding: 0 0.75rem;
+      margin: 0;
+      min-width: min-content;
+    }
+    .mermaid-wrap svg { display: block; margin: 0 auto; }
+
+    /* Diagrams and wide media may exceed the 46rem measure on roomy screens. */
+    @media (min-width: 1100px) {
+      .prose .mermaid-wrap,
+      .prose > p > img { width: min(64rem, calc(100vw - 4rem)); margin-left: calc((46rem - min(64rem, 100vw - 4rem)) / 2); }
+    }

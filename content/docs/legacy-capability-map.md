@@ -72,7 +72,7 @@ subgraph " "
   id2[ML performance and bias monitoring];
   id3[Application Performance Monitoring];
   id4[Hardware Performance Monitoring];
-  click id3 "/docs/bert-qa-benchmarking/#running-benchmarks" "Running Benchmarks"
+  click id3 "/docs/bert-qa-benchmarking/#running-the-benchmark" "Running Benchmarks"
   click id4 "/docs/bert-qa-benchmarking/#using-grafana-to-monitor-redisgears-throughput-cpu-and-memory-usage" "CPU and Memory Benchmarks"
 end
 subgraph " "
@@ -81,12 +81,10 @@ subgraph " "
   c2[Collaboration and knowledge management tooling]
   c3[Change Management]
 end 
-  
   subgraph 3 [Self Serving Infrastructure]
     s1[Computing Infrastructure]
     s2[Serving infrastructure]
   end
-
   end
   style 2 fill:#485fc754,stroke:#333,stroke-width:4px;
 {% </mermaid> %}

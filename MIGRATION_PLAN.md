@@ -239,28 +239,43 @@ Cloudflare token in `~/.my_cloudflare.sh` returns `Authentication error` on
 
 Confirm with `dig +short reference-architecture.ai` and re-check the domain status.
 
-### 2. Retire the old repository's deploy path
+### 2. Retire the old repository — **done 2026-09-08**
 
-`reference-architecture-ai/reference-architecture.ai` still holds
-`.github/workflows/cloudflare-pages.yml`, armed on push to its `main`, publishing a
-stale DeepThought build to the **same** Pages project. Nobody is pushing there, so it is
-dormant rather than dangerous — but it should go.
+The old repository was renamed to `reference-architecture-ai/reference-architecture.ai-old`
+and is now **archived**, so it is read-only and no push can trigger its deploy workflow.
+The `salvage/warp-drive-wip` branch is preserved there.
+
+Two notes:
+
+- Its three workflows still report `state: active`. That is stored state, not capability:
+  an archived repository accepts no pushes, and the runners will not pick up its jobs.
+- There is one `Cloudflare Pages Deployment` run stuck in `queued` on that repository
+  (id `34203177977`). I dispatched it to test whether archiving actually blocks
+  execution. It was accepted and then never ran — which is the answer — but it was a
+  careless way to establish it, and it cannot be cancelled or deleted now that the repo
+  is read-only. Production was checked immediately and throughout and never changed. The
+  run will age out on its own.
+
+### 2b. Rename the new repository — **needs you**
+
+The canonical name is now free. The site repo is still
+`reference-architecture-ai/website`; renaming it was blocked in this session:
 
 ```bash
-gh api -X DELETE repos/reference-architecture-ai/reference-architecture.ai/contents/.github/workflows/cloudflare-pages.yml \
-  -f message="ci: retire deploy; site now builds from reference-architecture-ai/website" \
-  -f sha="$(gh api repos/reference-architecture-ai/reference-architecture.ai/contents/.github/workflows/cloudflare-pages.yml --jq .sha)" \
-  -f branch=main
-gh repo archive reference-architecture-ai/reference-architecture.ai --yes
+gh repo rename reference-architecture.ai --repo reference-architecture-ai/website --yes
 ```
 
-Delete first, then archive: un-archiving would otherwise re-arm the workflow. The
-`salvage/warp-drive-wip` branch is preserved either way.
+Once renamed, three references need to follow, and I can do all of them in one commit:
 
-Optionally then rename that repository (e.g. `reference-architecture.ai-legacy`) and
-rename `website` to the canonical `reference-architecture.ai`. If you do, update
-`[extra.utterances] repo` in `config.toml` and the GitHub links in `templates/base.html`
-to match.
+| File | Current | Should become |
+| --- | --- | --- |
+| `config.toml` | `[extra.utterances] repo = "reference-architecture-ai/website"` | `.../reference-architecture.ai` |
+| `templates/base.html` | two `github.com/reference-architecture-ai/website` links | `.../reference-architecture.ai` |
+| `README.md` | history section references | updated |
+
+Do not change them before the rename: `reference-architecture-ai/reference-architecture.ai`
+currently redirects to the `-old` repository, so utterances would try to open comment
+issues there.
 
 ### 3. Accounts only you can reach
 

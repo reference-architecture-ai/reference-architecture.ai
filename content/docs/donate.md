@@ -1,30 +1,42 @@
 +++
-title = "Support project by contributing" 
-description = "Support project by contributing financially or technically"
-date = 2020-08-31
+title = "Support the project"
+description = "Support Reference Architecture for AI by using, contributing to, or sponsoring the open-source work behind it."
+date = 2026-09-08
+
 [taxonomies]
-categories = ["donations","open-source"]
-tags = ["donate", "support"]
+categories = ["donations", "open-source"]
+tags = ["donate", "support", "terraphim"]
 
 [extra]
 comments = false
 +++
-# For Individuals 
 
-This is a begging of an exciting, incredible new journey; support open source projects by donating or contributing.
+The patterns described on this site are not theory. They are extracted from
+[Terraphim](https://terraphim.ai), a privacy-first AI assistant built across 52 Rust
+crates, and every one of those crates is open source.
 
-# For Organisations
+The most valuable support is use and scrutiny.
 
-Becomes a sponsor and promote Reference Architecture for AI.
- 
-The ask is 
-- Monetary to support project hosting and maintenance costs
-- Credits for enterprise 
-- Contribute and review proposed architectures, benchmarks, and deployment guides, be ready to stand your ground and defend trade-offs in the presence of industry-leading architects, engineers, and competitors
-- Help promote and market reference architecture for AI
+## Use it
 
-# Donate 
-* [![](https://img.shields.io/static/v1?label=Github&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/applied-knowledge-systems)
-* [![](https://img.shields.io/static/v1?label=Patreon&message=%E2%9D%A4&logo=Patreon&color=%23fe8e86)](https://www.patreon.com/applied_knowledge_systems)
-* [![](https://img.shields.io/static/v1?label=opencollective&message=%E2%9D%A4&logo=OpenCollective&color=%23fe8e86)](https://opencollective.com/applied-knowledge-systems)
+- **[terraphim.ai](https://terraphim.ai)** — the assistant itself: local-first, your data
+  stays on your device.
+- **[terraphim.rs](https://terraphim.rs)** — the engine: 52 crates, each with a single
+  responsibility and usable independently. Start with
+  [`terraphim_automata`](https://docs.rs/terraphim_automata) for Aho-Corasick matching,
+  [`terraphim_rolegraph`](https://docs.rs/terraphim_rolegraph) for role-based knowledge
+  graphs, or [`terraphim_persistence`](https://docs.rs/terraphim_persistence) for the
+  storage layer.
 
+## Contribute
+
+Issues, benchmarks and architecture critique are worth more than money here. If a
+trade-off on this site looks wrong, say so — with evidence — at
+[github.com/terraphim](https://github.com/terraphim). Deployment guides and reproducible
+benchmarks are especially welcome.
+
+## Sponsor
+
+If your organisation depends on this work, [Terraphim Pro](https://terraphim.pro) funds
+the open-source engine directly: connectors, an LLM proxy and agentic skills for
+enterprise deployment.

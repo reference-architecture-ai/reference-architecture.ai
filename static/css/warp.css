@@ -1399,3 +1399,16 @@
       .search-modal { padding: 1rem 0.75rem; }
       .nav-search-key { display: none; }
     }
+
+    /* Caption under the architecture diagram: says where the nodes go, and keeps
+       the on-site explanation one click away now that the boxes lead to crates. */
+    .arch-caption {
+      max-width: 640px;
+      margin: 1rem auto 0;
+      text-align: center;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+    .arch-caption a { color: var(--warp-bright); text-decoration: none; border-bottom: 1px solid var(--border-bright); }
+    .arch-caption a:hover { color: var(--warp-streak); }

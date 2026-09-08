@@ -14,7 +14,7 @@ comments = false
 skip_content_templating = true
 +++
 ## Summary of the article
-This article will explore the challenges and opportunities of deploying a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) from inside Huggingface, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://developer.redis.com/howtos/redisai/getting-started?utm_campaign=write_for_redis) perform heavy lifting while leveraging in-memory datastore Redis.
+This article will explore the challenges and opportunities of deploying a large BERT Question Answering Transformer model(bert-large-uncased-whole-word-masking-finetuned-squad) from inside Huggingface, where [RedisGears](https://developer.redis.com/howtos/redisgears?utm_campaign=write_for_redis) and [RedisAI](https://web.archive.org/web/20220724124905/https://developer.redis.com/howtos/redisai/getting-started) perform heavy lifting while leveraging in-memory datastore Redis.
 
 ## Why do we need RedisAI?
 
@@ -394,7 +394,7 @@ There are many ways to optimize this deployment. For example, you can add a FP16
 
 # Using Grafana to monitor RedisGears throughput, CPU, and Memory usage
 
-Thanks to the contribution of [Mikhail Volkov](https://volkovlabs.com/from-a-basic-redistimeseries-data-source-to-2-million-downloads-in-grafana-marketplace-9921ed9ac5a), we can now observe RedisGears and RedisGraph throughput and memory consumption using Grafana. When you cloned repository it started Graphana Docker, which has pre-build templates to monitor RedisCluster, including RedisGears and RedisAI, and Graph - which is Redis with RedisGraph. "The Pattern" dashboard provides an overview, with all the key benchmark metrics you care about:
+Thanks to the contribution of [Mikhail Volkov](https://web.archive.org/web/20221231201518/https://volkovlabs.com/from-a-basic-redistimeseries-data-source-to-2-million-downloads-in-grafana-marketplace-9921ed9ac5a), we can now observe RedisGears and RedisGraph throughput and memory consumption using Grafana. When you cloned repository it started Graphana Docker, which has pre-build templates to monitor RedisCluster, including RedisGears and RedisAI, and Graph - which is Redis with RedisGraph. "The Pattern" dashboard provides an overview, with all the key benchmark metrics you care about:
 
 ![Grafana for RedisGraph](graphana_redis_graph.png)
 

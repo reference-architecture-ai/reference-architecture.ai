@@ -97,9 +97,13 @@ skip_prefixes = [
     "http://[2001:db8::]/",
 ]
 
-# Skip anchor checking for external URLs that start with these prefixes
+# Skip anchor checking for external URLs that start with these prefixes.
+# GitHub renders #L<n> line anchors client-side, so the checker cannot see them
+# and reports working links as broken. Verified: the four flagged blob URLs all
+# return 200 and the line anchors resolve in a browser.
 skip_anchor_prefixes = [
     "https://caniuse.com/",
+    "https://github.com/",
 ]
 
 # Various slugification strategies, see below for details

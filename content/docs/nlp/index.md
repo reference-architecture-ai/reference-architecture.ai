@@ -62,13 +62,13 @@ Intake step - is very simple put all JSON records into RedisCluster, then NLP pi
 
 ### How does the NLP pipeline steps fit into RedisGears? 
 
-1. For each record — detect language (discard non English), it’s [filter](https://oss.redis.com/redisgears/operations.html#filter)
+1. For each record — detect language (discard non English), it’s [filter](https://web.archive.org/web/20240318030547/https://oss.redis.com/redisgears/operations.html#filter)
 
-2. Map paragraphs into a sentence — [flatmap](https://oss.redis.com/redisgears/operations.html#flatmap)
+2. Map paragraphs into a sentence — [flatmap](https://web.archive.org/web/20240318030547/https://oss.redis.com/redisgears/operations.html#flatmap)
 
-3. Sentences spellchecker — it’s [map](https://oss.redis.com/redisgears/operations.html#map)
+3. Sentences spellchecker — it’s [map](https://web.archive.org/web/20240318030547/https://oss.redis.com/redisgears/operations.html#map)
 
-4. Save sentences into hash — [processor](https://oss.redis.com/redisgears/operations.html#processor)
+4. Save sentences into hash — [processor](https://web.archive.org/web/20240318030547/https://oss.redis.com/redisgears/operations.html#processor)
 
 
 

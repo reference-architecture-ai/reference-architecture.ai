@@ -330,7 +330,7 @@ gb.run('user:*')
 ```
 
 ## Fetch sponsor's preferences back to Redis OSS from Redis Enterprise
-Then we are going to use [Key miss events](https://oss.redis.com/redisgears/miss_event.html#fetch-data-on-keymiss-event?utm_campaign=write_for_redis) from Redis Gears to fetch data for all users:
+Then we are going to use [Key miss events](https://web.archive.org/web/20221123154317/https://oss.redis.com/redisgears/1.2/miss_event.html#fetch-data-on-keymiss-event) from Redis Gears to fetch data for all users:
 
 {% <mermaid> %}
 flowchart LR
@@ -362,7 +362,7 @@ In this article, we walked through steps on how to create sponsor-specific "nano
 This post is in collaboration with Redis.
 
 # References
-* [How to use GitHub Sponsors to help monetize your software](https://creativewebspecialist.co.uk/2021/01/08/how-to-use-github-sponsors-to-help-monetize-your-software/)
+* [How to use GitHub Sponsors to help monetize your software](https://web.archive.org/web/20220808021840/https://creativewebspecialist.co.uk/2021/01/08/how-to-use-github-sponsors-to-help-monetize-your-software/)
 
 * [Who sponsors this user?](https://github.com/community/community/discussions/3818)
 

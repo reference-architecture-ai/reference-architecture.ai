@@ -13,9 +13,9 @@ archived = false
 
 ## Abstract
 
-<span id="continue-reading"></span>
-
 An organisational AI agent needs defined responsibilities, relevant knowledge and bounded authority. This paper proposes roles as contracts for all three. A Project Manager plans delivery; a Product Manager decomposes product outcomes into features. Each uses a governed role-based knowledge graph. Agent services realise role capabilities through tools whose actions require contextual permission. Verification and validation require compatible concepts, relationships and operating conditions across the input and evaluation criteria, with explicit mappings where views differ. A cross-check against ISO/IEC/IEEE 42010:2022 and 29148:2018 informs these distinctions without claiming conformity. Terraphim provides graph retrieval and checklists; Terraph connects concept matching to proof-gated verbs; ADF configurations define responsibilities and artefact templates. The proposed integration would allow a Project Manager agent to create a checked plan from an approved template while reserving production deployment for a separately authorised role.
+
+<span id="continue-reading"></span>
 
 ## Continuing the argument on evolving AI risk
 

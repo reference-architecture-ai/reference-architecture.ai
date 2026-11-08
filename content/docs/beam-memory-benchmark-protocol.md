@@ -51,7 +51,8 @@ The subject is Terraphim's retrieval as it ships, through its two command-line f
 |---|---|
 | P | past.dev, from its published records (not rerun) |
 | R | plain `ripgrep` over the same turns, as a baseline |
-| G | `terraphim-grep`, search only, no network |
+| G | `terraphim-grep`, search only, no network, no thesaurus |
+| G-KG | G with the knowledge-graph thesaurus: synonym expansion and concept boost, text matching kept |
 | A-BM25 | `terraphim-agent` search, `BM25Plus` relevance, no thesaurus |
 | A-Title | the same role, `TitleScorer` relevance |
 | A-KG | the same role, `TerraphimGraph` relevance with a knowledge-graph thesaurus |
@@ -59,6 +60,8 @@ The subject is Terraphim's retrieval as it ships, through its two command-line f
 | A-MEM | `terraphim-agent memory retrieve`, the agent-memory feature, with each turn stored as one memory item and the A-KG thesaurus |
 
 A-BM25 against A-KG is the knowledge-graph ablation: same turns, same frozen query text, same settings; only the ranking and its thesaurus change. A-KG against A-KG-X then measures query expansion on its own.
+
+G against G-KG measures the same thing inside `terraphim-grep`. There the thesaurus expands the query through synonyms and boosts matching results, but text matching still applies, so a question that names no concept can still find turns.
 
 A-MEM measures Terraphim's agent memory as it ships. It ranks memory items by their knowledge-graph concepts, with no text-search fallback: a query that names no thesaurus concept returns nothing, and an item is only reachable if it matches at least two concepts. On its own benchmark of 56 stored learnings it reached a recall at 5 of 0.04, for exactly that reason. Expect low numbers here too. They will be published as they are, with the share of questions that named no concept.
 
@@ -98,7 +101,7 @@ Two findings from that conversation shaped the protocol:
 - **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample.
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen.
-- **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. For R and G, each arm's best on 100K is frozen for that arm. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
+- **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. `terraphim-grep` matches a multi-word query as a phrase and has no OR mode, so for it the local server runs one search per term and adds up each turn's best score across terms. For R, G and G-KG, the best protocol on 100K is frozen; G and G-KG share it. Ties between equal scores are broken by a rule (conversation order, or most recent first) that is also chosen on 100K and frozen. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
 - **Freeze.** Before any held-out run, one committed configuration records the harness pin, dataset revisions, binary versions, role configurations, thesaurus hash, query protocol per arm, tokeniser, and the commit of this page.
 
 This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup there was chosen on the same tests it reported.
@@ -114,7 +117,7 @@ This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup
 Decisions fixed in advance:
 
 1. If past.dev's records map to BEAM turns for fewer than 99 percent of rows on any split, past.dev is dropped from Tier 1 for that split and the shortfall is reported.
-2. If A-KG does not beat A-BM25 on held-out recall within budget, with an interval excluding zero, we report no measurable knowledge-graph gain on BEAM and make no claim of one.
+2. If A-KG does not beat A-BM25 on held-out recall within budget, with an interval excluding zero, we report no measurable knowledge-graph gain on BEAM and make no claim of one. The same rule applies to G-KG against G, reported separately.
 3. A-MEM's held-out recall within budget, and its recall at 5 (what the memory hook would inject), are reported beside A-KG and past.dev, whatever they are.
 4. If no Terraphim arm beats the `ripgrep` baseline on held-out splits, that is the headline.
 5. No composite score and no standalone "Terraphim BEAM score", in any tier.

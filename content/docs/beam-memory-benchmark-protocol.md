@@ -34,12 +34,12 @@ Pinned at harness commit `a712cd9` (2026-10-20), the latest at the time of writi
 
 | Split | Conversations | Questions | With evidence turn ids |
 |---|---|---|---|
-| 100K | 20 | 400 | 360 |
-| 500K | 35 | 700 | 630 |
-| 1M | 35 | 700 | 630 |
-| 10M | 10 | 200 | 180 |
+| 100K | 20 | 400 | 355 |
+| 500K | 35 | 700 | 629 |
+| 1M | 35 | 700 | 625 |
+| 10M | 10 | 200 | 176 |
 
-The 100K, 500K and 1M splits use BEAM dataset revision `3205395e`; the 10M split uses `9b209619`. Abstention questions (200 in all) have no evidence turns by design: they test whether the system declines to answer.
+The 100K, 500K and 1M splits use BEAM dataset revision `3205395e`; the 10M split uses `9b209619`. Abstention questions (200 in all) have no evidence turns by design: they test whether the system declines to answer. A further 15 questions carry no evidence turn ids in the dataset (eight in summarisation, two in preference following, one in knowledge update). They are excluded from Tier 1 and kept in Tier 2.
 
 Every recall row past.dev published cites exactly one source turn, and in every split its payload is close to full: the median is about 7,990 of the 8,000 evidence tokens.
 
@@ -100,7 +100,7 @@ This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup
 
 ## Metrics and decisions, declared now
 
-- **Tier 1 primary:** recall within budget, mean per split and per category, over 1,800 questions with evidence turns.
+- **Tier 1 primary:** recall within budget, mean per split and per category, over the 1,785 questions with evidence turns.
 - **Tier 1 secondary:** recall at 1, 5 and 10 distinct turns; mean reciprocal rank of the first evidence turn.
 - **Countermetrics:** payload tokens and result count (an arm that returns little scores low for its own reasons), recall latency at p50 and p95, and ingestion time.
 - **Uncertainty:** 95 percent bootstrap intervals resampling conversations, not questions, because 20 questions share a conversation.

@@ -55,8 +55,9 @@ The subject is Terraphim's retrieval as it ships, through its two command-line f
 | A-BM25 | `terraphim-agent` search, `BM25Plus` relevance, no thesaurus |
 | A-Title | the same role, `TitleScorer` relevance |
 | A-KG | the same role, `TerraphimGraph` relevance with a knowledge-graph thesaurus |
+| A-KG-X | A-KG, with the query also expanded through the thesaurus |
 
-A-BM25 against A-KG is the knowledge-graph ablation: same turns, same query, only the ranking changes.
+A-BM25 against A-KG is the knowledge-graph ablation: same turns, same frozen query text, same settings; only the ranking and its thesaurus change. A-KG against A-KG-X then measures query expansion on its own.
 
 ## How the substrate is swapped
 
@@ -92,7 +93,7 @@ Two findings from that conversation shaped the protocol:
 - **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample.
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen.
-- **Candidate query protocols:** the verbatim question; the question with punctuation and a fixed English stopword list removed, searched as OR terms; and that plus thesaurus expansion. Each arm's best on 100K is frozen for that arm.
+- **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. For R and G, each arm's best on 100K is frozen for that arm. The three `terraphim-agent` arms share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
 - **Freeze.** Before any held-out run, one committed configuration records the harness pin, dataset revisions, binary versions, role configurations, thesaurus hash, query protocol per arm, tokeniser, and the commit of this page.
 
 This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup there was chosen on the same tests it reported.

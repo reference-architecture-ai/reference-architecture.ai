@@ -56,14 +56,19 @@ The subject is Terraphim's retrieval as it ships, through its two command-line f
 | A-Title | the same role, `TitleScorer` relevance |
 | A-KG | the same role, `TerraphimGraph` relevance with a knowledge-graph thesaurus |
 | A-KG-X | A-KG, with the query also expanded through the thesaurus |
+| A-MEM | `terraphim-agent memory retrieve`, the agent-memory feature, with each turn stored as one memory item and the A-KG thesaurus |
 
 A-BM25 against A-KG is the knowledge-graph ablation: same turns, same frozen query text, same settings; only the ranking and its thesaurus change. A-KG against A-KG-X then measures query expansion on its own.
+
+A-MEM measures Terraphim's agent memory as it ships. It ranks memory items by their knowledge-graph concepts, with no text-search fallback: a query that names no thesaurus concept returns nothing, and an item is only reachable if it matches at least two concepts. On its own benchmark of 56 stored learnings it reached a recall at 5 of 0.04, for exactly that reason. Expect low numbers here too. They will be published as they are, with the share of questions that named no concept.
 
 ## How the substrate is swapped
 
 The harness talks to past.dev over HTTP. We run a small local server that implements the same eight endpoints and point the harness at it by URL. **The harness code runs unmodified; the only deviation from past.dev's run is that URL.**
 
 The local server writes each ingested turn to its own file, runs the arm's search, discards any turn later than the question's moment, and fills the payload by rank to 100 results and 8,000 tokens. It returns only fields it can fill truthfully: rank, timestamp, the raw turn text, and its source turn id. It omits past.dev's derived-memory fields, because we do not produce derived memories. The answer model reads the payload as returned, so this difference is part of what is measured, and is stated beside every result.
+
+An item's rank in A-MEM depends on everything else in the store, so discarding later turns after retrieval would still let them shape the ranking. For A-MEM the store is rebuilt for each question from the turns at or before its moment.
 
 Tokens are counted with `tiktoken` `o200k_base`. past.dev counts server-side and does not document its method, so this is a known deviation.
 
@@ -93,7 +98,7 @@ Two findings from that conversation shaped the protocol:
 - **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample.
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen.
-- **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. For R and G, each arm's best on 100K is frozen for that arm. The three `terraphim-agent` arms share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
+- **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. For R and G, each arm's best on 100K is frozen for that arm. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
 - **Freeze.** Before any held-out run, one committed configuration records the harness pin, dataset revisions, binary versions, role configurations, thesaurus hash, query protocol per arm, tokeniser, and the commit of this page.
 
 This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup there was chosen on the same tests it reported.
@@ -110,9 +115,10 @@ Decisions fixed in advance:
 
 1. If past.dev's records map to BEAM turns for fewer than 99 percent of rows on any split, past.dev is dropped from Tier 1 for that split and the shortfall is reported.
 2. If A-KG does not beat A-BM25 on held-out recall within budget, with an interval excluding zero, we report no measurable knowledge-graph gain on BEAM and make no claim of one.
-3. If no Terraphim arm beats the `ripgrep` baseline on held-out splits, that is the headline.
-4. No composite score and no standalone "Terraphim BEAM score", in any tier.
-5. One reported pass per arm. Any rerun is reported separately, with its pass count.
+3. A-MEM's held-out recall within budget, and its recall at 5 (what the memory hook would inject), are reported beside A-KG and past.dev, whatever they are.
+4. If no Terraphim arm beats the `ripgrep` baseline on held-out splits, that is the headline.
+5. No composite score and no standalone "Terraphim BEAM score", in any tier.
+6. One reported pass per arm. Any rerun is reported separately, with its pass count.
 
 ## Attribution and licence
 

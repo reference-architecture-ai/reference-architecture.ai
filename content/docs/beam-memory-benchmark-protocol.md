@@ -39,7 +39,7 @@ Pinned at harness commit `a712cd9` (2026-10-20), the latest at the time of writi
 | 1M | 35 | 700 | 625 |
 | 10M | 10 | 200 | 176 |
 
-The 100K, 500K and 1M splits use BEAM dataset revision `3205395e`; the 10M split uses `9b209619`. Abstention questions (200 in all) have no evidence turns by design: they test whether the system declines to answer. A further 15 questions carry no evidence turn ids in the dataset (eight in summarisation, two in preference following, one in knowledge update). They are excluded from Tier 1 and kept in Tier 2.
+The 100K, 500K and 1M splits use BEAM dataset revision `3205395e`; the 10M split uses `9b209619`. Abstention questions (200 in all) have no evidence turns by design: they test whether the system declines to answer. A further 15 questions carry no evidence turn ids in the dataset (twelve in summarisation, two in preference following, one in knowledge update). They are excluded from Tier 1 and kept in Tier 2.
 
 Every recall row past.dev published cites exactly one source turn, and in every split its payload is close to full: the median is about 7,990 of the 8,000 evidence tokens.
 

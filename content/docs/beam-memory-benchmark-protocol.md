@@ -139,10 +139,10 @@ Added on 2026-11-26, before any run under either harness.
 |---|---|
 | Replay | Cognee's published context for that question and run, byte for byte |
 | Empty | none: the floor |
-| Full | the whole conversation, 200 turns and about 115,000 tokens, which fits in the answer model's window: the ceiling |
+| Full | the whole conversation, 200 turns and about 115,000 tokens, which fits in the answer model's window: a full-context control, not a guaranteed ceiling, since irrelevant turns can lower a score |
 | R, G, G-KG, A-MEM | the arms above, with their configurations frozen as above |
 
-Replay is the pair for every other arm. Cognee's records date from July 2026 or earlier, and the model behind today's route may answer and judge differently. So each Terraphim arm is compared with a fresh replay, not with Cognee's published scores. To make that replay run alongside every arm, the runs are interleaved. Each of the 4 runs is one block, and in each block every question is answered and judged under all seven arms, in an order shuffled with a fixed seed. Route drift during the run then falls on all arms alike. The model route is pinned to one provider, with fallback off, and recorded. The gap between the replay and the published scores is the drift and noise floor.
+Replay is the pair for every other arm. Cognee's records date from July 2026 or earlier, and the model behind today's route may answer and judge differently. So each Terraphim arm is compared with a fresh replay, not with Cognee's published scores. To make that replay run alongside every arm, the runs are interleaved. Each of the 4 runs is one block, and in each block every question is answered and judged under all seven arms, in an order shuffled with a fixed seed. The wrapper drives this schedule itself, calling Cognee's functions one run of one arm at a time, rather than letting the harness finish all runs of one arm before the next. It records the run index, the arm order and timestamps, and a test with no model calls checks that the observed call order matches the frozen schedule. Route drift during the run then falls on all arms alike. The model route is pinned to one provider, with fallback off, and recorded. The drift and noise floor is the absolute difference between two overall means: the mean of the 4 fresh replay runs and the mean of Cognee's 4 published runs, over the same 20 questions.
 
 **Equal budget.** Cognee's contexts are hybrid. Each has a passages section, where every passage holds an LLM-written summary and the raw stored chunk, followed by sections of LLM-derived entities and facts. They run from 13,643 to about 29,800 tokens per question (median about 21,700), with no stated cap. Each Terraphim arm fills its context by rank up to the token count of Cognee's run-0 context for that question (the published runs differ slightly from each other), so the comparison is about what is retrieved, not how much. Our arms return raw turns only. That difference in what the payload holds is part of the substrate and stays in; the Full arm bounds it.
 
@@ -152,8 +152,8 @@ Replay is the pair for every other arm. Cognee's records date from July 2026 or 
 
 **Decisions fixed in advance:**
 
-1. A difference from Replay is reported as real only if its paired bootstrap interval excludes zero and it exceeds the Replay floor. Otherwise it is reported as indistinguishable on these 20 questions.
-2. Every arm is shown between Empty and Full. If Full matches or beats Replay, the headline says that at 100K this answer model does not need a memory system, and that the comparison measures selection under a budget.
+1. An arm's difference from Replay, better or worse, is reported as real only if its paired bootstrap interval excludes zero and its absolute size is larger than the floor. Otherwise it is reported as indistinguishable on these 20 questions.
+2. Every arm is shown between Empty and Full. If Full matches or beats Replay, the headline says that at 100K, when the whole conversation fits in its window, this answer model does not need selective retrieval, so the comparison measures selection under a fixed budget.
 3. No standalone score, no composite, and no ranking across the two harnesses.
 4. The 10M conversation in Cognee's report is in this protocol's held-out set, so no work on it happens before the freeze.
 

@@ -98,7 +98,7 @@ Two findings from that conversation shaped the protocol:
 
 ## Development and held-out splits
 
-- **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample. Since 2026-11-26, 100K conversation 2 is excluded from development and reported as held out (see the Cognee section below).
+- **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample.
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen.
 - **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. `terraphim-grep` matches a multi-word query as a phrase and has no OR mode, so for it the local server runs one search per term and adds up each turn's best score across terms. For R, G and G-KG, the best protocol on 100K is frozen; G and G-KG share it. Ties between equal scores are broken by a rule (conversation order, or most recent first) that is also chosen on 100K and frozen. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
@@ -157,7 +157,7 @@ Replay is the pair for every other arm. Cognee's records date from July 2026 or 
 3. No standalone score, no composite, and no ranking across the two harnesses.
 4. The 10M conversation in Cognee's report is in this protocol's held-out set, so no work on it happens before the freeze.
 
-**Development split change.** Cognee held 100K conversation 2 out of its own tuning. So that the pair is not tilted towards us, we also remove 100K conversation 2 from our development split before any development run. Our 100K results are then reported in two parts: in-sample on the other 19 conversations, and held out on conversation 2.
+**In-sample for us, held out for Cognee.** Cognee held 100K conversation 2 out of its own tuning. Our arms are tuned on the whole 100K development split, conversation 2 included, as declared above. Every number from this harness is therefore labelled "in-sample for Terraphim, held out for Cognee". That asymmetry favours Terraphim, and it is stated beside every result. It does not change any decision rule.
 
 **Already seen.** For this harness we read the structure of Cognee's published 100K records and the opening of one context (conversation 2, an abstention question). We computed counts, token sizes and per-run means. The records keep only each question's score and a count summary of verdicts, so judge failures in Cognee's runs cannot be recovered from them. For our runs, the wrapper attaches its own log handler to the rubric metric's logger, which warns on every failed judge call, so judge failures are counted per arm. The harness's quiet log level does not hide them. We matched question texts by set intersection, and raw passages against conversation turns by verbatim containment, printing counts only. From the 10M side we saw only Cognee's published aggregate scores and a total context length.
 

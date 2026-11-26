@@ -1,6 +1,6 @@
 +++
 title = "Measuring Agent Memory on BEAM: a Pre-Registered Protocol"
-description = "How we will compare Terraphim's retrieval with past.dev on the BEAM long-conversation memory benchmark: paired per question against published records, with the answer model and judge held fixed. Published before any reported split is run."
+description = "How we will compare Terraphim's retrieval with past.dev and with Cognee on the BEAM long-conversation memory benchmark: paired per question against published records, with the answer model and judge held fixed inside each harness. Published before any reported split is run."
 date = 2026-11-08
 
 [taxonomies]
@@ -98,7 +98,7 @@ Two findings from that conversation shaped the protocol:
 
 ## Development and held-out splits
 
-- **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample.
+- **100K is the development split.** The query protocol, the thesaurus, search flags and any over-fetch for time filtering are chosen on it. 100K results are reported, labelled as in-sample. Since 2026-11-26, 100K conversation 2 is excluded from development and reported as held out (see the Cognee section below).
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen.
 - **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. `terraphim-grep` matches a multi-word query as a phrase and has no OR mode, so for it the local server runs one search per term and adds up each turn's best score across terms. For R, G and G-KG, the best protocol on 100K is frozen; G and G-KG share it. Ties between equal scores are broken by a rule (conversation order, or most recent first) that is also chosen on 100K and frozen. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
@@ -123,6 +123,42 @@ Decisions fixed in advance:
 5. No composite score and no standalone "Terraphim BEAM score", in any tier.
 6. One reported pass per arm. Any rerun is reported separately, with its pass count.
 
+## A second harness: Cognee's
+
+Added on 2026-11-26, before any run under either harness.
+
+[Cognee](https://github.com/topoteretes/cognee) has published a [BEAM report](https://github.com/topoteretes/cognee/blob/1961133d0c68b450fe8e71941a756371e94f7c04/cognee/eval_framework/beam/REPORT.md), marked preliminary. It covers one 100K conversation of 20 questions, run 4 times, with a mean rubric score of 0.79. It also covers one 10M conversation, with a retriever chosen on the same 20 questions it reports, which the report calls exploratory. We pin Cognee at commit `1961133d`. As with past.dev, every question's record is published: the retrieved context, the answer and the judge's scores per criterion. So the same paired design applies. The two harnesses use different answer models, judges and prompts, so **numbers from one harness are never compared with numbers from the other**.
+
+**What is held fixed.** Cognee's harness code, its per-question-type answer prompts, and `openai/gpt-5` as both answer model and judge. The judge scores each rubric criterion separately. The 20 questions are those of BEAM 100K conversation 2, which is row 1 of dataset revision `3205395e`; all 20 question texts match Cognee's records. Each arm runs 4 times, as Cognee's did.
+
+**How the substrate is swapped.** Cognee's harness builds each retriever from a registry, asks it for a context string, and then answers through the retriever's own completion method. We register one retriever per arm at runtime. It subclasses Cognee's hybrid retriever, replaces only the two methods that produce the context, and keeps Cognee's completion path. **Cognee's harness files run unmodified.** Before any paid call, a test on real files checks two things: each arm's context reaches the completion step unchanged, and the replayed context equals the published one byte for byte.
+
+**Arms.**
+
+| Arm | Context the answer model receives |
+|---|---|
+| Replay | Cognee's published context for that question and run, byte for byte |
+| Empty | none: the floor |
+| Full | the whole conversation, 200 turns and about 115,000 tokens, which fits in the answer model's window: the ceiling |
+| R, G, G-KG, A-MEM | the arms above, with their configurations frozen as above |
+
+Replay is the pair for every other arm. Cognee's records date from July 2026 or earlier, and the model behind today's route may answer and judge differently. So each Terraphim arm is compared with a fresh replay run alongside it, not with Cognee's published scores. The gap between the replay and the published scores is the drift and noise floor.
+
+**Equal budget.** Cognee's contexts are LLM-written summaries of 13,643 to about 29,800 tokens per question (median about 21,700), with no stated cap. Each Terraphim arm fills its context by rank up to the token count of Cognee's context for that question, so the comparison is about what is retrieved, not how much. The summaries pack more facts per token than our raw turns do. That difference is part of the substrate and stays in; the Full arm bounds it.
+
+**What this harness cannot give.** Cognee's contexts carry no turn ids, so there is no judge-free tier for Cognee: every comparison here is paid, and it runs only after a budget decision. With 20 questions from one conversation, the interval comes from resampling questions, not conversations. With two questions per category, category results are descriptive only. Cognee's ingestion is not rerun; we replay what it retrieved.
+
+**Decisions fixed in advance:**
+
+1. A difference from Replay is reported as real only if its paired bootstrap interval excludes zero and it exceeds the Replay floor. Otherwise it is reported as indistinguishable on these 20 questions.
+2. Every arm is shown between Empty and Full. If Full matches or beats Replay, the headline says that at 100K this answer model does not need a memory system, and that the comparison measures selection under a budget.
+3. No standalone score, no composite, and no ranking across the two harnesses.
+4. The 10M conversation in Cognee's report is in this protocol's held-out set, so no work on it happens before the freeze.
+
+**Development split change.** Cognee held 100K conversation 2 out of its own tuning. So that the pair is not tilted towards us, we also remove 100K conversation 2 from our development split before any development run. Our 100K results are then reported in two parts: in-sample on the other 19 conversations, and held out on conversation 2.
+
+**Already seen.** For this harness we read the structure of Cognee's published 100K records and the opening of one context (conversation 2, an abstention question). We computed counts, token sizes, per-run means and judge-error counts, and matched question texts by set intersection, printing counts only. From the 10M side we saw only Cognee's published aggregate scores and a total context length.
+
 ## Attribution and licence
 
-BEAM is from "Beyond a Million Tokens: Benchmarking and Enhancing Long-Term Memory in LLMs" by Mohammad Tavakoli, Alireza Salemi, Carrie Ye, Mohamed Abdalla, Hamed Zamani and J Ross Mitchell ([arXiv:2510.27246](https://arxiv.org/abs/2510.27246)). The dataset ([Mohammadta/BEAM](https://huggingface.co/datasets/Mohammadta/BEAM) and [Mohammadta/BEAM-10M](https://huggingface.co/datasets/Mohammadta/BEAM-10M)) is published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The harness is Past Corp's, under the MIT licence. The answer and judge prompts are ExaBase's, from its [published BEAM adapter](https://fabric.so/p/beam-3VjBcqEVRofZyA5CeazeX); they are excluded from Past Corp's licence, keep their own terms, and are used from the pinned harness, never copied. The BEAM split, question and payload counts on this page come from past.dev's published results files and the pinned dataset revisions. The A-MEM figures (56 stored items, recall at 5 of 0.04) come from Terraphim's own committed memory benchmark, `docs/memory-benchmark.md` in terraphim-clients, recorded on terraphim-agent 1.21.14. This page is CC BY-SA 4.0, like the rest of this site, and republishes no question or conversation text.
+BEAM is from "Beyond a Million Tokens: Benchmarking and Enhancing Long-Term Memory in LLMs" by Mohammad Tavakoli, Alireza Salemi, Carrie Ye, Mohamed Abdalla, Hamed Zamani and J Ross Mitchell ([arXiv:2510.27246](https://arxiv.org/abs/2510.27246)). The dataset ([Mohammadta/BEAM](https://huggingface.co/datasets/Mohammadta/BEAM) and [Mohammadta/BEAM-10M](https://huggingface.co/datasets/Mohammadta/BEAM-10M)) is published under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The harness is Past Corp's, under the MIT licence. The answer and judge prompts are ExaBase's, from its [published BEAM adapter](https://fabric.so/p/beam-3VjBcqEVRofZyA5CeazeX); they are excluded from Past Corp's licence, keep their own terms, and are used from the pinned harness, never copied. The BEAM split, question and payload counts on this page come from past.dev's published results files and the pinned dataset revisions. The A-MEM figures (56 stored items, recall at 5 of 0.04) come from Terraphim's own committed memory benchmark, `docs/memory-benchmark.md` in terraphim-clients, recorded on terraphim-agent 1.21.14. Cognee's harness, report and per-question records come from the `topoteretes/cognee` repository under the Apache 2.0 licence, and its records carry BEAM material under CC BY-SA 4.0. Cognee's prompts are used from the pinned checkout, not copied. The Cognee figures on this page (0.79, 20 questions, 4 runs, the context token range) come from its published report and records at `1961133d`, re-read on 2026-11-26. This page is CC BY-SA 4.0, like the rest of this site, and republishes no question or conversation text.

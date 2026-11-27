@@ -18,7 +18,7 @@ I like that rule. This week a paper made me look harder at what it actually buys
 
 Zax Shen, Hanling Zhang and Zixu Wang ([arXiv:2611.33639](https://arxiv.org/abs/2611.33639)) took 90 agent-written patches to Django from SWE-bench Verified. Every one of them passes the benchmark's own tests. Stronger tests, plus a post hoc review of the labels, judged 55 wrong and 35 correct. They then had Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5 review every patch at low, medium and high reasoning effort, in a sealed container. The reviewer had the issue, the code and a shell, and could run tests. That makes 810 reviews for about $50 of API spend.
 
-The Opus part was preregistered before the first review ran. The Sonnet and Haiku parts were not, and the authors say so on every table. The data are public. I recounted the headline cells from their per-review CSV without using any of their code, and they match.
+The Opus part was preregistered before the first main-run review. The Sonnet and Haiku parts were not, and the authors say so on every table. The data are public. I recounted the headline cells from their per-review CSV without using any of their code, and they match.
 
 ## What came out
 

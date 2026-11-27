@@ -41,7 +41,7 @@ The design returns paths. Its weakness, from an assurance point of view, is that
 Terraphim's `terraphim_rolegraph`, read at terraphim-core commit 84a496a, makes the opposite choices. [Terraphim graph embeddings](https://terraphim.ai/docs/graph-embeddings/) describes the mechanism; the facts below come from the source.
 
 - **Declared vocabulary.** A role's thesaurus maps synonyms to normalised concept identifiers and compiles to a leftmost-longest, case-insensitive Aho-Corasick automaton.
-- **Counted adjacency.** Indexing a document connects each consecutive pair of recognised concepts with a directed edge. The edge counts that pair's occurrences per document, and a node's rank counts the pair updates that touch it.
+- **Counted adjacency.** Indexing a document connects each consecutive pair of recognised concepts with a directed edge. The edge keeps a per-document count of that pair, and a node's rank is incremented per pair update. (Correction, 27 November 2026: neither count is exact. A document's first occurrence is stored as 1 or 2 depending on insertion order, and removal does not fully restore node rank; see [Verification, Prediction and the Length Confound in Retrieval Scores](/posts/verification-prediction-length-confound/).)
 - **Recomputable scores.** `query_graph` adds `node.rank + edge.rank + document count` for every document reached from a matched concept and sorts by the integer total.
 - **Bounded fallback.** When the automaton matches nothing, a TF-IDF index over concept descriptions may supply concepts above a 0.3 relevance threshold.
 - **Paths as a predicate.** `is_all_terms_connected_by_path` searches for a walk connecting all matched concepts, over an undirected view of the directed edges, and returns only true or false.

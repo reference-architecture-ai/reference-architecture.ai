@@ -17,7 +17,7 @@ This page is a protocol, not a result. No reported split has been run. It is pub
 
 **Changes since first publication.** Each change is made before the configuration is frozen and before any reported split is run:
 
-- **2026-11-27: external baseline M (MGMem) added.** Reason: decision 2 compares Terraphim's knowledge graph with Terraphim's own BM25, so a "no measurable gain" result could not tell a weak graph from a weak vocabulary. M is a published graph memory with no language model in it, whose vocabulary comes from the conversation itself. It gives that decision an outside reference point. It adds a Tier 1 arm and one reporting rule (decision 7). No existing arm, metric or decision changes.
+- **2026-11-27: external baseline M (MGMem) added.** Reason: decision 2 compares Terraphim's knowledge graph only with Terraphim's own BM25. M is a published graph memory, with a vocabulary taken from the conversation itself and no generative model in it, so it gives A-KG an outside reference point. It is a whole-system comparison: M and A-KG differ in more than vocabulary (see decision 7). It adds a Tier 1 arm and one reporting rule (decision 7). No existing arm, metric or decision changes.
 
 ## Why a paired comparison, and only that
 
@@ -75,7 +75,7 @@ One external baseline, added on 2026-11-27, is not a Terraphim arm:
 |---|---|
 | M | [MGMem](https://arxiv.org/abs/2611.33174), the authors' released code at commit `67c53a28`, with the paper's default settings and a single extraction worker. Tier 1 only |
 
-MGMem builds a graph of the words and phrases ("mentions") that a parser finds in each stretch of conversation. It links two mentions when they appear in the same stretch, and links each mention to the stretches that contain it. A small sentence-embedding model bridges near-synonyms at query time. It returns the raw dialogue, and calls no generative model anywhere. Against A-KG it is the nearest outside design: the same kind of co-occurrence graph, but with a vocabulary taken from the conversation instead of a curated thesaurus. M is a baseline like R. It does not count as a Terraphim arm in decision 4.
+MGMem builds a graph of the words and phrases ("mentions") that a parser finds in each stretch of conversation. It links two mentions when they appear in the same stretch, and links each mention to the stretches that contain it. A small sentence-embedding model bridges near-synonyms at query time. It runs a local parser (spaCy `en_core_web_trf`) and that embedding model (`all-MiniLM-L6-v2`), returns the raw dialogue, and calls no generative model anywhere. Against A-KG it is the nearest outside design: the same kind of co-occurrence graph, built on a vocabulary taken from the conversation instead of a curated thesaurus. It also differs from A-KG in how it weights terms, links them, reaches stretches with a single match, bridges near-synonyms and segments the conversation. M is a baseline like R. It does not count as a Terraphim arm in decision 4.
 
 ## How the substrate is swapped
 
@@ -87,7 +87,7 @@ An item's rank in A-MEM depends on everything else in the store, so discarding l
 
 M has the same property, and more of it: its term weights, links and stretches are all computed over the whole conversation. So M's index is also rebuilt for each question from the turns at or before its moment. The rules for M:
 
-- **Turn ids.** Each turn keeps its BEAM turn id inside MGMem, so a returned stretch maps to its turns exactly.
+- **Turn ids and sessions.** The turns are passed to MGMem in its input format, one session per calendar date of the turn timestamps. Each turn keeps its BEAM turn id, so a returned stretch maps to its turns exactly.
 - **Payload.** The payload is filled by MGMem's score order, a stretch at a time, with each stretch's turns in conversation order, up to the same 100 results and 8,000 tokens.
 - **Query.** M receives the verbatim question and uses MGMem's own question parser. It takes no part in the query-protocol choice, and nothing in M is tuned on 100K.
 - **Parser caching.** Parser output may be cached per turn between rebuilds, but only if the rebuilt index is identical to a fresh build (see below).
@@ -98,7 +98,7 @@ Tokens are counted with `tiktoken` `o200k_base`. past.dev counts server-side and
 
 ## Two tiers
 
-**Tier 1, no model calls.** For each question with evidence turns, the fraction of those turns cited anywhere in the payload the answer model would receive. We call this **recall within budget**. past.dev's figure is computed from its published records; ours from the local server. It costs nothing to run and needs no judge.
+**Tier 1, no generative or paid model calls.** For each question with evidence turns, the fraction of those turns cited anywhere in the payload the answer model would receive. We call this **recall within budget**. past.dev's figure is computed from its published records; ours from the local server. It costs nothing to run and needs no judge.
 
 **Tier 2, the full benchmark.** The unmodified harness answers and judges every question through the local server. Each question's score is paired with past.dev's published score for the same question. Tier 2 is pay-per-use, and runs only after Tier 1 and a budget decision.
 
@@ -117,7 +117,7 @@ Two findings from that conversation shaped the protocol:
 - past.dev's recall rows map back to BEAM's own turn ids through their source ids, and that mapping agrees with an exact timestamp match on all 664 rows. So past.dev's evidence recall can be computed from public data.
 - `terraphim-grep` returns nothing for verbatim questions, while keyword queries reach the evidence. Query formulation is therefore part of the system under test, and it has to be fixed before the reported splits are seen.
 
-For M, on 2026-11-27 we built MGMem's index four times on the same already-seen 100K conversation, with no model calls and no question answered. We recorded build time, memory, index size, graph counts and content hashes, and parsed its 20 questions to count how many found a subject in the index. No recall was computed.
+For M, on 2026-11-27 we built MGMem's index four times on the same already-seen 100K conversation, with no generative or paid model calls (only MGMem's local parser and embedding model) and no question answered. We recorded build time, memory, index size, graph counts and content hashes, and parsed its 20 questions to count how many found a subject in the index. No recall was computed.
 
 ## Development and held-out splits
 
@@ -125,7 +125,12 @@ For M, on 2026-11-27 we built MGMem's index four times on the same already-seen 
 - **500K, 1M and 10M are held out.** No person or agent reads their question or turn text before the configuration is frozen. Automated checks that print counts only are allowed.
 - **The thesaurus** for A-KG is built deterministically from 100K turns or from generic concepts, never from a held-out split, and its hash is frozen. M's vocabulary comes from the conversation it indexes, held-out splits included. That is ingestion, the same as any arm reading the turns, not a thesaurus. It never feeds A-KG or any other arm.
 - **Candidate query protocols:** the verbatim question, and the question with punctuation and a fixed English stopword list removed, searched as OR terms. `terraphim-grep` matches a multi-word query as a phrase and has no OR mode, so for it the local server runs one search per term and adds up each turn's best score across terms. For R, G and G-KG, the best protocol on 100K is frozen; G and G-KG share it. Ties between equal scores are broken by a rule (conversation order, or most recent first) that is also chosen on 100K and frozen. The `terraphim-agent` arms (A-BM25, A-Title, A-KG, A-MEM) share one protocol, the one A-BM25 scores best with on 100K, so the ablation changes one thing at a time. A-KG-X adds thesaurus expansion to that shared protocol.
-- **Freeze.** Before any held-out run, one committed configuration records the harness pin, dataset revisions, binary versions, role configurations, thesaurus hash, query protocol per arm, tokeniser, and the commit of this page.
+- **Freeze.** Before any held-out run, one committed configuration records the harness pin, dataset revisions, binary versions, role configurations, thesaurus hash, query protocol per arm, tokeniser, and the commit of this page. For M it also records:
+  - the MGMem commit and the adapter's commit;
+  - the exact spaCy pipeline and sentence-embedding model revisions;
+  - a lock of the Python environment and its hash;
+  - the worker count;
+  - the determinism and parser-cache evidence.
 
 This avoids a trap past.dev itself disclosed for its DolphinBench run: the setup there was chosen on the same tests it reported.
 
@@ -146,8 +151,9 @@ Decisions fixed in advance:
 5. No composite score and no standalone "Terraphim BEAM score", in any tier.
 6. One reported pass per arm. Any rerun is reported separately, with its pass count.
 7. M's held-out recall within budget is reported beside A-KG, A-BM25 and `ripgrep`. The paired difference A-KG minus M is reported with the same clustered interval:
-   - If M beats A-KG with an interval excluding zero, we report that a vocabulary taken from the conversation outperformed our curated thesaurus on BEAM.
+   - If M beats A-KG with an interval excluding zero, we report that MGMem's retrieval, built on a vocabulary taken from the conversation, outperformed A-KG on BEAM.
    - If A-KG beats M the same way, we report the reverse.
+   - Neither result isolates vocabulary. The two arms also differ in term weighting, graph construction, reachability, near-synonym bridging and segmentation, so no claim about curated against corpus-derived vocabulary as such is made from this comparison.
    - Otherwise we report no measurable difference.
    - M runs on the 10M split only if one full single-thread build of one 10M conversation, run before the freeze with counts only printed, finishes within 12 hours on one machine. Otherwise M is reported as not run on 10M, with the measured time.
 

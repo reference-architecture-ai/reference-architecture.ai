@@ -14,7 +14,7 @@ mermaid = true
 
 ## Abstract
 
-A knowledge graph layer for agent retrieval must decide where its relationships come from, how it scores them and what a query returns. This paper compares two recent answers. FIG-MAC (arXiv:2611.33563) extracts typed entities and relations from research papers with fine-tuned language models, learns relational graph embeddings and returns scored multi-hop chains alongside dense-vector neighbours. Terraphim's role graph resolves surface forms through a human-authored thesaurus, counts directed adjacency between recognised concepts and returns documents ranked by an integer sum that a reader can recompute. FIG-MAC's ablation reports that graph traversal outperformed vector retrieval with every backbone tested, and that combining the two did best; the evaluation has limits, discussed below. The comparison motivates a layering in which every edge carries its provenance class: declared, counted or inferred. Inferred edges may widen recall, but they may not satisfy a checklist item or an authority check without review. The paper separates the components that exist today from the integration it proposes.
+A knowledge graph layer for agent retrieval must decide where its relationships come from, how it scores them and what a query returns. This paper compares two recent answers. FIG-MAC (arXiv:2611.33563) extracts typed entities and relations from research papers with fine-tuned language models, learns relational graph embeddings and returns scored multi-hop chains alongside dense-vector neighbours. Terraphim's role graph resolves surface forms through a human-authored thesaurus, counts directed adjacency between recognised concepts and returns documents ranked by an integer sum that a reader can recompute. FIG-MAC's ablation reports that graph traversal exceeded vector retrieval on raw novelty and source diversity in all six configurations tested, and on provenance-adjusted novelty in five of six, and that combining the two did best throughout; the evaluation has limits, discussed below. The comparison motivates a layering in which every edge carries its provenance class: declared, counted or inferred. Inferred edges may widen recall, but they may not satisfy a checklist item or an authority check without review. The paper separates the components that exist today from the integration it proposes.
 
 <span id="continue-reading"></span>
 
@@ -46,7 +46,7 @@ Terraphim's `terraphim_rolegraph`, read at terraphim-core commit 84a496a, makes 
 - **Bounded fallback.** When the automaton matches nothing, a TF-IDF index over concept descriptions may supply concepts above a 0.3 relevance threshold.
 - **Paths as a predicate.** `is_all_terms_connected_by_path` searches for a walk connecting all matched concepts, over an undirected view of the directed edges, and returns only true or false.
 
-The design is fully auditable and has no training step; adding a concept is a reviewed text edit. Its weaknesses mirror FIG-MAC's strengths. Edges have no type. Two documents that express the same idea in different words remain unconnected until the thesaurus records the synonym. The path that would explain a multi-concept match is computed and discarded.
+The design is fully auditable and has no training step; adding a concept is a reviewed text edit. Its weaknesses mirror FIG-MAC's strengths. The adjacency edges that `query_graph` ranks over carry no general-purpose relation type. Terraphim's optional `medical` feature does provide a `MedicalRoleGraph` with typed, directed edges (`IsA`, `Treats`, `Causes`, `Contraindicates` and others) loaded from curated sources such as PrimeKG and SNOMED CT, but those types are domain-specific and sit outside the generic query path. Two documents that express the same idea in different words remain unconnected until the thesaurus records the synonym. The path that would explain a multi-concept match is computed and discarded.
 
 ## What the evidence supports
 
@@ -80,7 +80,7 @@ flowchart TB
 
 **Declared vocabulary and counted adjacency.** These are the existing Terraphim layers. They supply concept resolution and association evidence with recomputable scores.
 
-**Declared typed relations.** A relationship such as `refines`, `precedes` or `contradicts` is written by a role owner in the same reviewed form as synonyms and promoted under the same change control. This is the typed layer the roles paper proposed. Its type is a claim a person made, so it can be audited like any other governed statement.
+**Declared typed relations.** A relationship such as `refines`, `precedes` or `contradicts` is written by a role owner in the same reviewed form as synonyms and promoted under the same change control. This is the typed layer the roles paper proposed. Its type is a claim a person made, so it can be audited like any other governed statement. Relations imported from a curated external ontology, as the medical graph does from PrimeKG and SNOMED CT, belong in this class too, with the source and release recorded.
 
 **Inferred candidate relations.** A model may propose edges such as FIG-MAC's `inspired`. Each inferred edge records the model, its version, the input it saw and its confidence. Inferred edges are stored apart from declared and counted edges. They may extend a retrieval result, and they are labelled as inferred when they do. They are never evidence for a checklist item or an authority decision until a reviewer promotes them to the declared layer.
 
@@ -92,7 +92,7 @@ flowchart TB
 
 ## Implementation boundary
 
-Today Terraphim provides the declared vocabulary, the counted adjacency graph, the TF-IDF fallback and the boolean path check. The source contains a symbolic-embedding module for a medical IS-A hierarchy, computing Jaccard similarity over ancestor and descendant sets; it is not part of the general query path. Typed relation fields on edges, a quarantined inferred-edge store, path return with provenance classes and the evaluation harness are proposed. No benchmark comparing these layers is claimed here, and none of FIG-MAC's results were reproduced.
+Today Terraphim provides the declared vocabulary, the counted adjacency graph, the TF-IDF fallback and the boolean path check. Behind the optional `medical` feature it also provides domain-specific typed edges, loaders for PrimeKG and SNOMED CT, and symbolic embeddings that compute Jaccard similarity over IS-A ancestor and descendant sets; none of these is part of the generic query path. General-purpose relation types that any role can declare, provenance-classed edge storage, a quarantined inferred-edge store, path return with provenance classes and the evaluation harness are proposed. No benchmark comparing these layers is claimed here, and none of FIG-MAC's results were reproduced.
 
 ## Conclusion
 

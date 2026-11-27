@@ -1,6 +1,6 @@
 +++
 title = "The AI Review Gate: What a Second Model Can and Cannot Stop"
-description = "A reference pattern for putting a second model in front of merges, built on a paired study of 810 Claude 5.5 reviews of plausible-but-wrong patches. Pin the effort, type the verdict, make behavioural findings block, and keep correctness on the tests."
+description = "A reference pattern for putting a second model in front of merges, built on a paired study of 810 Claude 5.5 reviews of agent-written patches, most of them plausible but wrong. Pin the effort, type the verdict, make behavioural findings block, and keep the reviewer out of the role of correctness gate."
 date = 2026-11-27
 
 [taxonomies]
@@ -14,7 +14,7 @@ mermaid = true
 
 ## Abstract
 
-Coding agents write patches faster than people can review them, so teams put a second model in front of the merge. A recent paired study by Shen, Zhang and Wang ([arXiv:2611.33639](https://arxiv.org/abs/2611.33639)) measured how well that works. Three Claude 5.5 models, each at three reasoning-effort levels, reviewed 90 agent-written Django patches that all pass the benchmark's own tests. By stronger tests, 55 of them are wrong. More effort helped, but no setting was a strong gate: the best of the nine accepted 45% of the wrong patches. In 111 of the 290 reviews that accepted a wrong patch, the reviewer had named the defect in its own feedback. This article turns those findings into a reference pattern for an AI review gate. It covers what the gate should be asked to do, which settings belong in its configuration, how its verdict should fail, and how to measure it on your own code before trusting it.
+Coding agents write patches faster than people can review them, so teams put a second model in front of the merge. A recent paired study by Shen, Zhang and Wang ([arXiv:2611.33639](https://arxiv.org/abs/2611.33639)) measured how well that works. Three Claude 5.5 models, each at three reasoning-effort levels, reviewed 90 agent-written Django patches that all pass the benchmark's own tests. Stronger tests, followed by a post hoc label review, judged 55 of them wrong. More effort helped, but no setting was a strong gate: the best of the nine accepted 45% of the wrong patches. In 111 of the 290 reviews that accepted a wrong patch, the reviewer had named the defect in its own feedback. This article turns those findings into a reference pattern for an AI review gate. It covers what the gate should be asked to do, which settings belong in its configuration, how its verdict should fail, and how to measure it on your own code before trusting it.
 
 <span id="continue-reading"></span>
 
@@ -33,7 +33,7 @@ That last condition is the hard part. Most teams have never measured their revie
 
 ### What was measured
 
-- **Patches.** 90 agent-written patches to Django from SWE-bench Verified. Every one passes the Verified tests. The stronger SWE-ABS tests split them into 55 wrong ("plausible but wrong") and 35 correct, after a post hoc label correction described below.
+- **Patches.** 90 agent-written patches to Django from SWE-bench Verified. Every one passes the Verified tests. The stronger SWE-ABS tests gave the original labels: 60 wrong ("plausible but wrong") and 30 correct. After the run, a rule-based label review changed 11 of them, giving the primary split of 55 wrong and 35 correct (see the limits below).
 - **Reviewers.** Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5, each run through Claude Code at `--effort` low, medium and high. Each patch was reviewed once per model and effort, giving 810 paired reviews.
 - **Conditions.** The reviewer ran in a sealed container. It got the issue text and the repository with the patch as one commit, and it could read code, run commands and write tests. The scoring tests and the official fix were withheld.
 - **Prompt.** One generic prompt. A patch fails only for an unmet requirement or a functional defect that matters.
@@ -81,7 +81,7 @@ None of this weakens the architectural reading below. It does mean that no numbe
 {% <mermaid> %}
 flowchart LR
     A[Author agent] --> P[Patch at head SHA]
-    P --> T[Tests and CI: correctness gate]
+    P --> T[Tests and CI: primary executable gate]
     P --> R[Reviewer: different model, pinned effort]
     R --> V{Typed verdict}
     V -->|pass| M[Merge decision]
@@ -94,11 +94,11 @@ flowchart LR
 
 The pattern has six parts. Each part answers one of the findings above.
 
-### 1. Tests own correctness; the reviewer owns what tests cannot see
+### 1. The reviewer is not the correctness gate
 
-If the strongest configuration in a careful study lets 45% of plausible-but-wrong patches through, the reviewer cannot be the component that guarantees correctness. Tests and CI do that, and the merge decision requires them independently. The paper reaches the same conclusion: such a gate "complements tests rather than replacing them".
+If the strongest configuration in a careful study lets 45% of plausible-but-wrong patches through, the reviewer cannot be the component that correctness rests on. Nothing in this pattern guarantees correctness, tests included: every patch in the study passed the benchmark's tests, and many were still wrong. Tests and CI are the primary executable gate, and the merge decision requires them independently of the review. The paper reaches the same conclusion: such a gate "complements tests rather than replacing them".
 
-What the reviewer is good for is the work tests do not do. It checks that the change matches the stated scope, that claims in the description and documentation are supported, that structure and boundaries are kept, and that a reader would not act wrongly on what the change says. The reviewer's brief should say this. A brief that asks a model to certify correctness asks it for something this evidence says it cannot reliably deliver.
+What else the reviewer should be asked to do is a design choice, not a finding of the study. The study measured only verdicts against functional-correctness labels. It did not measure how well a model checks scope, documentation claims or structure. This pattern proposes giving the reviewer that work, because tests do not do it: checking that the change matches its stated scope, that claims in the description and documentation are supported, and that structure and boundaries are kept. That proposal needs its own calibration (part 6) before anyone relies on it. What the evidence does support is the negative: a brief that asks a model to certify correctness asks for something this study says it cannot reliably deliver.
 
 ### 2. The reviewer is a different model from the author
 
@@ -145,12 +145,12 @@ The only way to know your gate's false-success rate is to measure it.
 - **Predeclared.** The denominator for each rate, a countermetric (cost per review and false alarm), the margin that makes a cheaper level acceptable, and the rule for what happens if no level meets it.
 - **Rerun.** Repeat the sweep when the model, the tool or the prompt changes.
 
-If the measured false-success rate is close to the study's, that is not a failure of the method. It is the evidence that the gate is a structural check and that correctness has to stay with the tests.
+If the measured false-success rate is close to the study's, that is not a failure of the method. It is the evidence that the review cannot carry correctness, which then rests primarily on tests and CI.
 
 ## What this pattern does not claim
 
 - **It does not recommend an effort level.** The study found medium sufficient for one model and not for two others, all from one family. It says nothing about any other family.
-- **It does not claim that a second model makes merges safe.** The evidence says the opposite for correctness. It supports a narrower claim: a pinned, typed and calibrated second model adds a checked structural review on top of tests.
+- **It does not claim that a second model makes merges safe.** For correctness the evidence points the other way. The claim this pattern makes is narrower, and it is a proposal: a pinned, typed and calibrated second model can add a structural review on top of tests. How good that review is has to be measured on your own patches.
 - **It does not treat agreement between models as evidence.** Two reviewers from the same family agreeing is consistency. A known-answer set is evidence.
 
 ## Sources

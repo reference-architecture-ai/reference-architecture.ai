@@ -45,7 +45,7 @@ COA runs in the customer's AWS account and is organised as Scan, Model, Metrics 
 - Discovery reads table and column metadata, and an LLM enriches it with descriptions and synonyms. A steward then approves it.
 - Induction proposes OWL classes with R2RML mappings. Ontop can therefore translate SPARQL over those classes into SQL.
 - Grounding aligns new classes with a foundational ontology. The `STANDARD` mode uses exact names and embedding thresholds. The default `ENHANCED` mode adds an LLM reranker that rejects same-name, different-meaning matches.
-- Only classes that are the target of an R2RML mapping are "mapped", and only mapped classes reach structured queries.
+- Classes that are the target of an R2RML mapping are "mapped", and they are the normal input to structured queries. There are two bounded exceptions. When a namespace has no mapped class, NL to SQL searches the classes of uploaded user ontologies instead. An uploaded class can also be bound to an RDF/SPARQL graph source.
 
 **Technique two: a lexical graph from documents.**
 
@@ -55,15 +55,15 @@ COA runs in the customer's AWS account and is organised as Scan, Model, Metrics 
 **Serving.** Resolution runs in three tiers, each falling through to the next.
 
 - **Tier 1** matches a governed metric by name or synonym, using one compiled pattern per name, with a fuzzy fallback at a similarity of 0.88. It declines when more than one metric matches. A residual-qualifier gate also declines when words outside the match and a closed stop-word list remain, and forwards the metric's formula to Tier 2 as authoritative context.
-- **Tier 2** generates SQL or SPARQL over mapped classes.
+- **Tier 2** generates SQL or SPARQL over mapped classes, or over graph-bound classes.
 - **Tier 3** retrieves from the lexical graph and synthesises an answer.
 
-A SELECT-only SQL firewall and Cedar authorisation, evaluated against the delegating user and failing closed, guard every MCP tool call. Agents reach all of this through six MCP tools.
+Cedar authorisation, evaluated against the delegating user and failing closed, admits or refuses every MCP tool call. A SELECT-only SQL firewall adds per-user table and column controls on the Tier 1 and Tier 2 paths that execute SQL. Ontology schema is itself governed: the MCP server withholds schema fields from a caller without the `viewOntology` right. Agents reach all of this through six MCP tools.
 
 **The documented gaps.** COA's documentation states them directly:
 
 - accepted `skos:altLabel` variants are embedded and passed to the model as synonyms, but "there is no exact lookup from a variant to its class yet";
-- a grounding link between an induced class and a graph-source class is kept, "but neither engine follows it", and one engine answers each question;
+- a grounding link between an induced class and a graph-source class is kept, "but neither engine follows it". In the default standard cascade one tier answers each question. An optional `deep-reasoning` planner can combine structured and document evidence, but it bypasses the governed metrics;
 - the default Tier 3 strategy uses topic and entity nodes "extracted from documents at ingestion, not the accepted, formally-typed ontology";
 - the document-to-table bridge considers at most 60 tables by default, "the first in name order".
 
@@ -89,7 +89,7 @@ flowchart LR
     D[(Documents or glossaries)] -.->|optional co-occurrence counts| C
 ```
 
-The layer runs where the agent runs, or as a build step at the moment a steward accepts a proposal. It holds no data, only vocabulary, so it adds no new access path around Cedar or the firewall.
+The layer runs where the agent runs, or as a build step at the moment a steward accepts a proposal. It holds no rows or documents, but its vocabulary is governed information in its own right. Class labels and metric definitions sit behind COA's `viewOntology` right. The layer must therefore be compiled through COA's authorised interfaces, as the user the agent acts for, and scoped to that user and namespace. It must be rebuilt when their grants or the accepted vocabulary change. Otherwise a local index would keep vocabulary that the caller may no longer see.
 
 ### Permitted decisions
 
@@ -101,7 +101,7 @@ The layer runs where the agent runs, or as a build step at the moment a steward 
 ### Forbidden decisions
 
 1. **Asserting equivalence across sides.** A co-occurrence count is not a `skos:closeMatch`. Only the governed layer's reviewed alignment may assert one.
-2. **Answering.** The layer never returns a number or a fact, only concepts and spans. The tiers answer, behind their firewall.
+2. **Answering.** The layer never returns a number or a fact, only concepts and spans. The tiers answer, behind Cedar admission and, where SQL runs, the firewall.
 3. **Overriding a decline.** If the governed layer declines an ambiguous match, the agent may not resubmit with a guessed concept pinned. The concept layer resolves wording, not ambiguity in the vocabulary.
 
 ## Illustration on an existing implementation
@@ -114,7 +114,7 @@ Terraphim's `terraphim_automata` and `terraphim_rolegraph` crates implement the 
 
 We wrote one glossary sentence that mentions a cancellation and the order status. The results were:
 
-- **The CJK variant resolved inside an unspaced sentence.** `先月の顧客離脱率は？` matched `顧客離脱` and returned the churn concept at bytes 9 to 21. The matcher treats only ASCII letters and digits as word characters, so CJK text matches mid-sentence.
+- **The CJK variant resolved inside an unspaced sentence.** `先月の顧客離脱率は？` matched `顧客離脱` and returned the churn concept at bytes 9 to 21. The matcher treats only ASCII letters, digits and the underscore as word characters, so CJK text matches mid-sentence.
 - **Synonyms resolved to their concepts.** "turnover" resolved to `total_revenue`, and "attrition" to churn.
 - **The build reported the planted collision.** It reported `revenue` as won by `total_revenue` and lost by `net_revenue`.
 - **The glossary sentence created one counted edge.** The connectivity check returned true for "attrition by order status" and false for "turnover and attrition".

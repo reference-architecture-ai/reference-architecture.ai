@@ -55,7 +55,7 @@ COA runs in the customer's AWS account and is organised as Scan, Model, Metrics 
 **Serving.** Resolution runs in three tiers, each falling through to the next.
 
 - **Tier 1** matches a governed metric by name or synonym, using one compiled pattern per name, with a fuzzy fallback at a similarity of 0.88. It declines when more than one metric matches. A residual-qualifier gate also declines when words outside the match and a closed stop-word list remain, and forwards the metric's formula to Tier 2 as authoritative context.
-- **Tier 2** generates SQL or SPARQL over mapped classes, or over graph-bound classes.
+- **Tier 2** generates SQL or SPARQL over mapped classes and graph-bound classes. When a namespace has no mapped class, its NL to SQL path can use classes from uploaded user ontologies instead.
 - **Tier 3** retrieves from the lexical graph and synthesises an answer.
 
 Cedar authorisation, evaluated against the delegating user and failing closed, admits or refuses every MCP tool call. A SELECT-only SQL firewall adds per-user table and column controls on the Tier 1 and Tier 2 paths that execute SQL. Ontology schema is itself governed: the MCP server withholds schema fields from a caller without the `viewOntology` right. Agents reach all of this through six MCP tools.
@@ -89,7 +89,7 @@ flowchart LR
     D[(Documents or glossaries)] -.->|optional co-occurrence counts| C
 ```
 
-The layer runs where the agent runs, or as a build step at the moment a steward accepts a proposal. It holds no rows or documents, but its vocabulary is governed information in its own right. Class labels and metric definitions sit behind COA's `viewOntology` right. The layer must therefore be compiled through COA's authorised interfaces, as the user the agent acts for, and scoped to that user and namespace. It must be rebuilt when their grants or the accepted vocabulary change. Otherwise a local index would keep vocabulary that the caller may no longer see.
+The layer runs where the agent runs, or as a build step at the moment a steward accepts a proposal. It holds no rows or documents, but its vocabulary is governed information in its own right. It falls under two different rights. Class labels need `viewOntology`: `describe_schema` is refused without it. Metric names and `aiContext.synonyms` come from `list_metrics`, which is admitted with the namespace view right. There, `viewSource` controls a metric's SQL and source table, and `viewOntology` controls only its linked ontology concepts. The layer must therefore be compiled through those interfaces, as the user the agent acts for, with each part of the vocabulary following its own right. Each part must be scoped to that user and namespace, and rebuilt when the grants governing it or the accepted vocabulary change. Otherwise a local index would keep vocabulary that the caller may no longer see.
 
 ### Permitted decisions
 

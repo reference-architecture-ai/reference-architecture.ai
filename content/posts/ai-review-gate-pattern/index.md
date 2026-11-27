@@ -63,7 +63,7 @@ Five results matter for architecture:
 2. **No setting is a strong gate.** Every configuration accepted at least 45% of the wrong patches. False alarms stayed between 6% and 20%. The errors lean heavily towards letting wrong code through.
 3. **Seen but passed.** In exploratory coding, 111 of the 290 acceptances of wrong patches named the tested defect in their feedback and passed the patch anyway. Detection was not the failure. The decision was.
 4. **Shallow passes and malformed verdicts.** Every review that used no thinking tokens returned a pass. At low effort, Opus ran no test in 23 of 90 reviews. The two smaller models returned 15 malformed verdicts between them.
-5. **Memory of the fix did not help.** This is exploratory and Opus only. Reviews flagged as drawing on memory of the upstream fix accepted 71% of the wrong patches, against 46% for the rest.
+5. **Memory of the fix did not help.** This is exploratory and Opus only. Reviews flagged as drawing on memory of the upstream fix accepted 71% of the wrong patches, against 46% for the rest. Memory was close to universal: the coders judged that 237 of the 270 Opus reviews used knowledge of the upstream fix in some way. The preregistered sensitivity analysis in the paper's supplement drops every patch with a memory-flagged review. On the 25 wrong patches that remain, Opus accepted 48% at low effort and 20% at medium and high, against 47% and 45% on the full set. Those patches were selected by the reviewer's own behaviour and may simply be easier, so this is a hint, not a measured rate.
 
 ### How far the evidence reaches
 
@@ -136,7 +136,7 @@ A review that never ran the code it judged is a weaker signal than one that did.
 
 ### 6. Calibrate on a known-answer set that you own
 
-Every number above comes from public Django patches. Those are patches whose fixes a model may have seen in training, judged against labels from fix-derived tests. Your code is different, and if it is private, no fix can be recalled. Absolute rates may move in either direction.
+Every number above comes from public Django patches. Those are patches whose fixes a model may have seen in training, judged against labels from fix-derived tests. Your code is different, and if it is private, no fix can be recalled. Absolute rates may move in either direction. The memory subset (result 5) suggests they may improve, since false success fell to 20% where the reviewer did not lean on a remembered fix, but only a measurement on your own patches can say.
 
 The only way to know your gate's false-success rate is to measure it.
 
